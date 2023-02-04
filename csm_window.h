@@ -13,16 +13,16 @@
 
 typedef struct CWindow {
 	PCHAR wndClassName;
-	ATOM  wndClass;
 	HWND  wnd;
 	BOOL  shouldClose;
 
-	CRenderBuffer renderBuff;
+	PCRenderBuffer renderBuff;
 } CWindow, *PCWindow;
 
 CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height);
 CSMCALL BOOL CWindowSetTitle(CHandle window, PCHAR title);
 CSMCALL BOOL CWindowSetDimensions(CHandle window, INT width, INT height);
+CSMCALL BOOL CWindowSetRenderBuffer(CHandle window, CHandle rHandle);
 CSMCALL BOOL CWindowShouldClose(CHandle window);
 CSMCALL BOOL CWindowUpdate(CHandle window);
 CSMCALL BOOL CDestroyWindow(PCHandle pHandle);

@@ -6,36 +6,63 @@
 #include "csmint.h"
 #include <stdio.h>
 
-static PCWindow __forceinline _cGetCWin(HWND win) {
+typedef PCWindow* PPCWindow;
+
+static PVOID __forceinline _cGetCWin(HWND win) {
 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
 		if (_csmint.windows[i] == NULL)
 			continue;
 
 		if (_csmint.windows[i]->wnd == win) 
-			return _csmint.windows[i];
+			return _csmint.windows + i;
 	}
 	return NULL;
 }
 
 static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
+	_CSyncEnter();
 
-	PCWindow currentWin = _cGetCWin(win);
+	PCWindow* cwinPtr;
+	PCWindow  cwin;
 	
 	switch (msg)
 	{
 	case WM_CLOSE:
-		currentWin->shouldClose = TRUE;
-		return 0;
+
+		// get cwin
+		cwinPtr = _cGetCWin(win);
+		cwin = *cwinPtr;
+		cwin->shouldClose = TRUE;
+
+		_CSyncLeave(ZERO);
 
 	case CSM_WINDOW_CLOSEMESSAGE:
+
+		// get cwin
+		cwinPtr = _cGetCWin(win);
+		cwin = *cwinPtr;
+
+		if (cwin->wnd != win) {
+			CInternalErrorPopup("Caesium Fatal Error", 
+				"Fatal error occoured while updating CWindow.");
+			ExitProcess(ERROR_INVALID_DATA);
+		}
+
+		// free all resources
+		UnregisterClassA(cwin->wndClassName, NULL);
+		CInternalFree(cwin->wndClassName);
+		CInternalFree(cwin);
+
+		*cwinPtr = NULL;
+		
 		// close
-		return DefWindowProcA(win, WM_CLOSE, wP, lP);
+		_CSyncLeave(DefWindowProcA(win, WM_CLOSE, wP, lP));
 
 	default:
 		break;
 	}
 
-	return DefWindowProcA(win, msg, wP, lP);
+	_CSyncLeave(DefWindowProcA(win, msg, wP, lP));
 }
 
 static INT __forceinline _cFindWinSpot(void) {
@@ -70,7 +97,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 	// make unique window class name
 	cwin->wndClassName = CInternalAlloc(sizeof(CHAR) * CSM_WINDOW_CLASSNAME_SIZE);
 	sprintf_s(cwin->wndClassName, CSM_WINDOW_CLASSNAME_SIZE,
-		"Caesium Window %02d", wIndx);
+		"Caesium Window %p", cwin);
 
 	// create window class
 	WNDCLASSA wClass;
@@ -85,7 +112,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 	DWORD realWinWidth = clientRect.right - clientRect.left;
 	DWORD realWinHeight = clientRect.bottom - clientRect.top;
 
-	cwin->wndClass = RegisterClassA(&wClass);
+	RegisterClassA(&wClass);
 	cwin->wnd = CreateWindowExA(0L, cwin->wndClassName, title,
 		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
 		realWinWidth, realWinHeight, NULL, NULL, NULL, NULL);
@@ -123,6 +150,21 @@ CSMCALL BOOL CWindowSetDimensions(CHandle window, INT width, INT height) {
 
 	PCWindow cwin = window;
 	SetWindowPos(cwin->wnd, NULL, 0, 0, width, height, SWP_NOMOVE);
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL CWindowSetRenderBuffer(CHandle window, CHandle rHandle) {
+	_CSyncEnter();
+
+	if (window == NULL) {
+		_CSyncLeaveErr(FALSE, "CWindowSetRenderBuffer failed because window was invalid");
+	}
+
+	PCRenderBuffer crb = rHandle;
+	PCWindow cwin = window;
+
+	cwin->renderBuff = crb;
 
 	_CSyncLeave(TRUE);
 }
@@ -166,6 +208,15 @@ CSMCALL BOOL CDestroyWindow(PCHandle pHandle) {
 	}
 
 	SendMessageA(win->wnd, CSM_WINDOW_CLOSEMESSAGE, ZERO, ZERO);
+
+	// draw renderbuffer if applicable
+	if (win->renderBuff != NULL) {
+		HDC wDc = GetDC(win->wnd);
+		RECT drawRect;
+		GetClientRect(win->wnd, &drawRect);
+		CRenderBufferDraw(win->renderBuff, drawRect, wDc);
+		ReleaseDC(win->wnd, wDc);
+	}
 
 	_CSyncLeave(TRUE);
 }
