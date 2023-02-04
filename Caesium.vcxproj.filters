@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e3b970ea-3bec-4ef6-b6d5-af33b6ac55af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{45897c0b-03bd-4d80-aab3-1a95400e0772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Internal">
+      <UniqueIdentifier>{55630d1f-6293-42b7-988d-0ead314a7fc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Internal">
+      <UniqueIdentifier>{e4011158-a926-42c7-b8f2-6a0f351dddc5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="csm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="csm_renderbuffer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="csmint_memory.h">
+      <Filter>Header\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="csmint.h">
+      <Filter>Header\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="csmint_error.h">
+      <Filter>Header\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="csm_mesh.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="csm_matrix.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="csm_render.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="csm_renderbuffer.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_memory.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="csm.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_error.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="csm_mesh.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csm_matrix.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csm_render.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
