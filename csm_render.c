@@ -34,14 +34,44 @@ CSMCALL BOOL CVertexDataBufferSetData(CHandle handle, PVOID data,
 	_CSyncEnter();
 
 	if (handle == NULL) {
-		_CSyncLeaveErr(FALSE, "CVertexDataBufferSetData failed because handle was NULL");
+		_CSyncLeaveErr(FALSE, "CVertexDataBufferSetData failed because handle was invalid");
 	}
 
 	PCVertexDataBuffer vdb = handle;
-	vdb->data = data;
+	
+	// if data is pre-existing, clear it
+	if (vdb->data != NULL) 
+		CInternalFree(vdb->data);
+
+	// allocate
 	vdb->sizeBytes = sizeBytes;
+	vdb->data = CInternalAlloc(vdb->sizeBytes);
+
+	// copy passed data (if exists)
+	if (data != NULL) {
+		COPY_BYTES(data, vdb->data, vdb->sizeBytes);
+	}
+
+	// setup other metadata
 	vdb->walkCount = walkCount;
 	vdb->walkStrideBytes = walkStrideBytes;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL CVertexDataBufferEditData(CHandle handle, PCFVertexDataEdit editFunc) {
+	_CSyncEnter();
+
+	if (handle == NULL) {
+		_CSyncLeaveErr(FALSE, "CVertexDataBufferEditData failed because handle was invalid");
+	}
+
+	if (editFunc == NULL) {
+		_CSyncLeaveErr(FALSE, "CVertexDataBufferEditData failed because editFunc was NULL");
+	}
+
+	PCVertexDataBuffer vdb = handle;
+	editFunc(vdb->data);
 
 	_CSyncLeave(TRUE);
 }
@@ -63,7 +93,7 @@ CSMCALL BOOL CRenderInstanceSetBuffer(CHandle instance, CHandle buffer) {
 	_CSyncEnter();
 
 	if (instance == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderInstanceSetBuffer failed because instance was NULL");
+		_CSyncLeaveErr(FALSE, "CRenderInstanceSetBuffer failed because instance was invalid");
 	}
 	
 	PCRenderInstance pri = instance;
@@ -77,7 +107,7 @@ CSMCALL BOOL CRenderInstanceSetShader(CHandle instance,
 	_CSyncEnter();
 
 	if (instance == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderInstanceSetShader failed because instance was NULL");
+		_CSyncLeaveErr(FALSE, "CRenderInstanceSetShader failed because instance was invalid");
 	}
 
 	PCRenderInstance pri = instance;
@@ -91,7 +121,7 @@ CSMCALL BOOL CRenderInstanceClearShader(CHandle instance) {
 	_CSyncEnter();
 
 	if (instance == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderInstanceClearShader failed because instance was NULL");
+		_CSyncLeaveErr(FALSE, "CRenderInstanceClearShader failed because instance was invalid");
 	}
 
 	PCRenderInstance pri = instance;
@@ -106,7 +136,7 @@ CSMCALL BOOL CRenderInstanceSetShaderInput(CHandle instance, UINT32 inputID,
 	_CSyncEnter();
 
 	if (instance == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderInstanceSetShaderInput failed because instance was NULL");
+		_CSyncLeaveErr(FALSE, "CRenderInstanceSetShaderInput failed because instance was invalid");
 	}
 
 	if (inputID < 0 || inputID >= CSM_MAX_SHADER_INPUTS) {
@@ -123,7 +153,7 @@ CSMCALL BOOL CRenderInstanceClearShaderInput(CHandle instance, UINT32 inputID) {
 	_CSyncEnter();
 
 	if (instance == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderInstanceClearShaderInput failed because instance was NULL");
+		_CSyncLeaveErr(FALSE, "CRenderInstanceClearShaderInput failed because instance was invalid");
 	}
 
 	if (inputID < 0 || inputID >= CSM_MAX_SHADER_INPUTS) {
@@ -136,10 +166,33 @@ CSMCALL BOOL CRenderInstanceClearShaderInput(CHandle instance, UINT32 inputID) {
 	_CSyncLeave(TRUE);
 }
 
-CSMCALL CRenderVertex(CHandle instance, CVect3F vert, CRgb color);
-CSMCALL CRenderVertexArray(PCRenderBuffer prB, UINT32 count, PCVect3F verts, CRgb color);
-CSMCALL CRenderLines(PCRenderBuffer prB, UINT32 count, PCVect3F verts, CRgb color);
-CSMCALL CRenderTriangle(PCRenderBuffer prB, PCVect3F verts, CRgb color);
-CSMCALL CRenderMesh(PCRenderBuffer prB, CHandle mesh, CRgb color);
-CSMCALL CRenderMeshEx(PCRenderBuffer prB, CHandle mesh, PCFVertexShader vert,
-	PCFFragmentShader frag, PVOID input);
+CSMCALL BOOL CRenderInstanceSetRenderMode(CHandle instance, CRenderMode renderMode) {
+	_CSyncEnter();
+
+	if (instance == NULL) {
+		_CSyncLeaveErr(FALSE, "CRenderInstanceSetRenderMode failed because instance was invalid");
+	}
+
+	// not the best way to go about doing this
+	if (renderMode != CRenderModePoints &&
+		renderMode != CRenderModeLines &&
+		renderMode != CRenderModeFilled) {
+		_CSyncLeaveErr(FALSE, "CRenderInstanceSetRenderMode failed because renderMode was invalid");
+	}
+
+	PCRenderInstance pri = instance;
+	pri->renderMode = renderMode;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL CRenderInstanceDrawMesh(CHandle instance, CHandle mesh, PCMatrix offset) {
+	_CSyncEnter();
+
+
+}
+
+CSMCALL BOOL CRenderInstanceDrawMeshInstanced(CHandle instance, CHandle mesh,
+	PCMatrix offset, UINT32 numMeshes) {
+
+}
