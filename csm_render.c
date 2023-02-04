@@ -187,12 +187,25 @@ CSMCALL BOOL CRenderInstanceSetRenderMode(CHandle instance, CRenderMode renderMo
 }
 
 CSMCALL BOOL CRenderInstanceDrawMesh(CHandle instance, CHandle mesh, PCMatrix offset) {
-	_CSyncEnter();
-
-
+	CRenderInstanceDrawMeshInstanced(instance, mesh, offset, 1);
 }
 
 CSMCALL BOOL CRenderInstanceDrawMeshInstanced(CHandle instance, CHandle mesh,
 	PCMatrix offset, UINT32 numMeshes) {
+	_CSyncEnter();
 
+	if (instance == NULL) {
+		_CSyncLeaveErr(FALSE, "CRenderInstanceDrawMesh failed because instance was invalid");
+	}
+	if (mesh == NULL) {
+		_CSyncLeaveErr(FALSE, "CRenderInstanceDrawMesh failed because mesh was invalid");
+	}
+	if (numMeshes <= 0) {
+		_CSyncLeaveErr(FALSE, "CRenderInstanceDrawMesh failed because numMeshes was invalid");
+	}
+
+	PCRenderInstance rendInstance = instance;
+	PCMesh meshObj = mesh;
+
+	_CSyncLeave(TRUE);
 }

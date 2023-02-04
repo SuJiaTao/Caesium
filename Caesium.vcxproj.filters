@@ -39,6 +39,9 @@
     <ClInclude Include="csm_render.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="csmint_draw.h">
+      <Filter>Header\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm_renderbuffer.c">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="csm_render.c">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_draw.c">
+      <Filter>Source\Internal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

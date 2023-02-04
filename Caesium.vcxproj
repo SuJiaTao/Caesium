@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="csm.h" />
     <ClInclude Include="csmint.h" />
+    <ClInclude Include="csmint_draw.h" />
     <ClInclude Include="csmint_error.h" />
     <ClInclude Include="csmint_memory.h" />
     <ClInclude Include="csm_matrix.h" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm.c" />
+    <ClCompile Include="csmint_draw.c" />
     <ClCompile Include="csmint_error.c" />
     <ClCompile Include="csmint_memory.c" />
     <ClCompile Include="csm_matrix.c" />
