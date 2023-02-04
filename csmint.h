@@ -16,6 +16,8 @@ typedef struct Caesium {
 
 	UINT32 allocateCount;
 	CRITICAL_SECTION lock; // thread sync object
+
+	PCWindow windows[CSM_MAX_WINDOWS];
 } Caesium, *PCaesium;
 Caesium _csmint;
 

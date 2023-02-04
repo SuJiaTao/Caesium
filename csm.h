@@ -8,10 +8,11 @@
 
 #ifdef CAESIUM_EXPORTS
 #define CSMCALL __declspec(dllexport)
-#elif
+#else
 #define CSMCALL __declspec(dllimport)
 #endif
 
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 #define BIT_WITH_LEFT_OFFSET(x)			  1 << x
@@ -53,6 +54,7 @@ CSMCALL void CLock();
 CSMCALL void CUnlock();
 
 #include "csm_renderbuffer.h"
+#include "csm_window.h"
 #include "csm_mesh.h"
 #include "csm_matrix.h"
 #include "csm_render.h"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -28,6 +28,7 @@
     <ClInclude Include="csm_mesh.h" />
     <ClInclude Include="csm_render.h" />
     <ClInclude Include="csm_renderbuffer.h" />
+    <ClInclude Include="csm_window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm.c" />
@@ -38,6 +39,7 @@
     <ClCompile Include="csm_mesh.c" />
     <ClCompile Include="csm_render.c" />
     <ClCompile Include="csm_renderbuffer.c" />
+    <ClCompile Include="csm_window.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
