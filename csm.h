@@ -42,7 +42,7 @@ typedef struct CVect4F {
 } CVect4F, *PCVect4F;
 
 typedef struct CRgb {
-	BYTE r, g, b;
+	BYTE b, g, r;
 } CRgb, *PCRgb;
 
 CSMCALL BOOL CInitialize();

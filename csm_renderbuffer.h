@@ -13,15 +13,13 @@ typedef struct CRenderBuffer {
 	PFLOAT depth;
 } CRenderBuffer, *PCRenderBuffer;
 
-CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, CVect2I dimensions);
+CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height);
 CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle);
 
-CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, CVect2I position,
+CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 	PCRgb colorOut, PFLOAT depthOut);
-CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, CVect2I position,
+CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	CRgb color, FLOAT depth);
 CSMCALL BOOL CRenderBufferClear(CHandle handle);
-
-CSMCALL BOOL CRenderBufferDraw(CHandle handle, RECT drawArea, HDC deviceContext);
 
 #endif

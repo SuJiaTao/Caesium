@@ -27,6 +27,58 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 	
 	switch (msg)
 	{
+	case WM_CREATE:
+		SetTimer(win, CSM_WINDOW_REFRESH_TIMERID,
+			CSM_WINDOW_REFRESH_MSEC, NULL);
+
+		break;
+
+	case WM_TIMER:
+		// refresh entire window
+		InvalidateRect(win, NULL, FALSE);
+		
+		break;
+
+	case WM_PAINT:
+
+		// get cwin
+		cwinPtr = _cGetCWin(win);
+		cwin = *cwinPtr;
+
+		// break if no renderbuffer exists
+		if (cwin->renderBuff == NULL)
+			break;
+
+		RECT drawRect;
+		GetClientRect(cwin->wnd, &drawRect);
+		DWORD width = drawRect.right - drawRect.left;
+		DWORD height = drawRect.bottom - drawRect.top;
+
+		PCRenderBuffer pBuffer = cwin->renderBuff;
+
+		// setup bitmap descriptor
+		BITMAPINFO bti;
+		ZERO_BYTES(&bti, sizeof(bti));
+		bti.bmiHeader.biBitCount = 24;
+		bti.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bti.bmiHeader.biWidth = pBuffer->width;
+		bti.bmiHeader.biHeight = pBuffer->height;
+		bti.bmiHeader.biPlanes = 1;
+		bti.bmiHeader.biCompression = BI_RGB;
+
+		// paint buffer to window
+		PAINTSTRUCT ps;
+		HDC pDC = BeginPaint(cwin->wnd, &ps);
+
+		INT drawRslt = 
+			StretchDIBits(pDC, 0, 0, width, height, 0, 0,
+			pBuffer->width, pBuffer->height,
+			pBuffer->color, &bti, DIB_RGB_COLORS, SRCCOPY);
+
+		EndPaint(cwin->wnd, &ps);
+
+		break;
+
 	case WM_CLOSE:
 
 		// get cwin
@@ -52,6 +104,9 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 		UnregisterClassA(cwin->wndClassName, NULL);
 		CInternalFree(cwin->wndClassName);
 		CInternalFree(cwin);
+
+		// end refresh timer
+		KillTimer(cwin->wnd, CSM_WINDOW_REFRESH_TIMERID);
 
 		*cwinPtr = NULL;
 		
@@ -208,15 +263,6 @@ CSMCALL BOOL CDestroyWindow(PCHandle pHandle) {
 	}
 
 	SendMessageA(win->wnd, CSM_WINDOW_CLOSEMESSAGE, ZERO, ZERO);
-
-	// draw renderbuffer if applicable
-	if (win->renderBuff != NULL) {
-		HDC wDc = GetDC(win->wnd);
-		RECT drawRect;
-		GetClientRect(win->wnd, &drawRect);
-		CRenderBufferDraw(win->renderBuff, drawRect, wDc);
-		ReleaseDC(win->wnd, wDc);
-	}
 
 	_CSyncLeave(TRUE);
 }

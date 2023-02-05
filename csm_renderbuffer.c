@@ -6,7 +6,7 @@
 #include "csm_renderbuffer.h"
 #include <float.h>
 
-CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, CVect2I dimensions) {
+CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 	_CSyncEnter();
 
 	// check for bad params
@@ -14,14 +14,14 @@ CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, CVect2I dimensions) {
 		CInternalSetLastError("CMakeRenderBuffer failed because pHandle was NULL");
 		_CSyncLeave(FALSE);
 	}
-	if (dimensions.x <= 0 || dimensions.y <= 0) {
-		CInternalSetLastError("CMakeRenderBuffer failed because dimensions was invalid");
+	if (width <= 0 || height <= 0) {
+		CInternalSetLastError("CMakeRenderBuffer failed because dimensions were invalid");
 		_CSyncLeave(FALSE);
 	}
 
 	PCRenderBuffer rb = CInternalAlloc(sizeof(CRenderBuffer));
-	rb->width = dimensions.x;
-	rb->height = dimensions.y;
+	rb->width = width;
+	rb->height = height;
 	rb->color = CInternalAlloc(sizeof(PCRgb) * rb->width * rb->height);
 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
 
@@ -54,15 +54,19 @@ CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
 	_CSyncLeave(TRUE);
 }
 
-static __forceinline INT _calculateRBIndex(PCRenderBuffer b, CVect2I p) {
-	return p.x + (p.y * b->width);
+static __forceinline INT _calculateRBIndex(PCRenderBuffer b, INT x, INT y) {
+	return x + (y * (b->width));
 }
 
-static __forceinline BOOL _checkPosInRB(PCRenderBuffer b, CVect2I p) {
-	return (p.x >= 0 && p.x <= b->width) && (p.y >= 0 && p.y <= b->height);
+static __forceinline INT _calculateRBIndexDepth(PCRenderBuffer b, INT x, INT y) {
+	return x + (y * b->width);
 }
 
-CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, CVect2I position,
+static __forceinline BOOL _checkPosInRB(PCRenderBuffer b, INT x, INT y) {
+	return (x >= 0 && x < b->width) && (y >= 0 && y < b->height);
+}
+
+CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 	PCRgb colorOut, PFLOAT depthOut) {
 	_CSyncEnter();
 
@@ -71,24 +75,25 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, CVect2I position,
 	}
 
 	PCRenderBuffer pBuffer = handle;
-	if (_checkPosInRB(pBuffer, position) == FALSE) {
+	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
 		_CSyncLeaveErr(FALSE, "CRenderBufferGetFragment failed because position was invalid");
 	}
 
-	INT rbi = _calculateRBIndex(pBuffer, position);
+	INT rbi = _calculateRBIndex(pBuffer, x, y);
+	INT rbd = _calculateRBIndexDepth(pBuffer, x, y);
 
 	// no err raised for NULL(s)
 	if (colorOut != NULL) {
 		*colorOut = pBuffer->color[rbi];
 	}
 	if (depthOut != NULL) {
-		*depthOut = pBuffer->depth[rbi];
+		*depthOut = pBuffer->depth[rbd];
 	}
 
 	_CSyncLeave(TRUE);
 }
 
-CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, CVect2I position,
+CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	CRgb color, FLOAT depth) {
 	_CSyncEnter();
 
@@ -97,19 +102,20 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, CVect2I position,
 	}
 
 	PCRenderBuffer pBuffer = handle;
-	if (_checkPosInRB(pBuffer, position) == FALSE) {
+	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
 		_CSyncLeaveErr(FALSE, "CRenderBufferSetFragment failed because position was invalid");
 	}
 
-	INT rbi = _calculateRBIndex(pBuffer, position);
+	INT rbi = _calculateRBIndex(pBuffer, x, y);
+	INT rbd = _calculateRBIndexDepth(pBuffer, x, y);
 
 	// do depth test
-	if (pBuffer->depth[rbi] < depth) {
+	if (pBuffer->depth[rbd] < depth) {
 		_CSyncLeave(TRUE);
 	}
 
 	pBuffer->color[rbi] = color;
-	pBuffer->depth[rbi] = depth;
+	pBuffer->depth[rbd] = depth;
 
 	_CSyncLeave(TRUE);
 }
@@ -129,46 +135,6 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle) {
 
 	// set all depth to FLT_MAX
 	__stosd(pBuffer->depth, FLT_MAX, elemCount);
-
-	_CSyncLeave(TRUE);
-}
-
-CSMCALL BOOL CRenderBufferDraw(CHandle handle, RECT drawArea, HDC deviceContext) {
-	_CSyncEnter();
-
-	if (handle == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderBufferDraw failed because handle was invalid");
-	}
-
-	if (deviceContext == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderBufferDraw failed because deviceContext was invalid");
-	}
-
-	PCRenderBuffer pBuffer = handle;
-
-	// get HDC resoultion
-	int resX = GetDeviceCaps(deviceContext, HORZRES);
-	int resY = GetDeviceCaps(deviceContext, VERTRES);
-
-	// setup bitmap descriptor
-	BITMAPINFO bti;
-	ZERO_BYTES(&bti, sizeof(bti));
-	bti.bmiHeader.biBitCount	= 24;
-	bti.bmiHeader.biSize		= pBuffer->width * pBuffer->height * sizeof(CRgb);
-	bti.bmiHeader.biWidth		= pBuffer->width;
-	bti.bmiHeader.biHeight		= pBuffer->height;
-	bti.bmiHeader.biPlanes		= 1;
-	bti.bmiHeader.biCompression = BI_RGB;
-
-	// draw to HDC
-	// this is terrible
-	int dResult = 
-		StretchDIBits(deviceContext, 0, 0, pBuffer->width, pBuffer->height,
-		0, 0, resX, resY, pBuffer->color, &bti, DIB_RGB_COLORS, SRCCOPY);
-
-	if (dResult == FALSE) {
-		_CSyncLeaveErr(FALSE, "CRenderBufferDraw failed. StretchDIBits returned false");
-	}
 
 	_CSyncLeave(TRUE);
 }
