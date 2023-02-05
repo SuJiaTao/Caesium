@@ -54,12 +54,15 @@ CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
 	_CSyncLeave(TRUE);
 }
 
-static __forceinline INT _calculateRBIndex(PCRenderBuffer b, INT x, INT y) {
-	return x + (y * (b->width));
+static __forceinline PCRgb _findColorPtr(PCRenderBuffer b, INT x, INT y) {
+	PUINT8 arr = b->color;
+	SIZE_T xOffset = (sizeof(CRgb) * x);
+	SIZE_T yOffset = (sizeof(CRgb) * y * b->width) + y;
+	return arr + (xOffset + yOffset);
 }
 
-static __forceinline INT _calculateRBIndexDepth(PCRenderBuffer b, INT x, INT y) {
-	return x + (y * b->width);
+static __forceinline PFLOAT _findDepthPtr(PCRenderBuffer b, INT x, INT y) {
+	return b->depth + (x + (y * b->width));
 }
 
 static __forceinline BOOL _checkPosInRB(PCRenderBuffer b, INT x, INT y) {
@@ -79,15 +82,13 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 		_CSyncLeaveErr(FALSE, "CRenderBufferGetFragment failed because position was invalid");
 	}
 
-	INT rbi = _calculateRBIndex(pBuffer, x, y);
-	INT rbd = _calculateRBIndexDepth(pBuffer, x, y);
 
 	// no err raised for NULL(s)
 	if (colorOut != NULL) {
-		*colorOut = pBuffer->color[rbi];
+		*colorOut = *(_findColorPtr(pBuffer, x, y));
 	}
 	if (depthOut != NULL) {
-		*depthOut = pBuffer->depth[rbd];
+		*depthOut = *(_findDepthPtr(pBuffer, x, y));
 	}
 
 	_CSyncLeave(TRUE);
@@ -106,16 +107,13 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 		_CSyncLeaveErr(FALSE, "CRenderBufferSetFragment failed because position was invalid");
 	}
 
-	INT rbi = _calculateRBIndex(pBuffer, x, y);
-	INT rbd = _calculateRBIndexDepth(pBuffer, x, y);
-
 	// do depth test
-	if (pBuffer->depth[rbd] < depth) {
+	if (*(_findDepthPtr(pBuffer, x, y)) < depth) {
 		_CSyncLeave(TRUE);
 	}
 
-	pBuffer->color[rbi] = color;
-	pBuffer->depth[rbd] = depth;
+	*(_findColorPtr(pBuffer, x, y)) = color;
+	*(_findDepthPtr(pBuffer, x, y)) = depth;
 
 	_CSyncLeave(TRUE);
 }
