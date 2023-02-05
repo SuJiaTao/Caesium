@@ -14,15 +14,19 @@ CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 		CInternalSetLastError("CMakeRenderBuffer failed because pHandle was NULL");
 		_CSyncLeave(FALSE);
 	}
-	if (width <= 0 || height <= 0) {
+	if (width < 4 || height < 4) {
 		CInternalSetLastError("CMakeRenderBuffer failed because dimensions were invalid");
 		_CSyncLeave(FALSE);
 	}
 
+	// set w and h and multiply of 4
+	width  &= ~0b11;
+	height &= ~0b11;
+
 	PCRenderBuffer rb = CInternalAlloc(sizeof(CRenderBuffer));
 	rb->width = width;
 	rb->height = height;
-	rb->color = CInternalAlloc(sizeof(PCRgb) * rb->width * rb->height);
+	rb->color = CInternalAlloc(sizeof(PCRgb) * rb->width * rb->height + rb->height);
 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
 
 	*pHandle = rb;
@@ -55,10 +59,7 @@ CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
 }
 
 static __forceinline PCRgb _findColorPtr(PCRenderBuffer b, INT x, INT y) {
-	PUINT8 arr = b->color;
-	SIZE_T xOffset = (sizeof(CRgb) * x);
-	SIZE_T yOffset = (sizeof(CRgb) * y * b->width) + y;
-	return arr + (xOffset + yOffset);
+	return b->color + (x + (y * b->width));
 }
 
 static __forceinline PFLOAT _findDepthPtr(PCRenderBuffer b, INT x, INT y) {
@@ -129,7 +130,7 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle) {
 	INT elemCount = pBuffer->width * pBuffer->height;
 	
 	// set all colors to 0
-	__stosb(pBuffer->color, ZERO, elemCount);
+	__stosb(pBuffer->color, ZERO, elemCount * sizeof(CRgb));
 
 	// set all depth to FLT_MAX
 	__stosd(pBuffer->depth, FLT_MAX, elemCount);

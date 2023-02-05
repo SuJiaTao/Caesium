@@ -30,13 +30,11 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 	case WM_CREATE:
 		SetTimer(win, CSM_WINDOW_REFRESH_TIMERID,
 			CSM_WINDOW_REFRESH_MSEC, NULL);
-
 		break;
 
 	case WM_TIMER:
 		// refresh entire window
 		InvalidateRect(win, NULL, FALSE);
-		
 		break;
 
 	case WM_PAINT:
@@ -160,7 +158,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 	wClass.lpszClassName = cwin->wndClassName;
 	wClass.lpfnWndProc = _csmWndProc;
 
-	DWORD wFlags = WS_VISIBLE | WS_SYSMENU | WS_MAXIMIZEBOX | WS_THICKFRAME;
+	DWORD wFlags = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
 	RECT clientRect = { 0, 0, width, height };
 	AdjustWindowRectExForDpi(&clientRect, wFlags, TRUE, wFlags,
 		GetDpiForSystem());
@@ -169,7 +167,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 
 	RegisterClassA(&wClass);
 	cwin->wnd = CreateWindowExA(0L, cwin->wndClassName, title,
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+		wFlags, CW_USEDEFAULT, CW_USEDEFAULT,
 		realWinWidth, realWinHeight, NULL, NULL, NULL, NULL);
 
 	ShowWindow(cwin->wnd, SW_SHOW);

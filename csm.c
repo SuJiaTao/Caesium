@@ -32,6 +32,11 @@ CSMCALL BOOL CTerminate() {
 	_csmint.init = FALSE;
 }
 
+CSMCALL CRgb CMakeColor(INT r, INT g, INT b) {
+	CRgb rCol = { b, g, r };
+	return rCol;
+}
+
 CSMCALL PCHAR CGetLastError() {
 	return CInternalGetLastError();
 }

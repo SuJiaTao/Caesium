@@ -50,6 +50,8 @@ CSMCALL BOOL CTerminate();
 
 CSMCALL PCHAR CGetLastError();
 
+CSMCALL CRgb CMakeColor(INT r, INT g, INT b);
+
 CSMCALL void CLock();
 CSMCALL void CUnlock();
 
