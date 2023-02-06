@@ -145,3 +145,7 @@ CSMCALL CVect3F CMatrixApply(CMatrix mat, CVect3F vect) {
 
 	return rv3;
 }
+
+CSMCALL void CMatrixSet(PCMatrix mat, INT x, INT y, FLOAT val) {
+	_cmset(mat, x, y, val);
+}

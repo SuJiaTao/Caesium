@@ -17,7 +17,6 @@ typedef struct CWindow {
 	PCHAR wndClassName;
 	HWND  wnd;
 	BOOL  shouldClose;
-
 	PCRenderBuffer renderBuff;
 } CWindow, *PCWindow;
 

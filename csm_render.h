@@ -7,6 +7,8 @@
 
 #include "csm.h"
 
+#define CSM_MAX_SHADER_INPUTS 0x40
+
 typedef struct CFragment {
 	PCVect2I vertPosList[3];
 	PCVect2I screenPos;
@@ -15,10 +17,9 @@ typedef struct CFragment {
 } CFragment, *PCFragment;
 
 typedef void (*PCFVertexDataEdit)(PVOID data);
-typedef void (*PCFVertexShader  )(PCVect3F vert, UINT32 vertID, PVOID input);
+typedef void (*PCFVertexShader  )(PCVect3F vert, UINT32 vertID, 
+	PVOID inputs[CSM_MAX_SHADER_INPUTS]);
 typedef BOOL (*PCFFragmentShader)(PCFragment frag, PVOID input);
-
-#define CSM_MAX_SHADER_INPUTS 0x40
 
 typedef enum CRenderMode {
 	CRenderModePoints	= 0,

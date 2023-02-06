@@ -18,5 +18,6 @@ CSMCALL CMatrix CMatrixRotate(CMatrix orig, CVect3F rot);
 CSMCALL CMatrix CMatrixTransform(CMatrix orig, CVect3F trl, CVect3F rot, CVect3F scl);
 CSMCALL CMatrix CMatrixMultiply(CMatrix m1, CMatrix m2);
 CSMCALL CVect3F CMatrixApply(CMatrix mat, CVect3F vect);
+CSMCALL void	CMatrixSet(PCMatrix mat, INT x, INT y, FLOAT val);
 
 #endif

@@ -7,10 +7,10 @@
 
 #include "csmint.h"
 
-CMesh CInternalDrawProcessMesh(PCRenderInstance instance, PCMesh mesh);
-CMesh CInternalDrawProjectMesh(PCRenderInstance instance, PCMesh mesh);
-void  CInternalDrawMeshVerts(PCMesh projectedMesh);
-void  CInternalDrawLine(CVect4F p1, CVect4F p2);
-void  CInternalDrawMeshLines(PCMesh projectedMesh);
+void CInternalDrawProcessMesh(PCRenderInstance instance, PCMesh mesh);
+void CInternalDrawProjectMesh(PCMesh mesh);
+void CInternalDrawMeshVerts(PCMesh projectedMesh);
+void CInternalDrawLine(CVect4F p1, CVect4F p2);
+void CInternalDrawMeshLines(PCMesh projectedMesh);
 
 #endif
