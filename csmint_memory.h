@@ -9,6 +9,6 @@
 #include "csmint.h"
 
 PVOID CInternalAlloc(SIZE_T size);
-void  CInternalFree(PPVOID ptr);
+void  CInternalFree(PVOID ptr);
 
 #endif

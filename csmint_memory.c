@@ -12,7 +12,7 @@ PVOID CInternalAlloc(SIZE_T size) {
 	_CSyncLeave(block);
 }
 
-void  CInternalFree(PPVOID ptr) {
+void  CInternalFree(PVOID ptr) {
 	_CSyncEnter();
 	HeapFree(_csmint.heap, ZERO, ptr);
 	_csmint.allocateCount--;

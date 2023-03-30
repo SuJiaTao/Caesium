@@ -39,8 +39,8 @@
     <ClInclude Include="csm_render.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="csmint_draw.h">
-      <Filter>Header\Internal</Filter>
+    <ClInclude Include="csm_window.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,11 +62,13 @@
     <ClCompile Include="csm_matrix.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csm_render.c">
+    <ClCompile Include="csm_window.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csmint_draw.c">
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="structure.txt">
       <Filter>Source\Internal</Filter>
-    </ClCompile>
+    </Text>
   </ItemGroup>
 </Project>

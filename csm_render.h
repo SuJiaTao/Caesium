@@ -7,61 +7,50 @@
 
 #include "csm.h"
 
-#define CSM_MAX_SHADER_INPUTS 0x40
+#define CSM_CLASS_MAX_PER_VERTEX_DATA 0x10
+#define CSM_CLASS_MAX_GLOBAL_DATA	  0x20
+#define CSM_CLASS_MAX_MATERIALS		  0x10
+
+typedef CVect3F (*PCFVertexShaderProc)  (CVect3F vertexIn, UINT32 vertexID, 
+	struct CMatrix matrix, struct CRenderClass* renderClass);
+typedef BOOL    (*PCFFragmentShaderProc)(struct CFragment* fragment);
+typedef CMatrix	(*PCFClusterMatrixProc) (UINT32 clusterID,
+	struct CRenderClass* renderClass);
 
 typedef struct CFragment {
-	PCVect2I vertPosList[3];
-	PCVect2I screenPos;
-	CRgb     color;
-	FLOAT    depth;
+	CVect3F fragPos;
+	CRgb	color;
 } CFragment, *PCFragment;
 
-typedef void (*PCFVertexDataEdit)(PVOID data);
-typedef void (*PCFVertexShader  )(PCVect3F vert, UINT32 vertID, 
-	PVOID inputs[CSM_MAX_SHADER_INPUTS]);
-typedef BOOL (*PCFFragmentShader)(PCFragment frag, PVOID input);
-
-typedef enum CRenderMode {
-	CRenderModePoints	= 0,
-	CRenderModeLines	= 1,
-	CRenderModeFilled	= 2
-} CRenderMode, *PCRenderMode;
-
-typedef struct CVertexDataBuffer {
+typedef struct CDataBuffer {
+	PCHAR  name;
+	SIZE_T elementSizeBytes;
+	UINT32 elementCount;
 	PVOID  data;
-	UINT32 sizeBytes;
-	UINT32 walkCount;
-	UINT32 walkStrideBytes;
-} CVertexDataBuffer, * PCVertexDataBuffer;
+} CDataBuffer, *PCDataBuffer;
 
-typedef struct CRenderInstance {
-	CRenderMode		  renderMode;
-	PCRenderBuffer    fBuff;
-	PCFVertexShader   vert;
-	PCFFragmentShader frag;
-	CHandle shaderInputs[CSM_MAX_SHADER_INPUTS];
-} CRenderInstance, * PCRenderInstance;
+typedef struct CMaterial {
+	PCFVertexShaderProc   vertexShader;
+	PCFFragmentShaderProc fragmentShader;
+} CMaterial, *PCMaterial;
 
-CSMCALL CHandle CMakeRenderInstance(void);
-CSMCALL BOOL    CDestroyRenderInstance(PCHandle pInstance);
+typedef struct CRenderClass {
+	CHandle mesh;
+	CHandle materials	[CSM_CLASS_MAX_MATERIALS];
+	CHandle dataBuffers [CSM_CLASS_MAX_PER_VERTEX_DATA];
+	BOOL	singleMaterial;
+	UINT32	triMaterialCount;
+	PUINT8	triMaterials;
+} CRenderClass, *PCRenderClass;
 
-CSMCALL CHandle CMakeVertexDataBuffer(void);
-CSMCALL BOOL	CVertexDataBufferSetData(CHandle handle, PVOID data, 
-	UINT32 sizeBytes, UINT32 walkCount, UINT32 walkStrideBytes);
-CSMCALL BOOL	CVertexDataBufferEditData(CHandle handle, PCFVertexDataEdit editFunc);
-CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pHandle);
+typedef struct CRenderObject {
+	PCRenderClass renderClass;
+	CMatrix		  mat;
+} CRenderObject, *PCRenderObject;
 
-CSMCALL BOOL CRenderInstanceSetBuffer(CHandle instance, CHandle renderBuffer);
-CSMCALL BOOL CRenderInstanceSetShader(CHandle instance,
-	PCFVertexShader vertShader, PCFFragmentShader fragshader);
-CSMCALL BOOL CRenderInstanceClearShader(CHandle instance);
-CSMCALL BOOL CRenderInstanceSetShaderInput(CHandle instance, UINT32 inputID,
-	CHandle vertexDataInputBuffer);
-CSMCALL BOOL CRenderInstanceClearShaderInput(CHandle instance, UINT32 inputID);
-CSMCALL BOOL CRenderInstanceSetRenderMode(CHandle instance, CRenderMode renderMode);
-
-CSMCALL BOOL CRenderInstanceDrawMesh(CHandle instance, CHandle mesh, struct CMatrix* offset);
-CSMCALL BOOL CRenderInstanceDrawMeshInstanced(CHandle instance, CHandle mesh,
-	struct CMatrix* offset, UINT32 numMeshes);
+typedef struct CRenderCluster {
+	PCRenderClass renderClass;
+	PCFClusterMatrixProc matrixGenProc;
+} CRenderCluster, *PCRenderCluster;
 
 #endif
