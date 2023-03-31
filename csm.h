@@ -1,7 +1,6 @@
 // Bailey Jia-Tao Brown
 // 2023
 // <csm.h>
-// Caesium Software Renderer
 
 #ifndef _CSM_INCLUDE_
 #define _CSM_INCLUDE_ 
@@ -54,11 +53,5 @@ CSMCALL CRgb CMakeColor(INT r, INT g, INT b);
 
 CSMCALL void CLock();
 CSMCALL void CUnlock();
-
-#include "csm_renderbuffer.h"
-#include "csm_window.h"
-#include "csm_mesh.h"
-#include "csm_matrix.h"
-#include "csm_render.h"
 
 #endif

@@ -5,7 +5,7 @@
 #ifndef _CSM_WINDOW_INCLUDE_
 #define _CSM_WINDOW_INCLUDE_
 
-#include "csm.h"
+#include "csm_renderbuffer.h"
 
 #define CSM_WINDOW_CLASSNAME_SIZE	0xFF
 #define CSM_MAX_WINDOWS				0x10

@@ -42,6 +42,9 @@
     <ClInclude Include="csm_window.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Caesium.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm_renderbuffer.c">

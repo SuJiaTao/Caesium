@@ -23,13 +23,15 @@ CSMCALL BOOL CTerminate() {
 	_CSyncEnter();
 
 	if (_csmint.allocateCount > 0) {
-		_CSyncLeave();
+		_CSyncLeave(FALSE);
 	}
 	
 	HeapDestroy(&_csmint.heap);
 	DeleteCriticalSection(&_csmint.lock);
 
 	_csmint.init = FALSE;
+
+	return TRUE;
 }
 
 CSMCALL CRgb CMakeColor(INT r, INT g, INT b) {

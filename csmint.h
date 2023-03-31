@@ -5,7 +5,7 @@
 #ifndef _CSMINT_INCLUDE_
 #define _CSMINT_INCLUDE_ 
 
-#include "csm.h"
+#include "csm_window.h"
 #include <intrin.h>
 
 typedef struct Caesium {

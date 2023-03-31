@@ -6,16 +6,17 @@
 #define _CSM_RENDER_INCLUDE_
 
 #include "csm.h"
+#include "csm_matrix.h"
 
 #define CSM_CLASS_MAX_PER_VERTEX_DATA 0x10
 #define CSM_CLASS_MAX_GLOBAL_DATA	  0x20
 #define CSM_CLASS_MAX_MATERIALS		  0x10
 
 typedef CVect3F (*PCFVertexShaderProc)  (CVect3F vertexIn, UINT32 vertexID, 
-	struct CMatrix matrix, struct CRenderClass* renderClass);
+	CMatrix transform, struct CRenderClass* renderClass);
 typedef BOOL    (*PCFFragmentShaderProc)(struct CFragment* fragment);
-typedef CMatrix	(*PCFClusterMatrixProc) (UINT32 clusterID,
-	struct CRenderClass* renderClass);
+typedef struct CMatrix	(*PCFClusterMatrixProc) (UINT32 clusterID, CMatrix transform,
+	struct CRenderClass* renderClass, PVOID userData);
 
 typedef struct CFragment {
 	CVect3F fragPos;
@@ -44,12 +45,13 @@ typedef struct CRenderClass {
 } CRenderClass, *PCRenderClass;
 
 typedef struct CRenderObject {
-	PCRenderClass renderClass;
-	CMatrix		  mat;
+	PCRenderClass  renderClass;
+	CMatrix		   transform;
 } CRenderObject, *PCRenderObject;
 
 typedef struct CRenderCluster {
-	PCRenderClass renderClass;
+	PCRenderClass  renderClass;
+	PVOID		   userData;
 	PCFClusterMatrixProc matrixGenProc;
 } CRenderCluster, *PCRenderCluster;
 

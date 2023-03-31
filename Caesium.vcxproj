@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Caesium.h" />
     <ClInclude Include="csm.h" />
     <ClInclude Include="csmint.h" />
     <ClInclude Include="csmint_error.h" />
