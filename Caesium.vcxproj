@@ -36,6 +36,7 @@
     <ClCompile Include="csmint_memory.c" />
     <ClCompile Include="csm_matrix.c" />
     <ClCompile Include="csm_mesh.c" />
+    <ClCompile Include="csm_render.c" />
     <ClCompile Include="csm_renderbuffer.c" />
     <ClCompile Include="csm_window.c" />
   </ItemGroup>

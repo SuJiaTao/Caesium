@@ -76,17 +76,17 @@ typedef struct CRenderCluster {
 
 CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
 	UINT32 elementCount, PVOID dataIn);
-CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pHandle);
-CSMCALL BOOL	CVertexDataBufferGetElement(CHandle handle, UINT32 index,
+CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pVertexDataBuffer);
+CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 	PVOID outBuffer);
-CSMCALL BOOL	CVertexDataBufferSetElement(CHandle handle, UINT32 index,
+CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 	PVOID inBuffer);
 
 CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
 	PVOID dataIn);
-CSMCALL BOOL	CDestroyStaticDataBuffer(PCHandle pHandle);
-CSMCALL PVOID	CStaticDataBufferMap(CHandle handle);
-CSMCALL void	CStaticDataBufferUnmap(CHandle handle);
+CSMCALL BOOL	CDestroyStaticDataBuffer(PCHandle pStaticDataBuffer);
+CSMCALL PVOID	CStaticDataBufferMap(CHandle sdBuffer);
+CSMCALL void	CStaticDataBufferUnmap(CHandle sdBuffer);
 
 CSMCALL CHandle CMakeMaterial(PCHAR name, 
 	PCFVertexShaderProc vertexShader,
@@ -94,10 +94,10 @@ CSMCALL CHandle CMakeMaterial(PCHAR name,
 CSMCALL BOOL	CDestroyMaterial(PCHandle pMatHandle);
 
 CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material);
-CSMCALL BOOL	CDestroyRenderClass(PCHandle pHandle);
+CSMCALL BOOL	CDestroyRenderClass(PCHandle pClass);
 
 CSMCALL BOOL	CRenderClassGetName(PCHAR stroutBuffer, SIZE_T maxWrite);
-CSMCALL CHandle CRenderClassGetMesh(CHandle handle);
+CSMCALL CHandle CRenderClassGetMesh(CHandle rClass);
 
 CSMCALL BOOL	CRenderClassSetMaterial(CHandle rClass, CHandle material, UINT32 ID);
 CSMCALL CHandle CRenderClassGetMaterial(CHandle rClass, UINT32 ID);

@@ -68,6 +68,9 @@
     <ClCompile Include="csm_window.c">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="csm_render.c">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="structure.txt">
