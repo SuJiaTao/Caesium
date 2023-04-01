@@ -9,7 +9,7 @@
 
 void  CInternalErrorPopup(PCHAR title, PCHAR message);
 void  CInternalSetLastError(PCHAR lastError);
-PCHAR CInternalGetLastError(void);
+void  CInternalGetLastError(PCHAR errBuffer, SIZE_T maxSize);
 
 #define _CSyncLeaveErr(x, err)	LeaveCriticalSection(&_csmint.lock); \
 								CInternalSetLastError(err); \

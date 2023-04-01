@@ -10,12 +10,21 @@ void  CInternalErrorPopup(PCHAR title, PCHAR message) {
 
 void  CInternalSetLastError(PCHAR lastError) {
 	_CSyncEnter();
-	_csmint.lastError = lastError;
+	
+	// free last memory if applicable
+	if (_csmint.lastError != NULL)
+		CInternalFree(_csmint.lastError);
+
+	// copy value
+	const SIZE_T strSize = strlen(lastError);
+	_csmint.lastError = CInternalAlloc(strSize);
+	COPY_BYTES(lastError, _csmint.lastError, strSize);
+
 	_CSyncLeave();
 }
 
-PCHAR CInternalGetLastError(void) {
+void CInternalGetLastError(PCHAR errBuffer, SIZE_T maxSize) {
 	_CSyncEnter();
-	PCHAR err = _csmint.lastError;
-	_CSyncLeave(err);
+	strcpy_s(errBuffer, maxSize, _csmint.lastError);
+	_CSyncLeave();
 }
