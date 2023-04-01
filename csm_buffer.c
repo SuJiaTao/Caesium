@@ -1,9 +1,9 @@
-// <csm_render.c>
+// <csm_buffer.c>
 // Bailey Jia-Tao Brown
 // 2023
 
 #include "csmint.h"
-#include "csm_render.h"
+#include "csm_buffer.h"
 
 CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
 	UINT32 elementCount, PVOID dataIn) {

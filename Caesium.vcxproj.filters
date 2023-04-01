@@ -36,13 +36,16 @@
     <ClInclude Include="csm_matrix.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="csm_render.h">
+    <ClInclude Include="csm_buffer.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="csm_window.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Caesium.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="csm_render.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +71,7 @@
     <ClCompile Include="csm_window.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csm_render.c">
+    <ClCompile Include="csm_buffer.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
