@@ -8,51 +8,114 @@
 #include "csm.h"
 #include "csm_matrix.h"
 
-#define CSM_CLASS_MAX_PER_VERTEX_DATA 0x10
-#define CSM_CLASS_MAX_GLOBAL_DATA	  0x20
-#define CSM_CLASS_MAX_MATERIALS		  0x10
+#define CSM_CLASS_MAX_PER_VERTEX_DATA	0x10
+#define CSM_CLASS_MAX_STATIC_DATA		0x20
+#define CSM_CLASS_MAX_MATERIALS			0x08
+#define CSM_CLASS_DATA_BUFFER_BAD_ID	0xFFFF
 
-typedef CVect3F (*PCFVertexShaderProc)  (CVect3F vertexIn, UINT32 vertexID, 
-	CMatrix transform, struct CRenderClass* renderClass);
-typedef BOOL    (*PCFFragmentShaderProc)(struct CFragment* fragment);
-typedef struct CMatrix	(*PCFClusterMatrixProc) (UINT32 clusterID, CMatrix transform,
-	struct CRenderClass* renderClass, PVOID userData);
+typedef CVect3F (*PCFVertexShaderProc) (
+		CVect3F vertexPosition, 
+		UINT32  vertexID,
+		UINT32  triangleID,
+		CMatrix transform,
+		CHandle renderClass
+	);
 
-typedef struct CFragment {
-	CVect3F fragPos;
-	CRgb	color;
-} CFragment, *PCFragment;
+typedef BOOL (*PCFFragmentShaderProc) (
+		UINT32   triangleID,
+		PCVect3F inOutFragPos,
+		PCRgb	 inOutColor
+	);
 
-typedef struct CDataBuffer {
+typedef struct CMatrix (*PCFClusterMatrixProc) (
+		UINT32  clusterID, 
+		CMatrix parentTransform,
+		CHandle renderClass
+	);
+
+typedef struct CVertexDataBuffer {
 	PCHAR  name;
 	SIZE_T elementSizeBytes;
 	UINT32 elementCount;
 	PVOID  data;
-} CDataBuffer, *PCDataBuffer;
+} CVertexDataBuffer, *PCVertexDataBuffer;
+
+typedef struct CStaticDataBuffer {
+	CRITICAL_SECTION mapLock;
+	PCHAR  name;
+	SIZE_T sizeBytes;
+	PVOID  data;
+} CStaticDataBuffer, *PCStaticDataBuffer;
 
 typedef struct CMaterial {
+	PCHAR name;
 	PCFVertexShaderProc   vertexShader;
 	PCFFragmentShaderProc fragmentShader;
 } CMaterial, *PCMaterial;
 
 typedef struct CRenderClass {
+	PCHAR   name;
 	CHandle mesh;
-	CHandle materials	[CSM_CLASS_MAX_MATERIALS];
-	CHandle dataBuffers [CSM_CLASS_MAX_PER_VERTEX_DATA];
+	CHandle vertexBuffers	 [CSM_CLASS_MAX_PER_VERTEX_DATA];
+	CHandle	staticDataBuffer [CSM_CLASS_MAX_STATIC_DATA];
+	CHandle materials		 [CSM_CLASS_MAX_MATERIALS];
 	BOOL	singleMaterial;
-	UINT32	triMaterialCount;
-	PUINT8	triMaterials;
+	PUINT32	triMaterials;
 } CRenderClass, *PCRenderClass;
 
 typedef struct CRenderObject {
-	PCRenderClass  renderClass;
-	CMatrix		   transform;
+	PCRenderClass renderClass;
+	CMatrix		  transform;
 } CRenderObject, *PCRenderObject;
 
 typedef struct CRenderCluster {
-	PCRenderClass  renderClass;
-	PVOID		   userData;
+	PCRenderClass renderClass;
+	CMatrix		  parent;
 	PCFClusterMatrixProc matrixGenProc;
 } CRenderCluster, *PCRenderCluster;
+
+CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
+	UINT32 elementCount, PVOID dataIn);
+CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pHandle);
+CSMCALL BOOL	CVertexDataBufferGetElement(CHandle handle, UINT32 index,
+	PVOID outBuffer);
+CSMCALL BOOL	CVertexDataBufferSetElement(CHandle handle, UINT32 index,
+	PVOID inBuffer);
+
+CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
+	PVOID dataIn);
+CSMCALL BOOL	CDestroyStaticDataBuffer(PCHandle pHandle);
+CSMCALL PVOID	CStaticDataBufferMap(CHandle handle);
+CSMCALL void	CStaticDataBufferUnmap(CHandle handle);
+
+CSMCALL CHandle CMakeMaterial(PCHAR name, 
+	PCFVertexShaderProc vertexShader,
+	PCFFragmentShaderProc fragmentShader);
+CSMCALL BOOL	CDestroyMaterial(PCHandle pMatHandle);
+
+CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material);
+CSMCALL BOOL	CDestroyRenderClass(PCHandle pHandle);
+
+CSMCALL BOOL	CRenderClassGetName(PCHAR stroutBuffer, SIZE_T maxWrite);
+CSMCALL CHandle CRenderClassGetMesh(CHandle handle);
+
+CSMCALL BOOL	CRenderClassSetMaterial(CHandle rClass, CHandle material, UINT32 ID);
+CSMCALL CHandle CRenderClassGetMaterial(CHandle rClass, UINT32 ID);
+CSMCALL UINT32	CRenderClassGetMaterialID(CHandle rClass, PCHAR name);
+
+CSMCALL BOOL	CRenderClassSetTriMaterialSingle(CHandle rClass, BOOL state);
+CSMCALL BOOL	CRenderClassGetTriMaterialSingle(CHandle rClass, PBOOL outState);
+CSMCALL BOOL	CRenderClassSetTriMaterials(CHandle rClass, PUINT32 triMaterialIndexes);
+CSMCALL CHandle	CRenderClassGetTriMaterial(CHandle rClass, UINT32 triMaterialIndex);
+
+CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, UINT32 ID);
+CSMCALL CHandle CRenderClassGetVertexDataBuffer(CHandle rClass, UINT32 ID);
+CSMCALL UINT32  CRenderClassGetVertexDataBufferID(CHandle rClass, PCHAR name);
+
+CSMCALL BOOL	CRenderClassSetStaticDataBuffer(PVOID data, SIZE_T sizeBytes, UINT32 ID);
+CSMCALL CHandle CRenderClassGetStaticDataBuffer(CHandle rClass, UINT32 ID);
+CSMCALL UINT32  CRenderClassGetStaticDataBufferID(CHandle rClass, PCHAR name);
+
+CSMCALL 
 
 #endif
