@@ -3,6 +3,7 @@
 // 2023
 
 #include "csmint.h"
+#include "csm_mesh.h"
 #include "csm_render.h"
 
 static __forceinline _initializeAndCopyString(PCHAR source, PCHAR* destPtr) {
@@ -61,6 +62,7 @@ CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material) {
 	_initializeAndCopyString(name, &rClass->name); // init name
 
 	// apply mesh
+	// NOTE: Mesh is FIXED once class has been made
 	rClass->mesh = mesh;
 
 	// set default material (0) to input material (NULL is acceptable)
@@ -68,6 +70,11 @@ CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material) {
 
 	// by default, class with use singleMaterial (only materials[0] is used for ALL tris)
 	rClass->singleMaterial = TRUE;
+
+	// triMaterial array is STILL initialized just to keep things simple
+	PCMesh realMesh = mesh;
+	rClass->triMaterials
+		= CInternalAlloc(sizeof(UINT32) * realMesh->triCount);
 	
 	_CSyncLeave(rClass);
 }
@@ -86,8 +93,7 @@ CSMCALL BOOL	CDestroyRenderClass(PCHandle pClass) {
 	}
 
 	CInternalFree(rClass->name);
-	if (rClass->triMaterials != NULL)
-		CInternalFree(rClass->triMaterials);
+	CInternalFree(rClass->triMaterials);
 	CInternalFree(rClass);
 
 	// set handle to NULL
@@ -124,4 +130,66 @@ CSMCALL CHandle CRenderClassGetMesh(CHandle rClass) {
 
 	PCRenderClass cObj = rClass;
 	_CSyncLeave(cObj->mesh);
+}
+
+CSMCALL BOOL	CRenderClassSetMaterial(CHandle rClass, CHandle material, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE, "CRenderClassSetMaterial failed because rClass was invalid");
+	}
+	if (ID >= CSM_CLASS_MAX_MATERIALS) {
+		_CSyncLeaveErr(FALSE, "CRenderClassSetMaterial failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	cObj->materials[ID] = material;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL CHandle CRenderClassGetMaterial(CHandle rClass, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(NULL, "CRenderClassGetMaterial failed because rClass was invalid");
+	}
+	if (ID >= CSM_CLASS_MAX_MATERIALS) {
+		_CSyncLeaveErr(NULL, "CRenderClassGetMaterial failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	_CSyncLeave(cObj->materials[ID]);
+}
+
+CSMCALL UINT32	CRenderClassGetMaterialID(CHandle rClass, PCHAR name) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(CSM_BAD_ID, 
+			"CRenderClassGetMaterialID failed because rClass was invalid");
+	}
+	if (name == NULL) {
+		_CSyncLeaveErr(CSM_BAD_ID, 
+			"CRenderClassGetMaterialID failed because name was NULL");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	// check each material within class
+	for (UINT32 matID = 0; matID < CSM_CLASS_MAX_MATERIALS; matID++) {
+		PCMaterial mat = cObj->materials[matID];
+
+		// if material is NULL, skip
+		if (mat == NULL) continue;
+
+		// if string are the same, return ID
+		if (strcmp(name, mat->name) == 0) {
+			_CSyncLeave(matID);
+		}
+	}
+
+	_CSyncLeaveErr(CSM_BAD_ID,
+		"CRenderClassGetMaterialID failed because name could not be found");
 }

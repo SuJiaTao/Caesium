@@ -10,7 +10,7 @@
 #define CSM_CLASS_MAX_VERTEX_DATA		0x10
 #define CSM_CLASS_MAX_STATIC_DATA		0x20
 #define CSM_CLASS_MAX_MATERIALS			0x08
-#define CSM_CLASS_DATA_BUFFER_BAD_ID	0xFFFF
+#define CSM_BAD_ID						~(0x0)
 
 typedef CVect3F(*PCFVertexShaderProc) (
 	CVect3F vertexPosition,
@@ -79,6 +79,7 @@ CSMCALL BOOL	CRenderClassSetTriMaterialSingle(CHandle rClass, BOOL state);
 CSMCALL BOOL	CRenderClassGetTriMaterialSingle(CHandle rClass, PBOOL outState);
 CSMCALL BOOL	CRenderClassSetTriMaterials(CHandle rClass, PUINT32 triMaterialIndexes);
 CSMCALL CHandle	CRenderClassGetTriMaterial(CHandle rClass, UINT32 triMaterialIndex);
+CSMCALL UINT32  CRenderClassGetTriMaterialID(CHandle rClass, UINT32 triMaterialIndex);
 
 CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, UINT32 ID);
 CSMCALL CHandle CRenderClassGetVertexDataBuffer(CHandle rClass, UINT32 ID);
