@@ -51,6 +51,9 @@
     <ClInclude Include="csm_draw.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="csmint_pipeline.h">
+      <Filter>Header\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm_renderbuffer.c">
@@ -82,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="csm_draw.c">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_pl_processmesh.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_pl_projectmesh.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_pl_rasterizemesh.c">
+      <Filter>Source\Internal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

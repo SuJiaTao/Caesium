@@ -7,6 +7,8 @@
 
 #include "csm_renderclass.h"
 
-CSMCALL 
+CSMCALL BOOL CDraw(CHandle renderBuffer, CHandle rClass, PCMatrix pMatrix);
+CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
+	UINT32 instanceCount, PCMatrix matrixArray);
 
 #endif

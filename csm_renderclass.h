@@ -16,6 +16,7 @@ typedef CVect3F(*PCFVertexShaderProc) (
 	CVect3F vertexPosition,
 	UINT32  vertexID,
 	UINT32  triangleID,
+	UINT32  instanceID,
 	CMatrix transform,
 	CHandle renderClass
 	);

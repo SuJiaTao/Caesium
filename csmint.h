@@ -30,5 +30,6 @@ Caesium _csmint;
 
 #include "csmint_memory.h"
 #include "csmint_error.h"
+#include "csmint_pipeline.h"
 
 #endif

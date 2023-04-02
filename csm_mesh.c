@@ -4,6 +4,7 @@
 
 #include "csm_mesh.h"
 #include "csmint.h"
+#include <stdio.h>
 
 CSMCALL CHandle CMakeMesh(UINT32 vertexCount,
 	PFLOAT vertPositionalArray, UINT32 indexCount, PINT indexes) {
@@ -23,6 +24,25 @@ CSMCALL CHandle CMakeMesh(UINT32 vertexCount,
 	}
 	if (indexes == NULL) {
 		_CSyncLeaveErr(NULL, "CMakeMesh failed because indexes was NULL");
+	}
+
+	// loop all indexes to ensure that ONLY VALID verts are referenced
+	for (int i = 0; i < indexCount; i++) {
+		INT vertIndex = indexes[i];
+		if (vertIndex < 0 || vertIndex >= vertexCount) {
+			// generate specific error message
+			CHAR errBuff[0xFF];
+			sprintf_s(
+				errBuff,
+				0xFF,
+				"CMakeMesh failed because index at %d references vertex value (%d) that does not exist.\n"
+				"Valid vertex values are [0-%d].",
+				i,
+				vertIndex,
+				vertexCount
+			);
+			_CSyncLeaveErr(NULL, errBuff);
+		}
 	}
 
 	// allocate mesh

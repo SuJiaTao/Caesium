@@ -24,6 +24,7 @@
     <ClInclude Include="csmint.h" />
     <ClInclude Include="csmint_error.h" />
     <ClInclude Include="csmint_memory.h" />
+    <ClInclude Include="csmint_pipeline.h" />
     <ClInclude Include="csm_matrix.h" />
     <ClInclude Include="csm_mesh.h" />
     <ClInclude Include="csm_buffer.h" />
@@ -36,6 +37,9 @@
     <ClCompile Include="csm.c" />
     <ClCompile Include="csmint_error.c" />
     <ClCompile Include="csmint_memory.c" />
+    <ClCompile Include="csmint_pl_processmesh.c" />
+    <ClCompile Include="csmint_pl_projectmesh.c" />
+    <ClCompile Include="csmint_pl_rasterizemesh.c" />
     <ClCompile Include="csm_matrix.c" />
     <ClCompile Include="csm_mesh.c" />
     <ClCompile Include="csm_buffer.c" />
