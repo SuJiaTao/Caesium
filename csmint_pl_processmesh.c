@@ -16,8 +16,39 @@ PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 		UINT32 triangleID = indexID / 3;
 
 		// determine which vertex we are currently on
+		UINT32 vertexID = newMesh->indexArray[indexID];
 
-	}
+		// get current vertex
+		CVect3F vertex = newMesh->vertArray[vertexID];
+
+		// get current material
+		UINT32 materialID = rClass->triMaterials[triangleID];
+		PCMaterial material = rClass->materials[materialID];
+
+		// if material is NULL, use default material (0)
+		if (material == NULL)
+			material = rClass->materials[0];
+
+		// if default material is NULL, skip
+		if (material == NULL)
+			continue;
+
+		// process vertex (if vertex shader exists)
+		if (material->vertexShader != NULL) {
+			CVect3F processedVertex = material->vertexShader(
+				vertex,
+				vertexID,
+				triangleID,
+				instanceID,
+				*instanceMatrix,
+				rClass
+			);
+
+			// apply processed vertex to mesh
+			newMesh->vertArray[vertexID] = processedVertex;
+		}
+
+	} // END INDEX LOOP
 
 	return newMesh;
 }
