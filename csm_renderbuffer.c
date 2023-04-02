@@ -110,7 +110,7 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 
 	// do depth test
 	if (*(_findDepthPtr(pBuffer, x, y)) < depth) {
-		_CSyncLeave(TRUE);
+		_CSyncLeave(FALSE);
 	}
 
 	*(_findColorPtr(pBuffer, x, y)) = color;

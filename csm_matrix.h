@@ -11,6 +11,7 @@ typedef struct CMatrix {
 	FLOAT mtr[4][4];
 } CMatrix, *PCMatrix;
 
+CSMCALL CVect3F CMakeVect3F(FLOAT x, FLOAT y, FLOAT z);
 CSMCALL CMatrix CMatrixIdentity(void);
 CSMCALL CMatrix CMatrixTranslate(CMatrix orig, CVect3F trl);
 CSMCALL CMatrix CMatrixScale(CMatrix orig, CVect3F scl);

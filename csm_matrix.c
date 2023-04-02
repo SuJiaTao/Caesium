@@ -14,12 +14,6 @@ static FLOAT __forceinline _cmget(PCMatrix mat, INT r, INT c) {
 	return mat->mtr[r][c];
 }
 
-static CMatrix __forceinline _cmzero(void) {
-	CMatrix mat;
-	ZERO_BYTES(&mat, sizeof(CMatrix));
-	return mat;
-}
-
 static const FLOAT _cmtorad = 0.0174533f;
 
 static FLOAT __forceinline _cmsinf(FLOAT theta) {
@@ -30,8 +24,16 @@ static FLOAT __forceinline _cmcosf(FLOAT theta) {
 	return cosf(theta * _cmtorad);
 }
 
+CSMCALL CVect3F CMakeVect3F(FLOAT x, FLOAT y, FLOAT z) {
+	CVect3F rVect;
+	rVect.x = x;
+	rVect.y = y;
+	rVect.z = z;
+	return rVect;
+}
+
 CSMCALL CMatrix CMatrixIdentity(void) {
-	CMatrix mat = _cmzero();
+	CMatrix mat = { 0 };
 	_cmset(&mat, 0, 0, 1.0f);
 	_cmset(&mat, 1, 1, 1.0f);
 	_cmset(&mat, 2, 2, 1.0f);
@@ -52,7 +54,7 @@ CSMCALL CMatrix CMatrixTranslate(CMatrix orig, CVect3F trl) {
 
 CSMCALL CMatrix CMatrixScale(CMatrix orig, CVect3F scl) {
 	// create scale matrix
-	CMatrix trlm = _cmzero();
+	CMatrix trlm = { 0 };
 	_cmset(&trlm, 0, 0, scl.x);
 	_cmset(&trlm, 1, 1, scl.y);
 	_cmset(&trlm, 2, 2, scl.z);
@@ -100,22 +102,15 @@ CSMCALL CMatrix CMatrixTransform(CMatrix orig, CVect3F trl, CVect3F rot, CVect3F
 }
 
 CSMCALL CMatrix CMatrixMultiply(CMatrix m1, CMatrix m2) {
-	CMatrix rmat;
+	CMatrix rmat = { 0 };
 
-	// this implementation is from wikipedia
+	// this implementation is from scaler.com
 
-	// for every row of m1
-	for (int m1x = 0; m1x < 4; m1x++) {
-
-		// for every column of m1
-		for (int m1y = 0; m1y < 4; m1y++) {
-			FLOAT accum = 0.0f;
-
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			for (int k = 0; k < 4; k++) {
-				accum += _cmget(&m1, m1x, k) * _cmget(&m2, k, m1x);
+				rmat.mtr[i][j] += m1.mtr[i][k] * m2.mtr[k][j];
 			}
-
-			_cmset(&rmat, m1x, m1y, accum);
 		}
 	}
 

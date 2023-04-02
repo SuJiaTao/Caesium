@@ -31,8 +31,8 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 
 	// loop all instances
 	for (UINT32 instanceID = 0; instanceID < instanceCount; instanceID++) {
-		// process mesh vertexes
-		PCMesh processedMesh =
+		// process mesh vertexes (creates drawMesh on the heap)
+		PCMesh drawMesh =
 			CInternalPipelineProcessMesh(
 				instanceID, 
 				matrixArray + instanceCount,
@@ -40,11 +40,15 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			);
 
 		// project mesh onto plane
-		PCMesh projectedMesh =
-			CInternalPipelineProjectMesh(processedMesh);
+		CInternalPipelineProjectMesh(renderBuffer, drawMesh);
 
 		// rasterize mesh
-		CInternalPipelineRasterizeMesh(projectedMesh);
+		CInternalPipelineRasterizeMesh(instanceID, renderBuffer, drawMesh, rClass);
+
+		// free drawMesh and it's vertex array
+		// (refer to csmin_pl_processmesh.c)
+		CInternalFree(drawMesh->vertArray);
+		CInternalFree(drawMesh);
 	}
 
 	_CSyncLeave(TRUE);

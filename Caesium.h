@@ -13,5 +13,6 @@
 #include "csm_matrix.h"
 #include "csm_buffer.h"
 #include "csm_renderclass.h"
+#include "csm_draw.h"
 
 #endif

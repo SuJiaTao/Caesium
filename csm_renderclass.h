@@ -12,7 +12,7 @@
 #define CSM_CLASS_MAX_MATERIALS			0x08
 #define CSM_BAD_ID						~(0x0)
 
-typedef CVect3F(*PCFVertexShaderProc) (
+typedef CVect3F (*PCFVertexShaderProc) (
 	CVect3F vertexPosition,
 	UINT32  vertexID,
 	UINT32  triangleID,
@@ -21,9 +21,10 @@ typedef CVect3F(*PCFVertexShaderProc) (
 	CHandle renderClass
 	);
 
-typedef BOOL(*PCFFragmentShaderProc) (
+typedef BOOL (*PCFFragmentShaderProc) (
 	UINT32   triangleID,
-	PCVect3F inOutFragPos,
+	UINT32   instanceID,
+	CVect3F  inFragPos,
 	PCRgb	 inOutColor
 	);
 

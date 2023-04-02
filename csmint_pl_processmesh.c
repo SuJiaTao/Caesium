@@ -10,6 +10,9 @@ PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 	PCMesh newMesh = CInternalAlloc(sizeof(CMesh));
 	COPY_BYTES(rClass->mesh, newMesh, sizeof(CMesh));
 
+	// copy vertex data (IMPORTANT! OR ELSE ORIGINAL MESH'S VERTEX DATA IS DESTROYED)
+	PCVect3F processedVertArray = CInternalAlloc(sizeof(CVect3F) * newMesh->vertCount);
+
 	// loop each index
 	for (UINT32 indexID = 0; indexID < newMesh->indexCount; indexID++) {
 		// determine which triangle we are currently on
@@ -44,11 +47,14 @@ PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 				rClass
 			);
 
-			// apply processed vertex to mesh
-			newMesh->vertArray[vertexID] = processedVertex;
+			// apply processed vertex to processed vertex array
+			processedVertArray[vertexID] = processedVertex;
 		}
 
 	} // END INDEX LOOP
+
+	// swap vertex arrays
+	newMesh->vertArray = processedVertArray;
 
 	return newMesh;
 }
