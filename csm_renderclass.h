@@ -1,4 +1,4 @@
-// <csm_render.h>
+// <csm_renderclass.h>
 // Bailey Jia-Tao Brown
 // 2023
 

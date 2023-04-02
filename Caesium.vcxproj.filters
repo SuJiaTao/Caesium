@@ -45,7 +45,7 @@
     <ClInclude Include="Caesium.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="csm_render.h">
+    <ClInclude Include="csm_renderclass.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClCompile Include="csm_buffer.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csm_render.c">
+    <ClCompile Include="csm_renderclass.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

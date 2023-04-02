@@ -12,6 +12,6 @@
 #include "csm_mesh.h"
 #include "csm_matrix.h"
 #include "csm_buffer.h"
-#include "csm_render.h"
+#include "csm_renderclass.h"
 
 #endif

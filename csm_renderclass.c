@@ -1,10 +1,10 @@
-// <csm_render.c>
+// <csm_renderclass.c>
 // Bailey Jia-Tao Brown
 // 2023
 
 #include "csmint.h"
 #include "csm_mesh.h"
-#include "csm_render.h"
+#include "csm_renderclass.h"
 
 static __forceinline _initializeAndCopyString(PCHAR source, PCHAR* destPtr) {
 	const SIZE_T srcLen = strlen(source);
