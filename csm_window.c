@@ -27,16 +27,6 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 	
 	switch (msg)
 	{
-	case WM_CREATE:
-		SetTimer(win, CSM_WINDOW_REFRESH_TIMERID,
-			CSM_WINDOW_REFRESH_MSEC, NULL);
-		break;
-
-	case WM_TIMER:
-		// refresh entire window
-		InvalidateRect(win, NULL, FALSE);
-		break;
-
 	case WM_PAINT:
 
 		// get cwin
@@ -77,6 +67,9 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 
 		break;
 
+	case WM_ERASEBKGND:
+		_CSyncLeave(TRUE);
+
 	case WM_CLOSE:
 
 		// get cwin
@@ -102,9 +95,6 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 		UnregisterClassA(cwin->wndClassName, NULL);
 		CInternalFree(cwin->wndClassName);
 		CInternalFree(cwin);
-
-		// end refresh timer
-		KillTimer(cwin->wnd, CSM_WINDOW_REFRESH_TIMERID);
 
 		*cwinPtr = NULL;
 		
@@ -241,6 +231,10 @@ CSMCALL BOOL CWindowUpdate(CHandle window) {
 
 	PCWindow win = window;
 
+	// force window refresh
+	InvalidateRect(win->wnd, NULL, FALSE);
+
+	// update messages
 	MSG messageBuff;
 	PeekMessageA(&messageBuff, win->wnd, ZERO, ZERO, PM_REMOVE);
 	DispatchMessageA(&messageBuff);
