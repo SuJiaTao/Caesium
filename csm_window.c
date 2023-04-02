@@ -67,9 +67,6 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 
 		break;
 
-	case WM_ERASEBKGND:
-		_CSyncLeave(TRUE);
-
 	case WM_CLOSE:
 
 		// get cwin
@@ -148,7 +145,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 	wClass.lpszClassName = cwin->wndClassName;
 	wClass.lpfnWndProc = _csmWndProc;
 
-	DWORD wFlags = WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME;
+	DWORD wFlags = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME;
 	RECT clientRect = { 0, 0, width, height };
 	AdjustWindowRectExForDpi(&clientRect, wFlags, TRUE, wFlags,
 		GetDpiForSystem());
