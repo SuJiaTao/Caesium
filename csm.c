@@ -39,8 +39,15 @@ CSMCALL CRgb CMakeColor(INT r, INT g, INT b) {
 	return rCol;
 }
 
-CSMCALL PCHAR CGetLastError() {
-	return CInternalGetLastError();
+CSMCALL PCHAR CGetLastError(void) {
+	const SIZE_T errBufferSize = 0xFF;
+	PCHAR buffer = CInternalAlloc(errBufferSize);
+	CInternalGetLastError(buffer, errBufferSize);
+	return buffer;
+}
+
+CSMCALL void  CFreeError(PCHAR error) {
+	CInternalFree(error);
 }
 
 CSMCALL void CLock() {

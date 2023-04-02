@@ -81,11 +81,11 @@ CSMCALL BOOL	CRenderClassSetTriMaterials(CHandle rClass, PUINT32 triMaterialInde
 CSMCALL CHandle	CRenderClassGetTriMaterial(CHandle rClass, UINT32 triMaterialIndex);
 CSMCALL UINT32  CRenderClassGetTriMaterialID(CHandle rClass, UINT32 triMaterialIndex);
 
-CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, UINT32 ID);
+CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, CHandle vdBuffer, UINT32 ID);
 CSMCALL CHandle CRenderClassGetVertexDataBuffer(CHandle rClass, UINT32 ID);
 CSMCALL UINT32  CRenderClassGetVertexDataBufferID(CHandle rClass, PCHAR name);
 
-CSMCALL BOOL	CRenderClassSetStaticDataBuffer(PVOID data, SIZE_T sizeBytes, UINT32 ID);
+CSMCALL BOOL	CRenderClassSetStaticDataBuffer(CHandle rClass, CHandle sdBuffer, UINT32 ID);
 CSMCALL CHandle CRenderClassGetStaticDataBuffer(CHandle rClass, UINT32 ID);
 CSMCALL UINT32  CRenderClassGetStaticDataBufferID(CHandle rClass, PCHAR name);
 

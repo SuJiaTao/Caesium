@@ -193,3 +193,247 @@ CSMCALL UINT32	CRenderClassGetMaterialID(CHandle rClass, PCHAR name) {
 	_CSyncLeaveErr(CSM_BAD_ID,
 		"CRenderClassGetMaterialID failed because name could not be found");
 }
+
+CSMCALL BOOL	CRenderClassSetTriMaterialSingle(CHandle rClass, BOOL state) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE, 
+			"CRenderClassSetTriMaterialSingle failed because rClass was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	cObj->singleMaterial = state;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL	CRenderClassGetTriMaterialSingle(CHandle rClass, PBOOL outState) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterialSingle failed because rClass was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	*outState = cObj->singleMaterial;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL	CRenderClassSetTriMaterials(CHandle rClass, PUINT32 triMaterialIndexes) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetTriMaterials failed because rClass was invalid");
+	}
+	if (triMaterialIndexes == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetTriMaterials failed because triMaterialIndexes was NULL");
+	}
+
+	PCRenderClass cObj = rClass;
+	PCMesh objMesh = cObj->mesh;
+	COPY_BYTES(triMaterialIndexes, cObj->triMaterials, sizeof(UINT32) * objMesh->triCount);
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL CHandle	CRenderClassGetTriMaterial(CHandle rClass, UINT32 triMaterialIndex) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterial failed because rClass was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	PCMesh objMesh = cObj->mesh;
+
+	if (triMaterialIndex >= objMesh->triCount) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterial failed because triMaterialIndex was invalid");
+	}
+
+	// get ID from triMaterialList and check if it's valid
+	UINT32 ID = cObj->triMaterials[triMaterialIndex];
+
+	if (ID >= CSM_CLASS_MAX_MATERIALS) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterial failed because class triMaterials had bad value");
+	}
+
+	// return handle to material that ID references
+	_CSyncLeave(cObj->materials[ID]);
+}
+
+CSMCALL UINT32  CRenderClassGetTriMaterialID(CHandle rClass, UINT32 triMaterialIndex) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterial failed because rClass was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	PCMesh objMesh = cObj->mesh;
+
+	if (triMaterialIndex >= objMesh->triCount) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetTriMaterial failed because triMaterialIndex was invalid");
+	}
+
+	// get ID from triMaterialList and return
+	UINT32 ID = cObj->triMaterials[triMaterialIndex];
+	_CSyncLeave(ID);
+}
+
+CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, CHandle vdBuffer, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetVertexDataBuffer failed because rClass was invalid");
+	}
+
+	if (vdBuffer == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetVertexDataBuffer failed because vdBuffer was invalid");
+	}
+
+	if (ID >= CSM_CLASS_MAX_VERTEX_DATA) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetVertexDataBuffer failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	cObj->vertexBuffers[ID] = vdBuffer;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL CHandle CRenderClassGetVertexDataBuffer(CHandle rClass, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetVertexDataBuffer failed because rClass was invalid");
+	}
+
+	if (ID >= CSM_CLASS_MAX_VERTEX_DATA) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetVertexDataBuffer failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	_CSyncLeave(cObj->vertexBuffers[ID]);
+}
+
+CSMCALL UINT32  CRenderClassGetVertexDataBufferID(CHandle rClass, PCHAR name) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetVertexDataBufferID failed because rClass was invalid");
+	}
+
+	if (name == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetVertexDataBufferID failed because name was NULL");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	// loop all vertex buffers of cObj
+	for (UINT32 vbID = 0; vbID < CSM_CLASS_MAX_VERTEX_DATA; vbID++) {
+		PCVertexDataBuffer vBuffer = cObj->vertexBuffers[vbID];
+		// skip if NULL
+		if (vBuffer == NULL) continue;
+
+		// if names are matching, return ID
+		if (strcmp(vBuffer->name, name) == 0) {
+			_CSyncLeave(vbID);
+		}
+	}
+
+	// on reached end, return err
+	_CSyncLeaveErr(FALSE,
+		"CRenderClassGetVertexDataBufferID failed because name could not be found");
+}
+
+CSMCALL BOOL	CRenderClassSetStaticDataBuffer(CHandle rClass, CHandle sdBuffer, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetStaticDataBuffer failed because rClass was invalid");
+	}
+
+	if (sdBuffer == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetStaticDataBuffer failed because sdBuffer was invalid");
+	}
+
+	if (ID >= CSM_CLASS_MAX_STATIC_DATA) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassSetStaticDataBuffer failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+	cObj->staticBuffers[ID] = sdBuffer;
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL CHandle CRenderClassGetStaticDataBuffer(CHandle rClass, UINT32 ID) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetStaticDataBuffer failed because rClass was invalid");
+	}
+
+	if (ID >= CSM_CLASS_MAX_STATIC_DATA) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetStaticDataBuffer failed because ID was invalid");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	_CSyncLeave(cObj->staticBuffers[ID]);
+}
+
+CSMCALL UINT32  CRenderClassGetStaticDataBufferID(CHandle rClass, PCHAR name) {
+	_CSyncEnter();
+
+	if (rClass == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetStaticDataBufferID failed because rClass was invalid");
+	}
+
+	if (name == NULL) {
+		_CSyncLeaveErr(FALSE,
+			"CRenderClassGetStaticDataBufferID failed because name was NULL");
+	}
+
+	PCRenderClass cObj = rClass;
+
+	// loop all static buffers of cObj
+	for (UINT32 sbID = 0; sbID < CSM_CLASS_MAX_STATIC_DATA; sbID++) {
+		PCStaticDataBuffer sBuffer = cObj->staticBuffers[sbID];
+		// skip if NULL
+		if (sBuffer == NULL) continue;
+
+		// if names are matching, return ID
+		if (strcmp(sBuffer->name, name) == 0) {
+			_CSyncLeave(sbID);
+		}
+	}
+
+	// on reached end, return err
+	_CSyncLeaveErr(FALSE,
+		"CRenderClassGetStaticDataBufferID failed because name could not be found");
+}

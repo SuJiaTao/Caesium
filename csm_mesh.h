@@ -9,15 +9,15 @@
 
 typedef struct CMesh {
 	UINT32   vertCount;
-	PCVect3F verts;
+	PCVect3F vertArray;
 
 	UINT32 indexCount;
-	PINT   indexes;
+	PINT   indexArray;
 
 	UINT32 triCount;
 } CMesh, *PCMesh;
 
-CSMCALL BOOL   CMakeMesh(PCHandle pHandle, UINT32 vertexCount,
+CSMCALL CHandle CMakeMesh(UINT32 vertexCount,
 	PFLOAT vertPositionalArray, UINT32 indexCount, PINT indexes);
 CSMCALL BOOL   CDestroyMesh(PCHandle handle);
 CSMCALL UINT32 CMeshGetTriCount(CHandle handle);

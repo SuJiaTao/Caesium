@@ -15,9 +15,11 @@ void  CInternalSetLastError(PCHAR lastError) {
 	if (_csmint.lastError != NULL)
 		CInternalFree(_csmint.lastError);
 
-	// copy value
+	// get string size and realloc lastError to len + 1 (for NULL character)
 	const SIZE_T strSize = strlen(lastError);
-	_csmint.lastError = CInternalAlloc(strSize);
+	_csmint.lastError = CInternalAlloc(strSize + 1);
+
+	// copy string
 	COPY_BYTES(lastError, _csmint.lastError, strSize);
 
 	_CSyncLeave();
@@ -25,6 +27,7 @@ void  CInternalSetLastError(PCHAR lastError) {
 
 void CInternalGetLastError(PCHAR errBuffer, SIZE_T maxSize) {
 	_CSyncEnter();
-	strcpy_s(errBuffer, maxSize, _csmint.lastError);
+	if (_csmint.lastError != NULL)
+		strcpy_s(errBuffer, maxSize, _csmint.lastError);
 	_CSyncLeave();
 }

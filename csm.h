@@ -47,7 +47,8 @@ typedef struct CRgb {
 CSMCALL BOOL CInitialize();
 CSMCALL BOOL CTerminate();
 
-CSMCALL PCHAR CGetLastError();
+CSMCALL PCHAR CGetLastError(void);
+CSMCALL void  CFreeError(PCHAR error);
 
 CSMCALL CRgb CMakeColor(INT r, INT g, INT b);
 

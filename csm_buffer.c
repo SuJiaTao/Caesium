@@ -24,7 +24,7 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
 	
 	// copy name
 	const SIZE_T nameSize = strlen(name);
-	vdBuffer->name = CInternalAlloc(nameSize);
+	vdBuffer->name = CInternalAlloc(nameSize + 1); // +1 for NULL
 	COPY_BYTES(name, vdBuffer->name, nameSize);
 
 	// init metadata
@@ -132,7 +132,7 @@ CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
 
 	// init name
 	const SIZE_T nameSize = strlen(name);
-	sdBuffer->name = CInternalAlloc(nameSize);
+	sdBuffer->name = CInternalAlloc(nameSize + 1); // +1 byte for NULL
 	COPY_BYTES(name, sdBuffer->name, nameSize);
 
 	// init data
