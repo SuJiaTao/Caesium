@@ -48,6 +48,9 @@
     <ClInclude Include="csm_renderclass.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="csm_draw.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm_renderbuffer.c">
@@ -75,6 +78,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="csm_renderclass.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csm_draw.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

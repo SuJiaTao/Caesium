@@ -27,6 +27,7 @@
     <ClInclude Include="csm_matrix.h" />
     <ClInclude Include="csm_mesh.h" />
     <ClInclude Include="csm_buffer.h" />
+    <ClInclude Include="csm_draw.h" />
     <ClInclude Include="csm_renderbuffer.h" />
     <ClInclude Include="csm_renderclass.h" />
     <ClInclude Include="csm_window.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="csm_matrix.c" />
     <ClCompile Include="csm_mesh.c" />
     <ClCompile Include="csm_buffer.c" />
+    <ClCompile Include="csm_draw.c" />
     <ClCompile Include="csm_renderclass.c" />
     <ClCompile Include="csm_renderbuffer.c" />
     <ClCompile Include="csm_window.c" />

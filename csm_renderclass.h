@@ -26,12 +26,6 @@ typedef BOOL(*PCFFragmentShaderProc) (
 	PCRgb	 inOutColor
 	);
 
-typedef struct CMatrix(*PCFClusterMatrixProc) (
-	UINT32  clusterID,
-	CMatrix parentTransform,
-	CHandle renderClass
-	);
-
 typedef struct CMaterial {
 	PCHAR name;
 	PCFVertexShaderProc   vertexShader;
@@ -47,17 +41,6 @@ typedef struct CRenderClass {
 	BOOL	singleMaterial;
 	PUINT32	triMaterials;
 } CRenderClass, * PCRenderClass;
-
-typedef struct CRenderObject {
-	PCRenderClass renderClass;
-	CMatrix		  transform;
-} CRenderObject, * PCRenderObject;
-
-typedef struct CRenderCluster {
-	PCRenderClass renderClass;
-	CMatrix		  parent;
-	PCFClusterMatrixProc matrixGenProc;
-} CRenderCluster, * PCRenderCluster;
 
 CSMCALL CHandle CMakeMaterial(PCHAR name,
 	PCFVertexShaderProc vertexShader,
