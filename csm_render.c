@@ -8,7 +8,7 @@
 
 static __forceinline _initializeAndCopyString(PCHAR source, PCHAR* destPtr) {
 	const SIZE_T srcLen = strlen(source);
-	*destPtr = CInternalAlloc(srcLen);
+	*destPtr = CInternalAlloc(srcLen + 1); //+1 for NULL terminator
 	COPY_BYTES(source, *destPtr, srcLen);
 }
 
@@ -125,7 +125,7 @@ CSMCALL CHandle CRenderClassGetMesh(CHandle rClass) {
 	_CSyncEnter();
 
 	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE, "CRenderClassGetMesh failed because rClass was invalid");
+		_CSyncLeaveErr(NULL, "CRenderClassGetMesh failed because rClass was invalid");
 	}
 
 	PCRenderClass cObj = rClass;
