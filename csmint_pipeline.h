@@ -9,10 +9,17 @@
 #include "csm_mesh.h"
 #include "csm_draw.h"
 
+#define CSMINT_CLIP_PLANE_POSITION	0.1f
+
+typedef struct CIPTri {
+	CVect3F verts[3];
+} CIPTri, *PCIPTri;
+
 PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 	PCRenderClass rClass);
-void   CInternalPipelineProjectMesh(PCRenderBuffer renderBuffer, PCMesh processedMesh);
+UINT32 CInternalPipelineClipTri(PCIPTri inTri, PCIPTri outTriArray);
+void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri);
 void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
-	PCRenderBuffer renderBuffer, PCVect3F triangle, PCRenderClass rClass);
+	PCRenderBuffer renderBuffer, PCIPTri triangle, PCRenderClass rClass);
 
 #endif

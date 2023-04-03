@@ -6,11 +6,11 @@
 #include <stdio.h>
 
 void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
-	PCRenderBuffer renderBuffer, PCVect3F triangle, PCRenderClass rClass) {
+	PCRenderBuffer renderBuffer, PCIPTri triangle, PCRenderClass rClass) {
 	// loop each vertex
 	for (UINT32 triIndex = 0; triIndex < 3; triIndex++) {
 		// get current vertex
-		CVect3F vertex = triangle[triIndex];
+		CVect3F vertex = triangle->verts[triIndex];
 
 		// get current material
 		UINT32 materialID = rClass->triMaterials[triangleID];

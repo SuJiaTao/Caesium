@@ -32,6 +32,21 @@ CSMCALL CVect3F CMakeVect3F(FLOAT x, FLOAT y, FLOAT z) {
 	return rVect;
 }
 
+CSMCALL FLOAT	CVect3FDot(CVect3F left, CVect3F right) {
+	return 
+		left.x * right.x +
+		left.y * right.y +
+		left.z * right.z;
+}
+
+CSMCALL CVect3F CVect3FCross(CVect3F left, CVect3F right) {
+	return CMakeVect3F(
+		right.y * left.z - left.z * right.y,
+		left.z * right.x - left.x * right.z,
+		left.x * right.y - left.y * right.x
+	);
+}
+
 CSMCALL CMatrix CMatrixIdentity(void) {
 	CMatrix mat = { 0 };
 	_cmset(&mat, 0, 0, 1.0f);

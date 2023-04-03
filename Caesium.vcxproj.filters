@@ -89,10 +89,13 @@
     <ClCompile Include="csmint_pl_processmesh.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="csmint_pl_projectmesh.c">
+    <ClCompile Include="csmint_pl_projecttri.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
     <ClCompile Include="csmint_pl_rasterizetri.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="csmint_pl_cliptri.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
   </ItemGroup>

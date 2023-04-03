@@ -40,22 +40,23 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				rClass
 			);
 
-		// project mesh onto plane
-		CInternalPipelineProjectMesh(renderBuffer, drawMesh);
-
 		// loop each triangle of mesh and rasterize triangle
 		// this is done by walking indexes in groups of 3
 		UINT32 triangleID = 0;
 		for (UINT32 meshIndex = 0; meshIndex < drawMesh->indexCount; meshIndex += 3) {
 			// alloc triangle to heap
-			PCVect3F triangle = CInternalAlloc(sizeof(CVect3F) * 3);
+			PCIPTri triangle = CInternalAlloc(sizeof(CIPTri));
 
-			triangle[0] = 
+			// get triangle from mesh
+			triangle->verts[0] = 
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 0]];
-			triangle[1] = 
+			triangle->verts[1] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 1]];
-			triangle[2] = 
+			triangle->verts[2] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
+
+			// project triangle
+			CInternalPipelineProjectTri(renderBuffer, triangle);
 			
 			// rasterize triangle
 			CInternalPipelineRasterizeTri(

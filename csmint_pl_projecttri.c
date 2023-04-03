@@ -1,16 +1,16 @@
-// <csmint_pl_projectmesh.c>
+// <csmint_pl_projecttri.c>
 // Bailey Jia-Tao Brown
 // 2023
 
 #include "csmint_pipeline.h"
 #include "csm_renderbuffer.h"
 
-void CInternalPipelineProjectMesh(PCRenderBuffer renderBuffer, PCMesh processedMesh) {
-	// loop all vertex of mesh
-	for (UINT32 vertexID = 0; vertexID < processedMesh->vertCount; vertexID++) {
+void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri) {
+	// loop all vertexs of tri
+	for (UINT32 vertexID = 0; vertexID < 3; vertexID++) {
 		// get vertex
 		PCVect3F pVert = 
-			processedMesh->vertArray + vertexID;
+			tri->verts + vertexID;
 
 		// project vertex
 		pVert->x = pVert->x / pVert->z;
