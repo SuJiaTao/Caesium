@@ -35,7 +35,7 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 		PCMesh drawMesh =
 			CInternalPipelineProcessMesh(
 				instanceID, 
-				matrixArray + instanceCount,
+				matrixArray + instanceID,
 				rClass
 			);
 

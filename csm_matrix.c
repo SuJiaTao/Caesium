@@ -44,9 +44,9 @@ CSMCALL CMatrix CMatrixIdentity(void) {
 CSMCALL CMatrix CMatrixTranslate(CMatrix orig, CVect3F trl) {
 	// create translation matrix
 	CMatrix trlm = CMatrixIdentity();
-	_cmset(&trlm, 0, 3, trl.x);
-	_cmset(&trlm, 1, 3, trl.y);
-	_cmset(&trlm, 2, 3, trl.z);
+	_cmset(&trlm, 3, 0, trl.x);
+	_cmset(&trlm, 3, 1, trl.y);
+	_cmset(&trlm, 3, 2, trl.z);
 
 	// multiply
 	return CMatrixMultiply(orig, trlm);
@@ -118,10 +118,12 @@ CSMCALL CMatrix CMatrixMultiply(CMatrix m1, CMatrix m2) {
 }
 
 CSMCALL CVect3F CMatrixApply(CMatrix mat, CVect3F vect) {
-	CVect4F rv;
-	ZERO_BYTES(&rv, sizeof(CVect3F));
+	
+	// make 4 component vector of input vect with 4th comp as 1
+	FLOAT vect4[4] = { vect.x, vect.y, vect.z, 1.0f };
 
-	PFLOAT rva = &rv; // array hack
+	// make accumulator vector (size 4)
+	FLOAT accumVect[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	// implementation partly stolen from
 	// github.com/SuJiaTao/HTGL/blob/main/src/TGL/Internal/Matrix.java
@@ -130,13 +132,12 @@ CSMCALL CVect3F CMatrixApply(CMatrix mat, CVect3F vect) {
 	for (int ve = 0; ve < 4; ve++) {
 		// walk matrix
 		for (int mi = 0; mi < 4; mi++) {
-			rva[ve] += rva[mi] * _cmget(&mat, mi, ve);
+			accumVect[ve] += vect4[mi] * _cmget(&mat, mi, ve);
 		}
 	}
 
-	// copy only first 3 components
-	CVect3F rv3;
-	COPY_BYTES(&rva, &rv3, sizeof(FLOAT) * 3);
+	// copy only first 3 components of accumulator vector
+	CVect3F rv3 = { accumVect[0], accumVect[1], accumVect[2] };
 
 	return rv3;
 }
