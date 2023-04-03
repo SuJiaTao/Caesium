@@ -1,26 +1,16 @@
-// <csmint_pl_rasterizemesh.c>
+// <csmint_pl_rasterizetri.c>
 // Bailey Jia-Tao Brown
 // 2023
 
 #include "csmint_pipeline.h"
 #include <stdio.h>
 
-void   CInternalPipelineRasterizeMesh(UINT32 instanceID, PCRenderBuffer renderBuffer, 
-	PCMesh projectedMesh, PCRenderClass rClass) {
-
-	// smaller name lmao
-	PCMesh mesh = projectedMesh;
-
-	// loop each index
-	for (UINT32 indexID = 0; indexID < mesh->indexCount; indexID++) {
-		// determine which triangle we are currently on
-		UINT32 triangleID = indexID / 3;
-
-		// determine which vertex we are currently on
-		UINT32 vertexID = mesh->indexArray[indexID];
-
+void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
+	PCRenderBuffer renderBuffer, PCVect3F triangle, PCRenderClass rClass) {
+	// loop each vertex
+	for (UINT32 triIndex = 0; triIndex < 3; triIndex++) {
 		// get current vertex
-		CVect3F vertex = mesh->vertArray[vertexID];
+		CVect3F vertex = triangle[triIndex];
 
 		// get current material
 		UINT32 materialID = rClass->triMaterials[triangleID];
@@ -63,5 +53,5 @@ void   CInternalPipelineRasterizeMesh(UINT32 instanceID, PCRenderBuffer renderBu
 		// free color
 		CInternalFree(fragColor);
 
-	} // END INDEX LOOP
+	} // END TRI INDEX LOOP
 }

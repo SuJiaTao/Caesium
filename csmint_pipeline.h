@@ -12,7 +12,7 @@
 PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 	PCRenderClass rClass);
 void   CInternalPipelineProjectMesh(PCRenderBuffer renderBuffer, PCMesh processedMesh);
-void   CInternalPipelineRasterizeMesh(UINT32 instanceID, PCRenderBuffer renderBuffer, 
-	PCMesh projectedMesh, PCRenderClass rClass);
+void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
+	PCRenderBuffer renderBuffer, PCVect3F triangle, PCRenderClass rClass);
 
 #endif

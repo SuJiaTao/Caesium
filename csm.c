@@ -35,7 +35,10 @@ CSMCALL BOOL CTerminate() {
 }
 
 CSMCALL CRgb CMakeColor(INT r, INT g, INT b) {
-	CRgb rCol = { b, g, r };
+	CRgb rCol;
+	rCol.r = r;
+	rCol.g = g;
+	rCol.b = b;
 	return rCol;
 }
 
