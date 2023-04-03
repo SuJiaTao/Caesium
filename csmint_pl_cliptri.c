@@ -3,6 +3,7 @@
 // 2023
 
 #include "csmint_pipeline.h"
+#include <stdio.h>
 
 static const CVect3F CSMINT_CLIP_PLANE_VECTOR = { 0.0f, 0.0f, -1.0f };
 
@@ -14,7 +15,8 @@ typedef struct _cvertsbehindclip {
 } _clipinfo, *p_clipinfo;
 
 static __forceinline BOOL _testVertBehindClip(CVect3F vert) {
-	return (CVect3FDot(vert, CSMINT_CLIP_PLANE_VECTOR) - CSMINT_CLIP_PLANE_POSITION) < 1.0f;
+	FLOAT val = (CVect3FDot(CSMINT_CLIP_PLANE_VECTOR, vert) - CSMINT_CLIP_PLANE_POSITION);
+	return val < 0.0f;
 }
 
 static __forceinline _clipinfo _genTriClipInfo(PCIPTri tri) {
@@ -82,9 +84,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTri outTriArray)
 	outTriArray[0].verts[2] = v3;
 
 	// generate new triangle 2
-	outTriArray[0].verts[0] = mp1;
-	outTriArray[0].verts[1] = mp2;
-	outTriArray[0].verts[2] = v3;
+	outTriArray[1].verts[0] = mp1;
+	outTriArray[1].verts[1] = mp2;
+	outTriArray[1].verts[2] = v3;
 }
 
 static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTri outTriArray) {
@@ -122,12 +124,12 @@ UINT32 CInternalPipelineClipTri(PCIPTri inTri, PCIPTri outTriArray) {
 	_clipinfo clipInfo = _genTriClipInfo(inTri);
 
 	// if ALL are behind, ret -1 for CULL
-	if (clipInfo.numBehind == 0) {
+	if (clipInfo.numBehind == 3) {
 		return -1;
 	}
 
 	// if ALL are infront, ret 0 for no change
-	if (clipInfo.numBehind == 3) {
+	if (clipInfo.numBehind == 0) {
 		return 0;
 	}
 

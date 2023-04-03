@@ -56,15 +56,15 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
 
 			// clip triangle
-			PCIPTri clippedTris = CInternalAlloc(sizeof(CIPTri) * 3);
+			PCIPTri clippedTris = CInternalAlloc(sizeof(CIPTri) * 2);
 			UINT32 triCount = CInternalPipelineClipTri(triangle, clippedTris);
-
-			// check for CULL
-			if (triCount == -1) continue;
 
 			// change based on clip output
 			switch (triCount)
 			{
+			case -1: // CULL
+				break;
+
 			case 0: // default case. no extra tris used
 				// project triangle
 				CInternalPipelineProjectTri(renderBuffer, triangle);

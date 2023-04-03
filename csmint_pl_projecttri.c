@@ -22,10 +22,12 @@ void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri) {
 		FLOAT fhScreenWidth  = (FLOAT)renderBuffer->width  * 0.5f;
 		FLOAT fhScreenHeight = (FLOAT)renderBuffer->height * 0.5f;
 
+		FLOAT fAspect = fhScreenWidth / fhScreenHeight;
+
 		// scale each "unit-position" by half and offset by half
 		// height will remain mapped from [-1, 1] to [0, h] but
 		// width will map from [-aspect, aspect] to [0, w]
-		pVert->x = (pVert->x * fhScreenWidth) + fhScreenWidth;
+		pVert->x = (pVert->x * (fhScreenWidth / fAspect)) + fhScreenWidth;
 		pVert->y = (pVert->y * fhScreenHeight) + fhScreenHeight;
 	}
 }
