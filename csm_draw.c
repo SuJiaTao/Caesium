@@ -55,17 +55,80 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			triangle->verts[2] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
 
-			// project triangle
-			CInternalPipelineProjectTri(renderBuffer, triangle);
-			
-			// rasterize triangle
-			CInternalPipelineRasterizeTri(
-				instanceID,
-				triangleID,
-				renderBuffer,
-				triangle,
-				rClass
-			);
+			// clip triangle
+			PCIPTri clippedTris = CInternalAlloc(sizeof(CIPTri) * 3);
+			UINT32 triCount = CInternalPipelineClipTri(triangle, clippedTris);
+
+			// check for CULL
+			if (triCount == -1) continue;
+
+			// change based on clip output
+			switch (triCount)
+			{
+			case 0: // default case. no extra tris used
+				// project triangle
+				CInternalPipelineProjectTri(renderBuffer, triangle);
+
+				// rasterize triangle
+				CInternalPipelineRasterizeTri(
+					instanceID,
+					triangleID,
+					renderBuffer,
+					triangle,
+					rClass
+				);
+
+				break;
+
+			case 1: // clipped original tri into 1 tri
+				// project triangle
+				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+
+				// rasterize triangle
+				CInternalPipelineRasterizeTri(
+					instanceID,
+					triangleID,
+					renderBuffer,
+					clippedTris + 0,
+					rClass
+				);
+
+				break;
+
+			case 2: // clipped original tri into 2 tris
+				// project triangle 1
+				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+
+				// rasterize triangle 1
+				CInternalPipelineRasterizeTri(
+					instanceID,
+					triangleID,
+					renderBuffer,
+					clippedTris + 0,
+					rClass
+				);
+
+				// project triangle 2
+				CInternalPipelineProjectTri(renderBuffer, clippedTris + 1);
+
+				// rasterize triangle 2
+				CInternalPipelineRasterizeTri(
+					instanceID,
+					triangleID,
+					renderBuffer,
+					clippedTris + 1,
+					rClass
+				);
+
+				break;
+
+			default:
+				CInternalErrorPopup("Caesium Fatal Error", "Bad clipping state");
+				break;
+			}
+
+			// free extra triangles
+			CInternalFree(clippedTris);
 
 			// free triangle data
 			CInternalFree(triangle);
