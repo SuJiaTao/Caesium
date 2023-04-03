@@ -233,6 +233,7 @@ CSMCALL BOOL CWindowUpdate(CHandle window) {
 
 	// force window refresh
 	InvalidateRect(win->wnd, NULL, FALSE);
+	UpdateWindow(win->wnd);
 
 	// update messages
 	MSG messageBuff;
