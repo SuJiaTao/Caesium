@@ -67,6 +67,9 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 
 		break;
 
+	case WM_ERASEBKGND:
+		_CSyncLeave(TRUE);
+
 	case WM_CLOSE:
 
 		// get cwin
