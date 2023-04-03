@@ -9,7 +9,7 @@
 #include "csm_mesh.h"
 #include "csm_draw.h"
 
-#define CSMINT_CLIP_PLANE_POSITION	0.1f
+#define CSMINT_CLIP_PLANE_POSITION	-0.5f
 
 typedef struct CIPTri {
 	CVect3F verts[3];

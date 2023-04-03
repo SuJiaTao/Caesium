@@ -15,7 +15,7 @@ typedef struct _cvertsbehindclip {
 } _clipinfo, *p_clipinfo;
 
 static __forceinline BOOL _testVertBehindClip(CVect3F vert) {
-	FLOAT val = (CVect3FDot(CSMINT_CLIP_PLANE_VECTOR, vert) - CSMINT_CLIP_PLANE_POSITION);
+	FLOAT val = (CVect3FDot(CSMINT_CLIP_PLANE_VECTOR, vert) + CSMINT_CLIP_PLANE_POSITION);
 	return val < 0.0f;
 }
 
@@ -41,8 +41,8 @@ static __forceinline CVect3F _genPlaneIntersectPoint(CVect3F p1, CVect3F p2) {
 	FLOAT xzSlope = (p2.x - p1.x) / (p2.z - p1.z);
 	FLOAT yzSlope = (p2.y - p1.y) / (p2.z - p1.z);
 	return CMakeVect3F(
-		xzSlope * CSMINT_CLIP_PLANE_POSITION,
-		yzSlope * CSMINT_CLIP_PLANE_POSITION,
+		p1.x + xzSlope * (CSMINT_CLIP_PLANE_POSITION - p1.z),
+		p1.y + yzSlope * (CSMINT_CLIP_PLANE_POSITION - p1.z),
 		CSMINT_CLIP_PLANE_POSITION
 	);
 }
@@ -100,10 +100,13 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTri outTriArray) {
 	{
 	case 1:
 		v3 = clipInfo.tri->verts[2]; // 0 + 1 is 1 so remainder is 2
+		break;
 	case 2:
 		v3 = clipInfo.tri->verts[1]; // 0 + 2 is 2 so remainder is 1
+		break;
 	case 3:
 		v3 = clipInfo.tri->verts[0]; // 1 + 2 is 3 so remainder is 0
+		break;
 	default:
 		break;
 	}
