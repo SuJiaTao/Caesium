@@ -145,7 +145,7 @@ CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
 	wClass.lpszClassName = cwin->wndClassName;
 	wClass.lpfnWndProc = _csmWndProc;
 
-	DWORD wFlags = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME;
+	DWORD wFlags = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX;
 	RECT clientRect = { 0, 0, width, height };
 	AdjustWindowRectExForDpi(&clientRect, wFlags, TRUE, wFlags,
 		GetDpiForSystem());
