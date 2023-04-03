@@ -5,8 +5,6 @@
 #include "csmint_pipeline.h"
 #include <stdio.h>
 
-static const CVect3F CSMINT_CLIP_PLANE_VECTOR = { 0.0f, 0.0f, -1.0f };
-
 typedef struct _cvertsbehindclip {
 	BOOL clipStates[3];
 	INT  numBehind;
@@ -15,8 +13,7 @@ typedef struct _cvertsbehindclip {
 } _clipinfo, *p_clipinfo;
 
 static __forceinline BOOL _testVertBehindClip(CVect3F vert) {
-	FLOAT val = (CVect3FDot(CSMINT_CLIP_PLANE_VECTOR, vert) + CSMINT_CLIP_PLANE_POSITION);
-	return val < 0.0f;
+	return vert.z > CSMINT_CLIP_PLANE_POSITION ;
 }
 
 static __forceinline _clipinfo _genTriClipInfo(PCIPTri tri) {
