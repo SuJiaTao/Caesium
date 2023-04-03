@@ -58,6 +58,7 @@ CSMCALL CMatrix CMatrixScale(CMatrix orig, CVect3F scl) {
 	_cmset(&trlm, 0, 0, scl.x);
 	_cmset(&trlm, 1, 1, scl.y);
 	_cmset(&trlm, 2, 2, scl.z);
+	_cmset(&trlm, 3, 3, 1.0f);
 
 	// multiply
 	return CMatrixMultiply(orig, trlm);
@@ -76,7 +77,7 @@ CSMCALL CMatrix CMatrixRotate(CMatrix orig, CVect3F rot) {
 	FLOAT sinZ = _cmsinf(rot.z);
 
 	// row 1
-	_cmset(&sclm, 0, 0,  cosY * cosY);
+	_cmset(&sclm, 0, 0,  cosY * cosZ);
 	_cmset(&sclm, 1, 0,  cosY * sinZ);
 	_cmset(&sclm, 2, 0, -sinY);
 
