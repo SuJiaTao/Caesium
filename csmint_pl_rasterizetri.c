@@ -160,21 +160,19 @@ static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo,
 			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
 
 			// prepare fragment context
-			p_fragContext context = CInternalAlloc(sizeof(_fragContext));
-			context->barycentricWeightings = bWeights;
-			context->currentFrag = drawVect;
-			context->fragTri = triangle;
-			context->fragInfo = *dInfo;
+			_fragContext context;
+			context.barycentricWeightings = bWeights;
+			context.currentFrag = drawVect;
+			context.fragTri = triangle;
+			context.fragInfo = *dInfo;
 
 			// draw fragment
 			_drawFragment(
-				context,
+				&context,
 				dInfo,
 				renderBuff,
 				drawVect
 			);
-
-			CInternalFree(context); // free context
 		}
 	}
 }
@@ -226,21 +224,19 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo,
 			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
 
 			// prepare fragment context
-			p_fragContext context = CInternalAlloc(sizeof(_fragContext));
-			context->barycentricWeightings = bWeights;
-			context->currentFrag = drawVect;
-			context->fragTri = triangle;
-			context->fragInfo = *dInfo;
+			_fragContext context;
+			context.barycentricWeightings = bWeights;
+			context.currentFrag = drawVect;
+			context.fragTri = triangle;
+			context.fragInfo = *dInfo;
 
 			// draw fragment
 			_drawFragment(
-				context,
+				&context,
 				dInfo,
 				renderBuff,
 				drawVect
 			);
-
-			CInternalFree(context); // free context
 		}
 	}
 }
