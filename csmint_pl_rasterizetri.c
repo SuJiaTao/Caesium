@@ -35,10 +35,12 @@ static __forceinline _drawFragment(p_drawFragInfo dInfo, PCRenderBuffer renderBu
 
 	// apply fragment to renderBuffer
 	if (keepFragment) {
+		INT fragPosX = floorf(vertex.x - 0.5f);
+		INT fragPosY = floorf(vertex.y - 0.5f);
 		CRenderBufferSetFragment(
 			renderBuffer,
-			(INT)vertex.x,
-			(INT)vertex.y,
+			fragPosX,
+			fragPosY,
 			*fragColor,
 			vertex.z
 		);
