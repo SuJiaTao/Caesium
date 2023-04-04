@@ -79,17 +79,31 @@ static __forceinline FLOAT _fastDist(CVect3F p1, CVect3F p2) {
 	return (0.96f * max(dx, dy)) + (0.4f * min(dx, dy));
 }
 
+static __forceinline CVect3F _generateBarycentricWeights(PCIPTri triangle, CVect3F vert ) {
+	CVect3F weights;
+	CVect3F p1 = triangle->verts[0];
+	CVect3F p2 = triangle->verts[1];
+	CVect3F p3 = triangle->verts[2];
+
+	// implementation taken from wikipedia
+
+	weights.x = ((p2.y - p3.y) * (vert.x - p3.x) + (p3.x - p2.x) * (vert.y - p3.y)) /
+		((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y));
+	weights.y = ((p3.y - p1.y) * (vert.x - p3.x) + (p1.x - p3.x) * (vert.y - p3.y)) /
+		((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y));
+	weights.z = 1 - weights.x - weights.y;
+
+	return weights;
+}
+
 // note: pos.z is ignored
 static __forceinline FLOAT _interpolateDepth(PCIPTri triangle, CVect3F pos) {
-	FLOAT pd0 = _fastDist(triangle->verts[0], pos);
-	FLOAT pd1 = _fastDist(triangle->verts[1], pos);
-	FLOAT pd2 = _fastDist(triangle->verts[2], pos);
+	CVect3F weights = _generateBarycentricWeights(triangle, pos);
+	FLOAT invDepth1 = weights.x * (1.0f / triangle->verts[0].z);
+	FLOAT invDepth2 = weights.y * (1.0f / triangle->verts[1].z);
+	FLOAT invDepth3 = weights.z * (1.0f / triangle->verts[2].z);
 
-	return 1.0f /
-		  ((pd0 * (1.0f / triangle->verts[0].z) +
-			pd1 * (1.0f / triangle->verts[1].z) +
-			pd2 * (1.0f / triangle->verts[0].z)) 
-			/ (pd0 + pd1 + pd2));
+	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
 
 static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, PCRenderBuffer renderBuff,
