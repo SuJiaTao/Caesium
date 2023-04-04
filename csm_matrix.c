@@ -114,7 +114,7 @@ CSMCALL CMatrix CMatrixRotate(CMatrix orig, CVect3F rot) {
 }
 
 CSMCALL CMatrix CMatrixTransform(CMatrix orig, CVect3F trl, CVect3F rot, CVect3F scl) {
-	return CMatrixTranslate(CMatrixScale(CMatrixRotate(orig, rot), scl), trl);
+	return CMatrixTranslate(CMatrixRotate(CMatrixScale(orig, scl), rot), trl);
 }
 
 CSMCALL CMatrix CMatrixMultiply(CMatrix m1, CMatrix m2) {

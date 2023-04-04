@@ -223,6 +223,10 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 	// p1 -> middle
 	// p2 -> bottom
 
+	for (int i = 0; i < 3; i++) {
+		_drawFragment(&drawInfo, renderBuffer, triangle->verts[i]);
+	}
+
 	// generate point given a horizontal cut of the triangle
 	FLOAT invslope =
 		(triangle->verts[0].x - triangle->verts[2].x) /
