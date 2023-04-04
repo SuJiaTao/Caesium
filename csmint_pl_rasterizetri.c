@@ -159,26 +159,27 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, PCRenderBuffer r
 	}
 
 	// generate inverse slopes
-	FLOAT invSlopeL = (LBase.x - bottom.x) / (LBase.y - bottom.y);
-	FLOAT invSlopeR = (RBase.x - bottom.x) / (RBase.y - bottom.y);
+	FLOAT invSlopeL = (bottom.x - LBase.x) / (bottom.y - LBase.y);
+	FLOAT invSlopeR = (bottom.x - RBase.x) / (bottom.y - RBase.y);
 
 	// on bad values, don't draw
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
 
 	// walk up from bottom to top
-	const INT DRAW_Y_START = max(0, bottom.y);
-	const INT DRAW_Y_END = min(renderBuff->height, LBase.y);
+	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
+	const INT DRAW_Y_END   = max(0, bottom.y);
 
-	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
+	// note: Y walks downwards
+	for (INT drawY = DRAW_Y_START; drawY >= DRAW_Y_END; drawY--) {
 
 		// get distance travelled from start Y
-		FLOAT yDist = drawY - DRAW_Y_START;
+		FLOAT yDist = DRAW_Y_START - drawY;
 
 		// generate start and end X positions
 		const INT DRAW_X_START =
-			max(0, bottom.x + (invSlopeL * yDist));
+			max(0, LBase.x - (invSlopeL * yDist));
 		const INT DRAW_X_END =
-			min(renderBuff->width, bottom.x + (invSlopeR * yDist));
+			min(renderBuff->width, RBase.x - (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
@@ -213,11 +214,6 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 	drawInfo.instanceID = instanceID;
 	drawInfo.triangleID = triangleID;
 	drawInfo.material = material;
-
-	// draw points
-	for (int i = 0; i < 3; i++) {
-		_drawFragment(&drawInfo, renderBuffer, triangle->verts[i]);
-	}
 	
 	// sort triangle vertically
 	_sortTriByVerticality(triangle);
@@ -238,8 +234,6 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 
 	// assign depth
 	horzPoint.z = _interpolateDepth(triangle, horzPoint);
-
-	_drawFragment(&drawInfo, renderBuffer, horzPoint);
 
 	// make both triangles and draw
 	CIPTri flatBottomTri;
