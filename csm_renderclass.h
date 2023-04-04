@@ -22,10 +22,11 @@ typedef CVect3F (*PCFVertexShaderProc) (
 	);
 
 typedef BOOL (*PCFFragmentShaderProc) (
-	UINT32   triangleID,
-	UINT32   instanceID,
-	CVect3F  inFragPos,
-	PCRgb	 inOutColor
+	CHandle fragContext,
+	UINT32  triangleID,
+	UINT32  instanceID,
+	CVect3F inFragPos,
+	PCRgb	inOutColor
 	);
 
 typedef struct CMaterial {

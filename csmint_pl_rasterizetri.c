@@ -12,8 +12,15 @@ typedef struct _drawFragInfo {
 	PCMaterial material;
 } _drawFragInfo, *p_drawFragInfo;
 
-static __forceinline _drawFragment(p_drawFragInfo dInfo, PCRenderBuffer renderBuffer, 
-	CVect3F vertex) {
+typedef struct _fragContext {
+	_drawFragInfo fragInfo;
+	PCIPTri fragTri;
+	CVect3F currentFrag;
+	CVect3F barycentricWeightings;
+} _fragContext, *p_fragContext;
+
+static __forceinline _drawFragment(p_fragContext context, p_drawFragInfo dInfo, 
+	PCRenderBuffer renderBuffer, CVect3F vertex) {
 	// prepare rasterization color
 		// (allocate to the heap in case the user wants to do weird stuff with it)
 	PCRgb fragColor = CInternalAlloc(sizeof(CRgb));
@@ -26,6 +33,7 @@ static __forceinline _drawFragment(p_drawFragInfo dInfo, PCRenderBuffer renderBu
 	else {
 		// apply fragment shader
 		keepFragment = dInfo->material->fragmentShader(
+			NULL,
 			dInfo->triangleID,
 			dInfo->instanceID,
 			vertex,
@@ -99,8 +107,7 @@ static __forceinline CVect3F _generateBarycentricWeights(PCIPTri triangle, CVect
 }
 
 // note: pos.z is ignored
-static __forceinline FLOAT _interpolateDepth(PCIPTri triangle, CVect3F pos) {
-	CVect3F weights = _generateBarycentricWeights(triangle, pos);
+static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTri triangle, CVect3F pos) {
 	FLOAT invDepth1 = weights.x * (1.0f / triangle->verts[0].z);
 	FLOAT invDepth2 = weights.y * (1.0f / triangle->verts[1].z);
 	FLOAT invDepth3 = weights.z * (1.0f / triangle->verts[2].z);
@@ -108,8 +115,8 @@ static __forceinline FLOAT _interpolateDepth(PCIPTri triangle, CVect3F pos) {
 	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
 
-static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, PCRenderBuffer renderBuff,
-	PCIPTri triangle) {
+static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, 
+	PCRenderBuffer renderBuff, PCIPTri triangle) {
 
 	// generate each position
 	CVect3F top = triangle->verts[0];
@@ -149,20 +156,31 @@ static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, PCRenderBuffe
 			// create fragment with interpolated depth
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
-			drawVect.z = _interpolateDepth(triangle, drawVect);
+			CVect3F bWeights = _generateBarycentricWeights(triangle, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
+
+			// prepare fragment context
+			p_fragContext context = CInternalAlloc(sizeof(_fragContext));
+			context->barycentricWeightings = bWeights;
+			context->currentFrag = drawVect;
+			context->fragTri = triangle;
+			context->fragInfo = *dInfo;
 
 			// draw fragment
 			_drawFragment(
+				context,
 				dInfo,
 				renderBuff,
 				drawVect
 			);
+
+			CInternalFree(context); // free context
 		}
 	}
 }
 
-static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, PCRenderBuffer renderBuff,
-	PCIPTri triangle) {
+static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, 
+	PCRenderBuffer renderBuff, PCIPTri triangle) {
 
 	// generate each position
 	CVect3F LBase = triangle->verts[0];
@@ -201,16 +219,28 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, PCRenderBuffer r
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
 
 			// create fragment with interpolated depth
+			// create fragment with interpolated depth
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
-			drawVect.z = _interpolateDepth(triangle, drawVect);
+			CVect3F bWeights = _generateBarycentricWeights(triangle, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
+
+			// prepare fragment context
+			p_fragContext context = CInternalAlloc(sizeof(_fragContext));
+			context->barycentricWeightings = bWeights;
+			context->currentFrag = drawVect;
+			context->fragTri = triangle;
+			context->fragInfo = *dInfo;
 
 			// draw fragment
 			_drawFragment(
+				context,
 				dInfo,
 				renderBuff,
 				drawVect
 			);
+
+			CInternalFree(context); // free context
 		}
 	}
 }
@@ -239,10 +269,6 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 	// p1 -> middle
 	// p2 -> bottom
 
-	for (int i = 0; i < 3; i++) {
-		_drawFragment(&drawInfo, renderBuffer, triangle->verts[i]);
-	}
-
 	// generate point given a horizontal cut of the triangle
 	FLOAT invslope =
 		(triangle->verts[0].x - triangle->verts[2].x) /
@@ -253,7 +279,8 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 		CMakeVect3F(horzPointx, triangle->verts[1].y, 0);
 
 	// assign depth
-	horzPoint.z = _interpolateDepth(triangle, horzPoint);
+	CVect3F baryWeightings = _generateBarycentricWeights(triangle, horzPoint);
+	horzPoint.z = _interpolateDepth(baryWeightings, triangle, horzPoint);
 
 	// make both triangles and draw
 	CIPTri flatBottomTri;
