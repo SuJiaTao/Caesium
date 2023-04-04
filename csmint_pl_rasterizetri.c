@@ -3,55 +3,253 @@
 // 2023
 
 #include "csmint_pipeline.h"
+#include <math.h>
 #include <stdio.h>
+
+typedef struct _drawFragInfo {
+	UINT32 instanceID;
+	UINT32 triangleID;
+	PCMaterial material;
+} _drawFragInfo, *p_drawFragInfo;
+
+static __forceinline _drawFragment(p_drawFragInfo dInfo, PCRenderBuffer renderBuffer, 
+	CVect3F vertex) {
+	// prepare rasterization color
+		// (allocate to the heap in case the user wants to do weird stuff with it)
+	PCRgb fragColor = CInternalAlloc(sizeof(CRgb));
+	BOOL  keepFragment = TRUE;
+
+	// if material is NULL, set color to ERR PURPLE
+	if (dInfo->material == NULL) {
+		*fragColor = CMakeColor(255, 0, 255);
+	}
+	else {
+		// apply fragment shader
+		keepFragment = dInfo->material->fragmentShader(
+			dInfo->triangleID,
+			dInfo->instanceID,
+			vertex,
+			fragColor
+		);
+	}
+
+	// apply fragment to renderBuffer
+	if (keepFragment) {
+		CRenderBufferSetFragment(
+			renderBuffer,
+			(INT)vertex.x,
+			(INT)vertex.y,
+			*fragColor,
+			vertex.z
+		);
+	}
+
+	// free color
+	CInternalFree(fragColor);
+}
+
+static __forceinline void _swapVerts(PCVect3F v1, PCVect3F v2) {
+	CVect3F temp = *v1;
+	*v1 = *v2;
+	*v2 = temp;
+}
+
+static __forceinline void _sortTriByVerticality(PCIPTri toEdit) {
+	// brute force sort
+	// set is only 3 large so performance impact is minimal
+	if (toEdit->verts[0].y < toEdit->verts[1].y)
+		_swapVerts(toEdit->verts + 0, toEdit->verts + 1);
+
+	if (toEdit->verts[0].y < toEdit->verts[2].y)
+		_swapVerts(toEdit->verts + 0, toEdit->verts + 2);
+
+	if (toEdit->verts[1].y < toEdit->verts[2].y)
+		_swapVerts(toEdit->verts + 1, toEdit->verts + 2);
+}
+
+// note: z is ignored for p1 & p2
+static __forceinline FLOAT _fastDist(CVect3F p1, CVect3F p2) {
+	FLOAT dx = p2.x - p1.x;
+	FLOAT dy = p2.y - p1.y;
+
+	// ensure abs
+	dx = fabsf(dx);
+	dy = fabsf(dy);
+
+	return (0.96f * max(dx, dy)) + (0.4f * min(dx, dy));
+}
+
+// note: pos.z is ignored
+static __forceinline FLOAT _interpolateDepth(PCIPTri triangle, CVect3F pos) {
+	FLOAT pd0 = _fastDist(triangle->verts[0], pos);
+	FLOAT pd1 = _fastDist(triangle->verts[1], pos);
+	FLOAT pd2 = _fastDist(triangle->verts[2], pos);
+
+	return 1.0f /
+		  ((pd0 * (1.0f / triangle->verts[0].z) +
+			pd1 * (1.0f / triangle->verts[1].z) +
+			pd2 * (1.0f / triangle->verts[0].z)) 
+			/ (pd0 + pd1 + pd2));
+}
+
+static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, PCRenderBuffer renderBuff,
+	PCIPTri triangle) {
+
+	// generate each position
+	CVect3F top = triangle->verts[0];
+	CVect3F LBase = triangle->verts[1];
+	CVect3F RBase = triangle->verts[2];
+
+	// swap to maintain left if necessary
+	if (LBase.x > RBase.x) {
+		_swapVerts(&LBase, &RBase);
+	}
+
+	// generate inverse slopes
+	FLOAT invSlopeL = (top.x - LBase.x) / (top.y - LBase.y);
+	FLOAT invSlopeR = (top.x - RBase.x) / (top.y - RBase.y);
+
+	// on bad values, don't draw
+	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
+
+	// walk up from bottom to top
+	const INT DRAW_Y_START = max(0, LBase.y);
+	const INT DRAW_Y_END   = min(renderBuff->height, top.y);
+
+	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
+
+		// get distance travelled from start Y
+		FLOAT yDist = drawY - DRAW_Y_START;
+
+		// generate start and end X positions
+		const INT DRAW_X_START =
+			max(0, LBase.x + (invSlopeL * yDist));
+		const INT DRAW_X_END =
+			min(renderBuff->width, RBase.x + (invSlopeR * yDist));
+
+		// walk from left of triangle to right of triangle
+		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+
+			// create fragment with interpolated depth
+			CVect3F drawVect =
+				CMakeVect3F(drawX, drawY, 0.0f);
+			drawVect.z = _interpolateDepth(triangle, drawVect);
+
+			// draw fragment
+			_drawFragment(
+				dInfo,
+				renderBuff,
+				drawVect
+			);
+		}
+	}
+}
+
+static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, PCRenderBuffer renderBuff,
+	PCIPTri triangle) {
+
+	// generate each position
+	CVect3F LBase = triangle->verts[0];
+	CVect3F RBase = triangle->verts[1];
+	CVect3F bottom = triangle->verts[2];
+
+	// swap to maintain left if necessary
+	if (LBase.x > RBase.x) {
+		_swapVerts(&LBase, &RBase);
+	}
+
+	// generate inverse slopes
+	FLOAT invSlopeL = (LBase.x - bottom.x) / (LBase.y - bottom.y);
+	FLOAT invSlopeR = (RBase.x - bottom.x) / (RBase.y - bottom.y);
+
+	// on bad values, don't draw
+	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
+
+	// walk up from bottom to top
+	const INT DRAW_Y_START = max(0, bottom.y);
+	const INT DRAW_Y_END = min(renderBuff->height, LBase.y);
+
+	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
+
+		// get distance travelled from start Y
+		FLOAT yDist = drawY - DRAW_Y_START;
+
+		// generate start and end X positions
+		const INT DRAW_X_START =
+			max(0, bottom.x + (invSlopeL * yDist));
+		const INT DRAW_X_END =
+			min(renderBuff->width, bottom.x + (invSlopeR * yDist));
+
+		// walk from left of triangle to right of triangle
+		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+
+			// create fragment with interpolated depth
+			CVect3F drawVect =
+				CMakeVect3F(drawX, drawY, 0.0f);
+			drawVect.z = _interpolateDepth(triangle, drawVect);
+
+			// draw fragment
+			_drawFragment(
+				dInfo,
+				renderBuff,
+				drawVect
+			);
+		}
+	}
+}
 
 void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 	PCRenderBuffer renderBuffer, PCIPTri triangle, PCRenderClass rClass) {
-	// loop each vertex
-	for (UINT32 triIndex = 0; triIndex < 3; triIndex++) {
-		// get current vertex
-		CVect3F vertex = triangle->verts[triIndex];
+	// get current material
+	UINT32 materialID = rClass->triMaterials[triangleID];
+	PCMaterial material = rClass->materials[materialID];
 
-		// get current material
-		UINT32 materialID = rClass->triMaterials[triangleID];
-		PCMaterial material = rClass->materials[materialID];
+	// if material is NULL, use default material (0)
+	if (material == NULL)
+		material = rClass->materials[0];
 
-		// if material is NULL, use default material (0)
-		if (material == NULL)
-			material = rClass->materials[0];
+	// prepare draw info
+	_drawFragInfo drawInfo;
+	drawInfo.instanceID = instanceID;
+	drawInfo.triangleID = triangleID;
+	drawInfo.material = material;
 
-		// prepare rasterization color
-		// (allocate to the heap in case the user wants to do weird stuff with it)
-		PCRgb fragColor = CInternalAlloc(sizeof(CRgb));
-		BOOL  keepFragment = TRUE;
+	// draw points
+	for (int i = 0; i < 3; i++) {
+		_drawFragment(&drawInfo, renderBuffer, triangle->verts[i]);
+	}
+	
+	// sort triangle vertically
+	_sortTriByVerticality(triangle);
 
-		// if material is NULL, set color to ERR PURPLE
-		if (material == NULL) {
-			*fragColor = CMakeColor(255, 0, 255);
-		}
-		else {
-			// apply fragment shader
-			keepFragment = material->fragmentShader(
-				triangleID,
-				instanceID,
-				vertex,
-				fragColor
-			);
-		}
+	// now triangle is:
+	// p0 -> top
+	// p1 -> middle
+	// p2 -> bottom
 
-		// apply fragment to renderBuffer
-		if (keepFragment) {
-			CRenderBufferSetFragment(
-				renderBuffer,
-				(INT)vertex.x,
-				(INT)vertex.y,
-				*fragColor,
-				vertex.z
-			);
-		}
+	// generate point given a horizontal cut of the triangle
+	FLOAT invslope =
+		(triangle->verts[0].x - triangle->verts[2].x) /
+		(triangle->verts[0].y - triangle->verts[2].y);
+	FLOAT horzPointx =
+		triangle->verts[2].x + (invslope * (triangle->verts[1].y - triangle->verts[2].y));
+	CVect3F horzPoint =
+		CMakeVect3F(horzPointx, triangle->verts[1].y, 0);
 
-		// free color
-		CInternalFree(fragColor);
+	// assign depth
+	horzPoint.z = _interpolateDepth(triangle, horzPoint);
 
-	} // END TRI INDEX LOOP
+	_drawFragment(&drawInfo, renderBuffer, horzPoint);
+
+	// make both triangles and draw
+	CIPTri flatBottomTri;
+	flatBottomTri = *triangle; // copy sorted triangle
+	flatBottomTri.verts[2] = horzPoint; // bottom is now flat
+
+	CIPTri flatTopTri;
+	flatTopTri = *triangle;
+	flatTopTri.verts[0] = horzPoint; // top is now flat
+
+	_drawFlatBottomTri(&drawInfo, renderBuffer, &flatBottomTri);
+	_drawFlatTopTri(&drawInfo, renderBuffer, &flatTopTri);
 }
