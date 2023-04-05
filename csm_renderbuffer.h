@@ -5,6 +5,8 @@
 #ifndef _CSM_RENDERBUFFER_INCLUDE_
 #define _CSM_RENDERBUFFER_INCLUDE_ 
 
+#define CSM_RENDERBUFFER_MAX_DEPTH	(FLOAT)(-100)
+
 #include "csm.h"
 
 typedef struct CRenderBuffer {

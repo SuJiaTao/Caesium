@@ -12,9 +12,9 @@ void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri) {
 		PCVect3F pVert = 
 			tri->verts + vertexID;
 
-		// project vertex
-		pVert->x = pVert->x / pVert->z;
-		pVert->y = pVert->y / pVert->z;
+		// project vertex (since forward is -Z, flip Z value)
+		pVert->x = pVert->x / -pVert->z;
+		pVert->y = pVert->y / -pVert->z;
 
 		// convert position from "unit-space" [-1, 1] to screenspace [0, h], [0, w]
 		

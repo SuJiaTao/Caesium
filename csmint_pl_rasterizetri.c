@@ -21,14 +21,26 @@ typedef struct _fragContext {
 
 static __forceinline _drawFragment(p_fragContext context, p_drawFragInfo dInfo, 
 	PCRenderBuffer renderBuffer, CVect3F vertex) {
+	// do early out of bounds test
+	if (vertex.x < 0 || vertex.x >= renderBuffer->width ||
+		vertex.y < 0 || vertex.y >= renderBuffer->height) return;
+
+	// generate frag position
+	INT fragPosX = floorf(vertex.x - 0.5f);
+	INT fragPosY = floorf(vertex.y - 0.5f);
+
+	// do early depth test
+	volatile FLOAT earlyDepth;
+	CRenderBufferGetFragment(renderBuffer, fragPosX, fragPosY, NULL, &earlyDepth);
+	if (earlyDepth > vertex.x) return;
+
 	// prepare rasterization color
-		// (allocate to the heap in case the user wants to do weird stuff with it)
-	PCRgb fragColor = CInternalAlloc(sizeof(CRgb));
-	BOOL  keepFragment = TRUE;
+	CRgb fragColor;
+	BOOL keepFragment = TRUE;
 
 	// if material is NULL, set color to ERR PURPLE
 	if (dInfo->material == NULL) {
-		*fragColor = CMakeColor(255, 0, 255);
+		fragColor = CMakeColor(255, 0, 255);
 	}
 	else {
 		// apply fragment shader
@@ -37,25 +49,20 @@ static __forceinline _drawFragment(p_fragContext context, p_drawFragInfo dInfo,
 			dInfo->triangleID,
 			dInfo->instanceID,
 			vertex,
-			fragColor
+			&fragColor
 		);
 	}
 
 	// apply fragment to renderBuffer
 	if (keepFragment) {
-		INT fragPosX = floorf(vertex.x - 0.5f);
-		INT fragPosY = floorf(vertex.y - 0.5f);
 		CRenderBufferSetFragment(
 			renderBuffer,
 			fragPosX,
 			fragPosY,
-			*fragColor,
+			fragColor,
 			vertex.z
 		);
 	}
-
-	// free color
-	CInternalFree(fragColor);
 }
 
 static __forceinline void _swapVerts(PCVect3F v1, PCVect3F v2) {
@@ -142,7 +149,7 @@ static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo,
 	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
 
 		// get distance travelled from start Y
-		FLOAT yDist = drawY - DRAW_Y_START;
+		FLOAT yDist = drawY - LBase.y;
 
 		// generate start and end X positions
 		const INT DRAW_X_START =
@@ -197,7 +204,7 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo,
 	// on bad values, don't draw
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
 
-	// walk up from bottom to top
+	// walk down from top to bottom
 	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
 	const INT DRAW_Y_END   = max(0, bottom.y);
 
@@ -205,7 +212,7 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo,
 	for (INT drawY = DRAW_Y_START; drawY >= DRAW_Y_END; drawY--) {
 
 		// get distance travelled from start Y
-		FLOAT yDist = DRAW_Y_START - drawY;
+		FLOAT yDist = LBase.y - drawY;
 
 		// generate start and end X positions
 		const INT DRAW_X_START =

@@ -5,6 +5,7 @@
 #include "csmint.h"
 #include "csm_renderbuffer.h"
 #include <float.h>
+#include <stdio.h>
 
 CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 	_CSyncEnter();
@@ -109,7 +110,8 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	}
 
 	// do depth test
-	if (*(_findDepthPtr(pBuffer, x, y)) < depth) {
+	volatile FLOAT oldDepth = *(_findDepthPtr(pBuffer, x, y));
+	if (oldDepth > depth) {
 		_CSyncLeave(FALSE);
 	}
 
@@ -132,8 +134,8 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle) {
 	// set all colors to 0
 	__stosb(pBuffer->color, ZERO, elemCount * sizeof(CRgb));
 
-	// set all depth to FLT_MAX
-	__stosd(pBuffer->depth, FLT_MAX, elemCount);
+	// set all depth
+	__stosd(pBuffer->depth, CSM_RENDERBUFFER_MAX_DEPTH, elemCount);
 
 	_CSyncLeave(TRUE);
 }
