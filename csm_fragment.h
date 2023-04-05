@@ -14,8 +14,11 @@ CSMCALL void	CFragmentInterpolateFloats(CHandle fragContext,
 CSMCALL CVect2F CFragmentInterpolateVect2F(CHandle fragContext,
 	CVect2F p1v2, CVect2F p2v2, CVect2F p3v3);
 CSMCALL CVect3F CFragmentInterpolateVect3F(CHandle fragContext,
-	CVect3F p1v3, CVect3F p2v3, CVect3F p3v3);
+	CVect3F p1v3, CVect3F p2v3, CVect3F p3v2);
 CSMCALL CRgb	CFragmentInterpolateColor(CHandle fragContext,
 	CRgb p1c, CRgb p2c, CRgb p3c);
+
+CSMCALL CRgb	CFragmentConvertVect3ToColor(CVect3F vect3);
+CSMCALL CVect3F CFragmentConvertColorToVect3(CRgb color);
 
 #endif

@@ -6,20 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 
-typedef struct _drawFragInfo {
-	UINT32 instanceID;
-	UINT32 triangleID;
-	PCMaterial material;
-} _drawFragInfo, *p_drawFragInfo;
-
-typedef struct _fragContext {
-	_drawFragInfo fragInfo;
-	PCIPTri fragTri;
-	CVect3F currentFrag;
-	CVect3F barycentricWeightings;
-} _fragContext, *p_fragContext;
-
-static __forceinline _drawFragment(p_fragContext context, p_drawFragInfo dInfo, 
+static __forceinline _drawFragment(PCIPFragContext context, PCIPFragInfo dInfo, 
 	PCRenderBuffer renderBuffer, CVect3F vertex) {
 	// do early out of bounds test
 	if (vertex.x < 0 || vertex.x >= renderBuffer->width ||
@@ -45,7 +32,7 @@ static __forceinline _drawFragment(p_fragContext context, p_drawFragInfo dInfo,
 	else {
 		// apply fragment shader
 		keepFragment = dInfo->material->fragmentShader(
-			NULL,
+			context,
 			dInfo->triangleID,
 			dInfo->instanceID,
 			vertex,
@@ -96,6 +83,10 @@ static __forceinline FLOAT _fastDist(CVect3F p1, CVect3F p2) {
 	return (0.96f * max(dx, dy)) + (0.4f * min(dx, dy));
 }
 
+FLOAT   CInternalPipelineFastDistance(CVect3F p1, CVect3F p2) {
+	return _fastDist(p1, p2);
+}
+
 static __forceinline CVect3F _generateBarycentricWeights(PCIPTri triangle, CVect3F vert ) {
 	CVect3F weights;
 	CVect3F p1 = triangle->verts[0];
@@ -113,6 +104,10 @@ static __forceinline CVect3F _generateBarycentricWeights(PCIPTri triangle, CVect
 	return weights;
 }
 
+CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTri tri, CVect3F vert) {
+	return _generateBarycentricWeights(tri, vert);
+}
+
 // note: pos.z is ignored
 static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTri triangle, CVect3F pos) {
 	FLOAT invDepth1 = weights.x * (1.0f / triangle->verts[0].z);
@@ -122,7 +117,7 @@ static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTri triangle, 
 	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
 
-static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo, 
+static __forceinline void _drawFlatBottomTri(PCIPFragInfo dInfo, 
 	PCRenderBuffer renderBuff, PCIPTri triangle) {
 
 	// generate each position
@@ -167,7 +162,7 @@ static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo,
 			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
 
 			// prepare fragment context
-			_fragContext context;
+			CIPFragContext context;
 			context.barycentricWeightings = bWeights;
 			context.currentFrag = drawVect;
 			context.fragTri = triangle;
@@ -184,7 +179,7 @@ static __forceinline void _drawFlatBottomTri(p_drawFragInfo dInfo,
 	}
 }
 
-static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo, 
+static __forceinline void _drawFlatTopTri(PCIPFragInfo dInfo, 
 	PCRenderBuffer renderBuff, PCIPTri triangle) {
 
 	// generate each position
@@ -231,7 +226,7 @@ static __forceinline void _drawFlatTopTri(p_drawFragInfo dInfo,
 			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
 
 			// prepare fragment context
-			_fragContext context;
+			CIPFragContext context;
 			context.barycentricWeightings = bWeights;
 			context.currentFrag = drawVect;
 			context.fragTri = triangle;
@@ -259,7 +254,7 @@ void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
 		material = rClass->materials[0];
 
 	// prepare draw info
-	_drawFragInfo drawInfo;
+	CIPFragInfo drawInfo;
 	drawInfo.instanceID = instanceID;
 	drawInfo.triangleID = triangleID;
 	drawInfo.material = material;
