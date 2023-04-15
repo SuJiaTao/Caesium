@@ -86,8 +86,7 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 		cwin = *cwinPtr;
 
 		if (cwin->wnd != win) {
-			CInternalErrorPopup("Caesium Fatal Error", 
-				"Fatal error occoured while updating CWindow.");
+			CInternalErrorPopup("Fatal error occoured while updating CWindow.");
 			ExitProcess(ERROR_INVALID_DATA);
 		}
 

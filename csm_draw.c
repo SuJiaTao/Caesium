@@ -117,7 +117,7 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				break;
 
 			default:
-				CInternalErrorPopup("Caesium Fatal Error", "Bad clipping state");
+				CInternalErrorPopup("Bad clipping state");
 				break;
 			}
 

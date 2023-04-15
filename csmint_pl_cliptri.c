@@ -67,7 +67,7 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTri outTriArray)
 		v1 = clipInfo.tri->verts[2]; // v1 is behind
 		break;
 	default:
-		CInternalErrorPopup("Caesium Fatal Error", "Bad clipping state");
+		CInternalErrorPopup("Bad clipping state");
 		break;
 	}
 

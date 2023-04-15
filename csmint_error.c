@@ -4,8 +4,8 @@
 
 #include "csmint_error.h"
 
-void  CInternalErrorPopup(PCHAR title, PCHAR message) {
-	MessageBoxA(NULL, message, title, MB_OK);
+void  CInternalErrorPopup(PCHAR message) {
+	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
 }
 
 void  CInternalSetLastError(PCHAR lastError) {

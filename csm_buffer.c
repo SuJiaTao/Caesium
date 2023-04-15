@@ -5,6 +5,34 @@
 #include "csmint.h"
 #include "csm_buffer.h"
 
+static __forceinline SIZE_T _getVertexBufferElemBytes(CVertexDataBufferType type) {
+	// calculate byte size
+	SIZE_T elementSizeBytes = 0;
+	switch (type)
+	{
+	case CVertexDataBufferType_Float:
+		elementSizeBytes = sizeof(FLOAT);
+		break;
+	case CVertexDataBufferType_CVect2F:
+		elementSizeBytes = sizeof(CVect2F);
+		break;
+	case CVertexDataBufferType_CVect3F:
+		elementSizeBytes = sizeof(CVect3F);
+		break;
+	case CVertexDataBufferType_CVect4F:
+		elementSizeBytes = sizeof(CVect3F);
+		break;
+	case CVertexDataBufferType_CRgb:
+		elementSizeBytes = sizeof(CRgb);
+		break;
+	default:
+		CInternalErrorPopup("Bad Vertex Data Buffer Type State");
+		break;
+	}
+
+	return elementSizeBytes;
+}
+
 CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	UINT32 elementCount, PVOID dataIn) {
 	_CSyncEnter();
@@ -27,33 +55,11 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	vdBuffer->name = CInternalAlloc(nameSize + 1); // +1 for NULL
 	COPY_BYTES(name, vdBuffer->name, nameSize);
 
-	// calculate byte size
-	SIZE_T elementSizeBytes = 0;
-	switch (type)
-	{
-	case CVertexDataBufferType_Float:
-		elementSizeBytes = sizeof(FLOAT);
-		break;
-	case CVertexDataBufferType_CVect2F:
-		elementSizeBytes = sizeof(CVect2F);
-		break;
-	case CVertexDataBufferType_CVect3F:
-		elementSizeBytes = sizeof(CVect3F);
-		break;
-	case CVertexDataBufferType_CVect4F:
-		elementSizeBytes = sizeof(CVect3F);
-		break;
-	case CVertexDataBufferType_CRgb:
-		elementSizeBytes = sizeof(CRgb);
-		break;
-	default:
-		break;
-	}
+	SIZE_T elementSizeBytes = _getVertexBufferElemBytes(type);
 
 	// init metadata
 	vdBuffer->type = type;
 	vdBuffer->elementCount = elementCount;
-	vdBuffer->elementSizeBytes = elementSizeBytes;
 	const SIZE_T dataSizeBytes = elementCount * elementSizeBytes;
 
 	// copy buffer
@@ -106,10 +112,11 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 
 	// get data ptr and write
 	PBYTE dataBytes = vdBuff->data;
+	SIZE_T elemSizeBytes = _getVertexBufferElemBytes(vdBuff->type);
 	COPY_BYTES(
-		dataBytes + (vdBuff->elementSizeBytes * index),
+		dataBytes + (elemSizeBytes * index),
 		outBuffer,
-		vdBuff->elementSizeBytes);
+		elemSizeBytes);
 
 	_CSyncLeave(TRUE);
 }
@@ -130,10 +137,11 @@ CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 
 	// get data ptr and write
 	PBYTE dataBytes = vdBuff->data;
+	SIZE_T elemSizeBytes = _getVertexBufferElemBytes(vdBuff->type);
 	COPY_BYTES(
 		inBuffer,
-		dataBytes + (vdBuff->elementSizeBytes * index),
-		vdBuff->elementSizeBytes);
+		dataBytes + (elemSizeBytes * index),
+		elemSizeBytes);
 
 	_CSyncLeave(TRUE);
 }

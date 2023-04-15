@@ -7,7 +7,7 @@
 
 #include "csmint.h"
 
-void  CInternalErrorPopup(PCHAR title, PCHAR message);
+void  CInternalErrorPopup(PCHAR message);
 void  CInternalSetLastError(PCHAR lastError);
 void  CInternalGetLastError(PCHAR errBuffer, SIZE_T maxSize);
 
