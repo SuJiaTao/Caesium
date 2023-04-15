@@ -144,4 +144,8 @@ UINT32 CInternalPipelineClipTri(PCIPTri inTri, PCIPTri outTriArray) {
 		_clipTriCase2(clipInfo, outTriArray);
 		return 1; // 1 tri generated
 	}
+
+	// bad state
+	CInternalErrorPopup("Bad Clipping State");
+	return ~(0);
 }

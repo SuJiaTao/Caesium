@@ -10,6 +10,12 @@ static __forceinline SIZE_T _getVertexBufferElemBytes(CVertexDataBufferType type
 	SIZE_T elementSizeBytes = 0;
 	switch (type)
 	{
+	case CVertexDataBufferType_Byte:
+		elementSizeBytes = sizeof(BYTE);
+		break;
+	case CVertexDataBufferType_Int:
+		elementSizeBytes = sizeof(INT32);
+		break;
 	case CVertexDataBufferType_Float:
 		elementSizeBytes = sizeof(FLOAT);
 		break;
@@ -227,5 +233,5 @@ CSMCALL void	CStaticDataBufferUnmap(CHandle sdBuffer) {
 	PCStaticDataBuffer sdBuff = sdBuffer;
 	LeaveCriticalSection(&sdBuff->mapLock); // lock data
 
-	_CSyncLeave();
+	_CSyncLeave(NULL);
 }

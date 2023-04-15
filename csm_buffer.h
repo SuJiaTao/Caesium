@@ -9,6 +9,8 @@
 #include "csm_matrix.h"
 
 typedef enum CVertexDataBufferType {
+	CVertexDataBufferType_Byte,
+	CVertexDataBufferType_Int,
 	CVertexDataBufferType_Float,
 	CVertexDataBufferType_CVect2F,
 	CVertexDataBufferType_CVect3F,
