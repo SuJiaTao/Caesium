@@ -24,11 +24,27 @@ static FLOAT __forceinline _cmcosf(FLOAT theta) {
 	return cosf(theta * _cmtorad);
 }
 
+CSMCALL CVect2F CMakeVect2F(FLOAT x, FLOAT y) {
+	CVect2F rVect;
+	rVect.x = x;
+	rVect.y = y;
+	return rVect;
+}
+
 CSMCALL CVect3F CMakeVect3F(FLOAT x, FLOAT y, FLOAT z) {
 	CVect3F rVect;
 	rVect.x = x;
 	rVect.y = y;
 	rVect.z = z;
+	return rVect;
+}
+
+CSMCALL CVect4F CMakeVect4F(FLOAT x, FLOAT y, FLOAT z, FLOAT w) {
+	CVect4F rVect;
+	rVect.x = x;
+	rVect.y = y;
+	rVect.z = z;
+	rVect.w = w;
 	return rVect;
 }
 

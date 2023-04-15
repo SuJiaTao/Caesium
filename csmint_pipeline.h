@@ -15,25 +15,27 @@ typedef struct CIPTri {
 	CVect3F verts[3];
 } CIPTri, *PCIPTri;
 
-typedef struct CIPFragInfo {
-	UINT32 instanceID;
-	UINT32 triangleID;
-	PCMaterial material;
-} CIPFragInfo, * PCIPFragInfo;
-
 typedef struct CIPFragContext {
-	CIPFragInfo fragInfo;
-	PCIPTri fragTri;
+	struct CIPTriContext* parent;
+	PCIPTri triangle;
 	CVect3F currentFrag;
 	CVect3F barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
+
+typedef struct CIPTriContext {
+	UINT32			instanceID;
+	UINT32			triangleID;
+	PCRenderClass	rClass;
+	CIPFragContext  fragContext;
+	PCRenderBuffer	renderBuffer;
+	PCMaterial		material;
+} CIPTriContext, * PCIPTriContext;
 
 PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 	PCRenderClass rClass);
 UINT32 CInternalPipelineClipTri(PCIPTri inTri, PCIPTri outTriArray);
 void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri);
-void   CInternalPipelineRasterizeTri(UINT32 instanceID, UINT32 triangleID,
-	PCRenderBuffer renderBuffer, PCIPTri triangle, PCRenderClass rClass);
+void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTri subTri);
 
 // implemented in <csmint_pl_rasterizetri.c>
 CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTri tri, CVect3F vert);

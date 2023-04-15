@@ -11,7 +11,9 @@ typedef struct CMatrix {
 	FLOAT mtr[4][4];
 } CMatrix, *PCMatrix;
 
+CSMCALL CVect2F CMakeVect2F(FLOAT x, FLOAT y);
 CSMCALL CVect3F CMakeVect3F(FLOAT x, FLOAT y, FLOAT z);
+CSMCALL CVect4F CMakeVect4F(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
 CSMCALL FLOAT	CVect3FDot(CVect3F left, CVect3F right);
 CSMCALL CVect3F CVect3FCross(CVect3F left, CVect3F right);
 

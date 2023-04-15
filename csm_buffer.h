@@ -8,9 +8,18 @@
 #include "csm.h"
 #include "csm_matrix.h"
 
+typedef enum CVertexDataBufferType {
+	CVertexDataBufferType_Float,
+	CVertexDataBufferType_CVect2F,
+	CVertexDataBufferType_CVect3F,
+	CVertexDataBufferType_CVect4F,
+	CVertexDataBufferType_CRgb,
+	CVertexDataBufferType_Error
+} CVertexDataBufferType;
+
 typedef struct CVertexDataBuffer {
+	CVertexDataBufferType type;
 	PCHAR  name;
-	SIZE_T elementSizeBytes;
 	UINT32 elementCount;
 	PVOID  data;
 } CVertexDataBuffer, *PCVertexDataBuffer;
@@ -22,7 +31,7 @@ typedef struct CStaticDataBuffer {
 	PVOID  data;
 } CStaticDataBuffer, *PCStaticDataBuffer;
 
-CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
+CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	UINT32 elementCount, PVOID dataIn);
 CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pVertexDataBuffer);
 CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,

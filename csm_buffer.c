@@ -5,18 +5,18 @@
 #include "csmint.h"
 #include "csm_buffer.h"
 
-CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
+CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	UINT32 elementCount, PVOID dataIn) {
 	_CSyncEnter();
 
 	if (name == NULL) {
 		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because name was NULL");
 	}
-	if (elementSizeBytes == 0) {
-		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because elementSizeBytes was 0");
-	}
 	if (elementCount == 0) {
 		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because elementCount was 0");
+	}
+	if (type < 0 || type > CVertexDataBufferType_Error) {
+		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because type was invalid");
 	}
 	
 	// allocate
@@ -27,7 +27,31 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, SIZE_T elementSizeBytes,
 	vdBuffer->name = CInternalAlloc(nameSize + 1); // +1 for NULL
 	COPY_BYTES(name, vdBuffer->name, nameSize);
 
+	// calculate byte size
+	SIZE_T elementSizeBytes = 0;
+	switch (type)
+	{
+	case CVertexDataBufferType_Float:
+		elementSizeBytes = sizeof(FLOAT);
+		break;
+	case CVertexDataBufferType_CVect2F:
+		elementSizeBytes = sizeof(CVect2F);
+		break;
+	case CVertexDataBufferType_CVect3F:
+		elementSizeBytes = sizeof(CVect3F);
+		break;
+	case CVertexDataBufferType_CVect4F:
+		elementSizeBytes = sizeof(CVect3F);
+		break;
+	case CVertexDataBufferType_CRgb:
+		elementSizeBytes = sizeof(CRgb);
+		break;
+	default:
+		break;
+	}
+
 	// init metadata
+	vdBuffer->type = type;
 	vdBuffer->elementCount = elementCount;
 	vdBuffer->elementSizeBytes = elementSizeBytes;
 	const SIZE_T dataSizeBytes = elementCount * elementSizeBytes;

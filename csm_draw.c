@@ -59,6 +59,24 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			PCIPTri clippedTris = CInternalAlloc(sizeof(CIPTri) * 2);
 			UINT32 triCount = CInternalPipelineClipTri(triangle, clippedTris);
 
+			// generate tri context for rasterization
+			// note: tContext->fragContext is untouched because it is determined per-fragment
+			// note: with the exception of tContext->fragContext.parent which points to tContext
+			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
+			tContext->instanceID = instanceID;
+			tContext->triangleID = triangleID;
+			tContext->rClass	 = rClass;
+			tContext->renderBuffer		 = renderBuffer;
+			tContext->fragContext.parent = tContext;
+
+			// setup materials
+			PCRenderClass tempRClass = rClass;
+			tContext->material = tempRClass->materials[tempRClass->triMaterials[triangleID]];
+
+			// if material is NULL, use default material (0)
+			if (tContext->material == NULL)
+				tContext->material = tempRClass->materials[0];
+
 			// change based on clip output
 			switch (triCount)
 			{
@@ -70,13 +88,7 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				CInternalPipelineProjectTri(renderBuffer, triangle);
 
 				// rasterize triangle
-				CInternalPipelineRasterizeTri(
-					instanceID,
-					triangleID,
-					renderBuffer,
-					triangle,
-					rClass
-				);
+				CInternalPipelineRasterizeTri(tContext, triangle);
 
 				break;
 
@@ -84,14 +96,8 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				// project triangle
 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
 
-				// rasterize triangle
-				CInternalPipelineRasterizeTri(
-					instanceID,
-					triangleID,
-					renderBuffer,
-					clippedTris + 0,
-					rClass
-				);
+				// rasterize clipped triangle
+				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
 
 				break;
 
@@ -99,26 +105,14 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 				// project triangle 1
 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
 
-				// rasterize triangle 1
-				CInternalPipelineRasterizeTri(
-					instanceID,
-					triangleID,
-					renderBuffer,
-					clippedTris + 0,
-					rClass
-				);
+				// rasterize clipped triangle 1
+				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
 
 				// project triangle 2
 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 1);
 
 				// rasterize triangle 2
-				CInternalPipelineRasterizeTri(
-					instanceID,
-					triangleID,
-					renderBuffer,
-					clippedTris + 1,
-					rClass
-				);
+				CInternalPipelineRasterizeTri(tContext, clippedTris + 1);
 
 				break;
 
@@ -132,6 +126,9 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 
 			// free triangle data
 			CInternalFree(triangle);
+
+			// free triangle context
+			CInternalFree(tContext);
 
 			// increment triangleID
 			triangleID++;

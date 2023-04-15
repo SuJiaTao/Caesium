@@ -24,10 +24,6 @@ typedef PVOID* PPVOID;
 typedef PVOID CHandle;
 typedef CHandle* PCHandle;
 
-typedef struct CVect2I {
-	INT32 x, y;
-} CVect2I, *PCVect2I;
-
 typedef struct CVect2F {
 	FLOAT x, y;
 } CVect2F, *PCVect2F;
