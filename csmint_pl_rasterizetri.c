@@ -160,7 +160,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	CVect3F RBase = subTri->verts[2];
 
 	// on triangle squashed, return
-	if ((top.y - LBase.y) < 1.0f) return;
+	if ((top.y - LBase.y) <= 1.0f) return;
 
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
@@ -183,7 +183,8 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
 
 		// get distance travelled from start Y
-		FLOAT yDist = drawY - LBase.y;
+		// yDist has the potential to be < 0 due to floating point math, so we clamp it
+		FLOAT yDist = max(0.0f, drawY - LBase.y);
 
 		// generate start and end X positions
 		const INT DRAW_X_START =
@@ -314,6 +315,6 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	COPY_BYTES(triangle, &flatTopTri, sizeof(CIPTriData));
 	flatTopTri.verts[0] = horzPoint; // top is now flat
 
-	_drawFlatBottomTri(triContext, &flatBottomTri);
+	_drawFlatBottomTri(triContext, &flatBottomTri); // weird NaN issue
 	_drawFlatTopTri(triContext, &flatTopTri);
 }
