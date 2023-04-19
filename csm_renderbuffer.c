@@ -15,19 +15,15 @@ CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 		CInternalSetLastError("CMakeRenderBuffer failed because pHandle was NULL");
 		_CSyncLeave(FALSE);
 	}
-	if (width < 4 || height < 4) {
+	if (width < 1 || height < 1) {
 		CInternalSetLastError("CMakeRenderBuffer failed because dimensions were invalid");
 		_CSyncLeave(FALSE);
 	}
 
-	// set w and h and multiply of 4
-	width  &= ~0b11;
-	height &= ~0b11;
-
 	PCRenderBuffer rb = CInternalAlloc(sizeof(CRenderBuffer));
 	rb->width = width;
 	rb->height = height;
-	rb->color = CInternalAlloc(sizeof(PCRgb) * rb->width * rb->height + rb->height);
+	rb->color = CInternalAlloc(sizeof(PCColor) * rb->width * rb->height + rb->height);
 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
 
 	*pHandle = rb;
@@ -59,7 +55,7 @@ CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
 	_CSyncLeave(TRUE);
 }
 
-static __forceinline PCRgb _findColorPtr(PCRenderBuffer b, INT x, INT y) {
+static __forceinline PCColor _findColorPtr(PCRenderBuffer b, INT x, INT y) {
 	return b->color + (x + (y * b->width));
 }
 
@@ -72,7 +68,7 @@ static __forceinline BOOL _checkPosInRB(PCRenderBuffer b, INT x, INT y) {
 }
 
 CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
-	PCRgb colorOut, PFLOAT depthOut) {
+	PCColor colorOut, PFLOAT depthOut) {
 	_CSyncEnter();
 
 	if (handle == NULL) {
@@ -97,7 +93,7 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 }
 
 CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
-	CRgb color, FLOAT depth) {
+	CColor color, FLOAT depth) {
 	_CSyncEnter();
 
 	if (handle == NULL) {
@@ -132,7 +128,7 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle) {
 	INT elemCount = pBuffer->width * pBuffer->height;
 	
 	// set all colors to 0
-	__stosb(pBuffer->color, ZERO, elemCount * sizeof(CRgb));
+	__stosb(pBuffer->color, ZERO, elemCount * sizeof(CColor));
 
 	// set all depth
 	__stosd(pBuffer->depth, CSM_RENDERBUFFER_MAX_DEPTH, elemCount);

@@ -24,7 +24,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (earlyDepth > vertex.x) return;
 
 	// prepare rasterization color
-	CRgb fragColor = CMakeColor(255, 0, 255);
+	CColor fragColor = CMakeColor3(255, 0, 255);
 	BOOL keepFragment = TRUE;
 
 	if (triContext->material != NULL) {

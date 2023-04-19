@@ -7,9 +7,9 @@
 
 #include "csm_renderclass.h"
 
-CSMCALL CRgb	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b);
-CSMCALL CRgb	CFragmentConvertVect3ToColor(CVect3F vect3);
-CSMCALL CVect3F CFragmentConvertColorToVect3(CRgb color);
+CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b);
+CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3);
+CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color);
 
 CSMCALL BOOL	CFragmentGetInput(CHandle fragContext, UINT32 inputID, PFLOAT outBuffer);
 

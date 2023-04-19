@@ -36,9 +36,9 @@ typedef struct CVect4F {
 	FLOAT x, y, z, w;
 } CVect4F, *PCVect4F;
 
-typedef struct CRgb {
-	BYTE b, g, r;
-} CRgb, *PCRgb;
+typedef struct CColor {
+	BYTE b, g, r, a;
+} CColor, *PCColor;
 
 CSMCALL BOOL CInitialize();
 CSMCALL BOOL CTerminate();
@@ -46,7 +46,8 @@ CSMCALL BOOL CTerminate();
 CSMCALL PCHAR CGetLastError(void);
 CSMCALL void  CFreeError(PCHAR error);
 
-CSMCALL CRgb CMakeColor(INT r, INT g, INT b);
+CSMCALL CColor CMakeColor3(INT r, INT g, INT b);
+CSMCALL CColor CMakeColor4(INT r, INT g, INT b, INT a);
 
 CSMCALL void CLock();
 CSMCALL void CUnlock();

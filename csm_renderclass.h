@@ -26,7 +26,7 @@ typedef BOOL (*PCFFragmentShaderProc) (
 	UINT32  triangleID,
 	UINT32  instanceID,
 	CVect3F inFragPos,
-	PCRgb	inOutColor
+	PCColor	inOutColor
 	);
 
 typedef struct CMaterial {

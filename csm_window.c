@@ -39,29 +39,50 @@ static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
 
 		RECT drawRect;
 		GetClientRect(cwin->wnd, &drawRect);
-		DWORD width = drawRect.right - drawRect.left;
-		DWORD height = drawRect.bottom - drawRect.top;
+		DWORD windowWidth = drawRect.right - drawRect.left;
+		DWORD windowHeight = drawRect.bottom - drawRect.top;
 
 		PCRenderBuffer pBuffer = cwin->renderBuff;
 
-		// setup bitmap descriptor
-		BITMAPINFO bti;
-		ZERO_BYTES(&bti, sizeof(bti));
-		bti.bmiHeader.biBitCount = 24;
-		bti.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		bti.bmiHeader.biWidth = pBuffer->width;
-		bti.bmiHeader.biHeight = pBuffer->height;
-		bti.bmiHeader.biPlanes = 1;
-		bti.bmiHeader.biCompression = BI_RGB;
-
-		// paint buffer to window
+		// begin paint buffer to window
 		PAINTSTRUCT ps;
-		HDC pDC = BeginPaint(cwin->wnd, &ps);
+		HDC paintDC = BeginPaint(cwin->wnd, &ps);
 
-		INT drawRslt = 
-			StretchDIBits(pDC, 0, 0, width, height, 0, 0,
-			pBuffer->width, pBuffer->height,
-			pBuffer->color, &bti, DIB_RGB_COLORS, SRCCOPY);
+		// setup bitmap object to convert to DIB sections
+		BITMAP rbBitmap;
+		rbBitmap.bmType = ZERO;
+		rbBitmap.bmWidth = pBuffer->width;
+		rbBitmap.bmHeight = pBuffer->height;
+		rbBitmap.bmWidthBytes = pBuffer->width * sizeof(CColor);
+		rbBitmap.bmPlanes = 1;
+		rbBitmap.bmBitsPixel = 32;
+		rbBitmap.bmBits = pBuffer->color;
+
+		// make hBitMap
+		HBITMAP hBitMap = CreateBitmapIndirect(&rbBitmap);
+
+		// make DC for our bitmap and select
+		HDC bitmapDC = CreateCompatibleDC(paintDC);
+		SelectObject(bitmapDC, hBitMap);
+
+		// setup alpha draw descriptor
+		BLENDFUNCTION blendFunc;
+		ZERO_BYTES(&blendFunc, sizeof(blendFunc));
+		blendFunc.BlendOp	 = AC_SRC_OVER;
+		blendFunc.BlendFlags = ZERO;
+		blendFunc.SourceConstantAlpha = 255;
+		blendFunc.BlendFlags = ZERO;
+
+		// draw ALPHA to window
+		BOOL drawResult = AlphaBlend(
+			paintDC, 0, 0, windowWidth, windowHeight,
+			bitmapDC, 0, 0, pBuffer->width, pBuffer->height,
+			blendFunc
+		);
+
+		// free DC and bitmap
+		DeleteObject(hBitMap);
+		DeleteObject(bitmapDC);
 
 		EndPaint(cwin->wnd, &ps);
 
