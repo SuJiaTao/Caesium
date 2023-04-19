@@ -24,14 +24,10 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (earlyDepth > vertex.x) return;
 
 	// prepare rasterization color
-	CRgb fragColor;
+	CRgb fragColor = CMakeColor(255, 0, 255);
 	BOOL keepFragment = TRUE;
 
-	// if material is NULL, set color to ERR PURPLE
-	if (triContext->material == NULL) {
-		fragColor = CMakeColor(255, 0, 255);
-	}
-	else {
+	if (triContext->material != NULL) {
 		// apply fragment shader
 		keepFragment = triContext->material->fragmentShader(
 			&triContext->fragContext,
@@ -131,10 +127,11 @@ static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triang
 	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
 
-static __forceinline void _prepareFragmentInputValues(PCIPFragContext context) {
-	PCIPVertInputList vertInpList1 = &context->triData->vertInputs[0];
-	PCIPVertInputList vertInpList2 = &context->triData->vertInputs[1];
-	PCIPVertInputList vertInpList3 = &context->triData->vertInputs[2];
+static __forceinline void _prepareFragmentInputValues(PCIPVertInputList inOutVertList, 
+	PCIPTriData triData, CVect3F bWeights) {
+	PCIPVertInputList vertInpList1 = &triData->vertInputs[0];
+	PCIPVertInputList vertInpList2 = &triData->vertInputs[1];
+	PCIPVertInputList vertInpList3 = &triData->vertInputs[2];
 
 	// interpolate all input values based on fragment
 	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
@@ -142,25 +139,25 @@ static __forceinline void _prepareFragmentInputValues(PCIPFragContext context) {
 		PCIPVertInput vertInput1 = vertInpList1->inputs + inputID;
 		PCIPVertInput vertInput2 = vertInpList2->inputs + inputID;
 		PCIPVertInput vertInput3 = vertInpList3->inputs + inputID;
-		PCIPVertInput outVertInput = context->fragInputs.inputs + inputID;
+		PCIPVertInput outVertInput = inOutVertList->inputs + inputID;
 
 		// loop each component and interpolate
 		for (UINT32 comp = 0; comp < vertInput1->componentCount; comp++) {
 			outVertInput->valueBuffer[comp] =
-				(context->barycentricWeightings.x * vertInput1->valueBuffer[comp]) +
-				(context->barycentricWeightings.y * vertInput2->valueBuffer[comp]) +
-				(context->barycentricWeightings.z * vertInput3->valueBuffer[comp]);
+				(bWeights.x * vertInput1->valueBuffer[comp]) +
+				(bWeights.y * vertInput2->valueBuffer[comp]) +
+				(bWeights.z * vertInput3->valueBuffer[comp]);
 			outVertInput->componentCount = vertInput1->componentCount;
 		}
 	}
 }
 
-static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData triangle) {
+static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData subTri) {
 
 	// generate each position
-	CVect3F top = triangle->verts[0];
-	CVect3F LBase = triangle->verts[1];
-	CVect3F RBase = triangle->verts[2];
+	CVect3F top = subTri->verts[0];
+	CVect3F LBase = subTri->verts[1];
+	CVect3F RBase = subTri->verts[2];
 
 	// on triangle squashed, return
 	if ((top.y - LBase.y) < 1.0f) return;
@@ -168,7 +165,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		_swapInputLists(&triangle->vertInputs[1], &triangle->vertInputs[2]);
+		//_swapInputLists(&subTri->vertInputs[1], &subTri->vertInputs[2]);
 	}
 
 	// generate inverse slopes
@@ -203,14 +200,14 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
 				_generateBarycentricWeights(triContext->fragContext.triData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
-			fContext->triData				= triangle;
+			fContext->triData				= subTri;
 			fContext->currentFrag			= drawVect;
-			_prepareFragmentInputValues(fContext);
+			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
 
 			// draw fragment
 			_drawFragment(triContext);
@@ -218,12 +215,12 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	}
 }
 
-static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData triangle) {
+static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
 
 	// generate each position
-	CVect3F LBase  = triangle->verts[0];
-	CVect3F RBase  = triangle->verts[1];
-	CVect3F bottom = triangle->verts[2];
+	CVect3F LBase  = subTri->verts[0];
+	CVect3F RBase  = subTri->verts[1];
+	CVect3F bottom = subTri->verts[2];
 
 	// on triangle squashed, return
 	if ((LBase.y - bottom.y) < 1.0f) return;
@@ -231,7 +228,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		_swapInputLists(&triangle->vertInputs[0], &triangle->vertInputs[1]);
+		//_swapInputLists(&subTri->vertInputs[0], &subTri->vertInputs[1]);
 	}
 
 	// generate inverse slopes
@@ -268,14 +265,14 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
 				_generateBarycentricWeights(triContext->fragContext.triData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, triangle, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
-			fContext->triData				= triangle;
+			fContext->triData				= subTri;
 			fContext->currentFrag			= drawVect;
-			_prepareFragmentInputValues(fContext);
+			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
 
 			// draw fragment
 			_drawFragment(triContext);
@@ -312,14 +309,20 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	horzPoint.z = 
 		_interpolateDepth(baryWeightings, triangle, horzPoint);
 
+	// generate interpolated values
+	CIPVertInputList interpList = { 0 };
+	_prepareFragmentInputValues(&interpList, triangle, baryWeightings);
+
 	// make both triangles and draw
 	CIPTriData flatBottomTri;
 	COPY_BYTES(triangle, &flatBottomTri, sizeof(CIPTriData));
 	flatBottomTri.verts[2] = horzPoint; // bottom is now flat
+	flatBottomTri.vertInputs[2] = interpList;
 
 	CIPTriData flatTopTri;
 	COPY_BYTES(triangle, &flatTopTri, sizeof(CIPTriData));
 	flatTopTri.verts[0] = horzPoint; // top is now flat
+	flatTopTri.vertInputs[0] = interpList;
 
 	_drawFlatBottomTri(triContext, &flatBottomTri);
 	_drawFlatTopTri(triContext, &flatTopTri);
