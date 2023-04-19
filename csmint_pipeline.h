@@ -27,7 +27,6 @@ typedef struct CIPTriData {
 
 typedef struct CIPFragContext {
 	struct CIPTriContext*	parent;
-	PCIPTriData				triData;
 	CIPVertInputList		fragInputs;
 	CVect3F					currentFrag;
 	CVect3F					barycentricWeightings;
@@ -37,6 +36,7 @@ typedef struct CIPTriContext {
 	UINT32			instanceID;
 	UINT32			triangleID;
 	PCRenderClass	rClass;
+	PCIPTriData		screenTriAndData;
 	CIPFragContext  fragContext;
 	PCRenderBuffer	renderBuffer;
 	PCMaterial		material;

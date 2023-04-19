@@ -165,7 +165,6 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		//_swapInputLists(&subTri->vertInputs[1], &subTri->vertInputs[2]);
 	}
 
 	// generate inverse slopes
@@ -199,13 +198,12 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
-				_generateBarycentricWeights(triContext->fragContext.triData, drawVect);
+				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
 			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
-			fContext->triData				= subTri;
 			fContext->currentFrag			= drawVect;
 			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
 
@@ -228,7 +226,6 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		//_swapInputLists(&subTri->vertInputs[0], &subTri->vertInputs[1]);
 	}
 
 	// generate inverse slopes
@@ -241,8 +238,9 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	// walk down from top to bottom
 	PCRenderBuffer renderBuff = triContext->renderBuffer;
 
+	// calculate top and bottom
 	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
-	const INT DRAW_Y_END   = max(0, bottom.y);
+	const INT DRAW_Y_END = max(0, bottom.y);
 
 	// note: Y walks downwards
 	for (INT drawY = DRAW_Y_START; drawY >= DRAW_Y_END; drawY--) {
@@ -264,13 +262,12 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
-				_generateBarycentricWeights(triContext->fragContext.triData, drawVect);
+				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
 			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
-			fContext->triData				= subTri;
 			fContext->currentFrag			= drawVect;
 			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
 
@@ -282,9 +279,8 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 
 void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData triangle) {
 	
-	// set triContext's triangle to current triangle
-	// for various reasons this isn't done in csm_draw.c
-	triContext->fragContext.triData = triangle;
+	// set triContext's triangle to current screen triangle
+	triContext->screenTriAndData = triangle;
 
 	// sort triangle vertically
 	_sortTriByVerticality(triangle);
@@ -309,20 +305,14 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	horzPoint.z = 
 		_interpolateDepth(baryWeightings, triangle, horzPoint);
 
-	// generate interpolated values
-	CIPVertInputList interpList = { 0 };
-	_prepareFragmentInputValues(&interpList, triangle, baryWeightings);
-
 	// make both triangles and draw
 	CIPTriData flatBottomTri;
 	COPY_BYTES(triangle, &flatBottomTri, sizeof(CIPTriData));
 	flatBottomTri.verts[2] = horzPoint; // bottom is now flat
-	flatBottomTri.vertInputs[2] = interpList;
 
 	CIPTriData flatTopTri;
 	COPY_BYTES(triangle, &flatTopTri, sizeof(CIPTriData));
 	flatTopTri.verts[0] = horzPoint; // top is now flat
-	flatTopTri.vertInputs[0] = interpList;
 
 	_drawFlatBottomTri(triContext, &flatBottomTri);
 	_drawFlatTopTri(triContext, &flatTopTri);
