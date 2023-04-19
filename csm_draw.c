@@ -8,6 +8,30 @@
 #include "csm_mesh.h"
 #include <stdio.h>
 
+static __forceinline void _initializeTriInputVert(PCIPTriData tInput, UINT32 vert, UINT32 baseIndex,
+	PCRenderClass rClass) {
+	// get vert input list
+	PCIPVertInputList viList = tInput->vertInputs + vert;
+
+	// calculate mesh vertex index
+	PCMesh mesh = rClass->mesh;
+	UINT32 vertID = mesh->indexArray[baseIndex + vert];
+
+	// loop all vertex inputs buffers of rClass
+	// get all vertex inputs of vert input list and assign to their respective values
+	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
+		PCVertexDataBuffer vertDataBuffer = rClass->vertexBuffers[inputID];
+		PCIPVertInput vertexInput = viList->inputs + inputID;
+
+		// if vertex buffer DNE, skip
+		if (vertDataBuffer == NULL) continue;
+
+		// write input to value buffer and set metadata
+		vertexInput->componentCount = vertDataBuffer->elementComponents;
+		CVertexDataBufferGetElement(vertDataBuffer, vertID, &vertexInput->valueBuffer);
+	}
+}
+
 CSMCALL BOOL CDraw(CHandle renderBuffer, CHandle rClass, PCMatrix pMatrix) {
 	return CDrawInstanced(renderBuffer, rClass, 1, pMatrix);
 }
@@ -45,27 +69,32 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 		UINT32 triangleID = 0;
 		for (UINT32 meshIndex = 0; meshIndex < drawMesh->indexCount; meshIndex += 3) {
 			// alloc triangle to heap
-			PCIPTri triangle = CInternalAlloc(sizeof(CIPTri));
+			PCIPTriData triData = CInternalAlloc(sizeof(CIPTriData));
 
 			// get triangle from mesh
-			triangle->verts[0] = 
+			triData->verts[0] = 
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 0]];
-			triangle->verts[1] =
+			triData->verts[1] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 1]];
-			triangle->verts[2] =
+			triData->verts[2] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
 
+			// generate vert inputs
+			_initializeTriInputVert(triData, 0, meshIndex, rClass);
+			_initializeTriInputVert(triData, 1, meshIndex, rClass);
+			_initializeTriInputVert(triData, 2, meshIndex, rClass);
+
 			// clip triangle
-			PCIPTri clippedTris = CInternalAlloc(sizeof(CIPTri) * 2);
-			UINT32 triCount = CInternalPipelineClipTri(triangle, clippedTris);
+			PCIPTriData clippedTris = CInternalAlloc(sizeof(CIPTriData) * 2);
+			UINT32 triCount = CInternalPipelineClipTri(triData, clippedTris);
 
 			// generate tri context for rasterization
 			// note: tContext->fragContext is untouched because it is determined per-fragment
 			// note: with the exception of tContext->fragContext.parent which points to tContext
 			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
-			tContext->instanceID = instanceID;
-			tContext->triangleID = triangleID;
-			tContext->rClass	 = rClass;
+			tContext->instanceID		 = instanceID;
+			tContext->triangleID		 = triangleID;
+			tContext->rClass			 = rClass;
 			tContext->renderBuffer		 = renderBuffer;
 			tContext->fragContext.parent = tContext;
 
@@ -85,10 +114,10 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 
 			case 0: // default case. no extra tris used
 				// project triangle
-				CInternalPipelineProjectTri(renderBuffer, triangle);
+				CInternalPipelineProjectTri(renderBuffer, triData);
 
 				// rasterize triangle
-				CInternalPipelineRasterizeTri(tContext, triangle);
+				CInternalPipelineRasterizeTri(tContext, triData);
 
 				break;
 
@@ -125,7 +154,7 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			CInternalFree(clippedTris);
 
 			// free triangle data
-			CInternalFree(triangle);
+			CInternalFree(triData);
 
 			// free triangle context
 			CInternalFree(tContext);

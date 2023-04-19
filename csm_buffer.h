@@ -8,22 +8,13 @@
 #include "csm.h"
 #include "csm_matrix.h"
 
-typedef enum CVertexDataBufferType {
-	CVertexDataBufferType_Byte,
-	CVertexDataBufferType_Int,
-	CVertexDataBufferType_Float,
-	CVertexDataBufferType_CVect2F,
-	CVertexDataBufferType_CVect3F,
-	CVertexDataBufferType_CVect4F,
-	CVertexDataBufferType_CRgb,
-	CVertexDataBufferType_Error
-} CVertexDataBufferType;
+#define CSM_VERTEX_DATA_BUFFER_MAX_COMPONENTS	8
 
 typedef struct CVertexDataBuffer {
-	CVertexDataBufferType type;
 	PCHAR  name;
 	UINT32 elementCount;
-	PVOID  data;
+	UINT32 elementComponents;
+	PFLOAT data;
 } CVertexDataBuffer, *PCVertexDataBuffer;
 
 typedef struct CStaticDataBuffer {
@@ -33,13 +24,13 @@ typedef struct CStaticDataBuffer {
 	PVOID  data;
 } CStaticDataBuffer, *PCStaticDataBuffer;
 
-CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
-	UINT32 elementCount, PVOID dataIn);
+CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, UINT32 elementCount, 
+	UINT32 elementComponents, PFLOAT dataIn);
 CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pVertexDataBuffer);
 CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
-	PVOID outBuffer);
+	PFLOAT outBuffer);
 CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
-	PVOID inBuffer);
+	PFLOAT inBuffer);
 
 CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
 	PVOID dataIn);

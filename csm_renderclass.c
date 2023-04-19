@@ -298,11 +298,6 @@ CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, CHandle vdBuffer, U
 			"CRenderClassSetVertexDataBuffer failed because rClass was invalid");
 	}
 
-	if (vdBuffer == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassSetVertexDataBuffer failed because vdBuffer was invalid");
-	}
-
 	if (ID >= CSM_CLASS_MAX_VERTEX_DATA) {
 		_CSyncLeaveErr(FALSE,
 			"CRenderClassSetVertexDataBuffer failed because ID was invalid");
@@ -370,11 +365,6 @@ CSMCALL BOOL	CRenderClassSetStaticDataBuffer(CHandle rClass, CHandle sdBuffer, U
 	if (rClass == NULL) {
 		_CSyncLeaveErr(FALSE,
 			"CRenderClassSetStaticDataBuffer failed because rClass was invalid");
-	}
-
-	if (sdBuffer == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassSetStaticDataBuffer failed because sdBuffer was invalid");
 	}
 
 	if (ID >= CSM_CLASS_MAX_STATIC_DATA) {

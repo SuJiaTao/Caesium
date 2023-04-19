@@ -5,42 +5,8 @@
 #include "csmint.h"
 #include "csm_buffer.h"
 
-static __forceinline SIZE_T _getVertexBufferElemBytes(CVertexDataBufferType type) {
-	// calculate byte size
-	SIZE_T elementSizeBytes = 0;
-	switch (type)
-	{
-	case CVertexDataBufferType_Byte:
-		elementSizeBytes = sizeof(BYTE);
-		break;
-	case CVertexDataBufferType_Int:
-		elementSizeBytes = sizeof(INT32);
-		break;
-	case CVertexDataBufferType_Float:
-		elementSizeBytes = sizeof(FLOAT);
-		break;
-	case CVertexDataBufferType_CVect2F:
-		elementSizeBytes = sizeof(CVect2F);
-		break;
-	case CVertexDataBufferType_CVect3F:
-		elementSizeBytes = sizeof(CVect3F);
-		break;
-	case CVertexDataBufferType_CVect4F:
-		elementSizeBytes = sizeof(CVect3F);
-		break;
-	case CVertexDataBufferType_CRgb:
-		elementSizeBytes = sizeof(CRgb);
-		break;
-	default:
-		CInternalErrorPopup("Bad Vertex Data Buffer Type State");
-		break;
-	}
-
-	return elementSizeBytes;
-}
-
-CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
-	UINT32 elementCount, PVOID dataIn) {
+CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, UINT32 elementCount,
+	UINT32 elementComponents, PFLOAT dataIn) {
 	_CSyncEnter();
 
 	if (name == NULL) {
@@ -49,8 +15,11 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	if (elementCount == 0) {
 		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because elementCount was 0");
 	}
-	if (type < 0 || type > CVertexDataBufferType_Error) {
-		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because type was invalid");
+	if (elementComponents == 0) {
+		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because elementComponents was 0");
+	}
+	if (elementComponents > CSM_VERTEX_DATA_BUFFER_MAX_COMPONENTS) {
+		_CSyncLeaveErr(NULL, "CMakeVertexDataBuffer failed because elementComponents was too big");
 	}
 	
 	// allocate
@@ -61,14 +30,12 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, CVertexDataBufferType type,
 	vdBuffer->name = CInternalAlloc(nameSize + 1); // +1 for NULL
 	COPY_BYTES(name, vdBuffer->name, nameSize);
 
-	SIZE_T elementSizeBytes = _getVertexBufferElemBytes(type);
-
 	// init metadata
-	vdBuffer->type = type;
 	vdBuffer->elementCount = elementCount;
-	const SIZE_T dataSizeBytes = elementCount * elementSizeBytes;
+	vdBuffer->elementComponents = elementComponents;
 
 	// copy buffer
+	const SIZE_T dataSizeBytes = elementCount * elementComponents * sizeof(FLOAT);
 	vdBuffer->data = CInternalAlloc(dataSizeBytes);
 	if (dataIn != NULL) {
 		COPY_BYTES(dataIn, vdBuffer->data, dataSizeBytes);
@@ -101,7 +68,7 @@ CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pVertexDataBuffer) {
 }
 
 CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
-	PVOID outBuffer) {
+	PFLOAT outBuffer) {
 	_CSyncEnter();
 
 	if (vdBuffer == NULL) {
@@ -112,13 +79,13 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 	}
 
 	PCVertexDataBuffer vdBuff = vdBuffer;
-	if (index >= vdBuff->elementCount) {
-		_CSyncLeaveErr(FALSE, "CVertexDataBufferGetElement failed bevause index was invalid");
-	}
+
+	// apply modulus to index so that it rolls over
+	index = index % vdBuff->elementCount;
 
 	// get data ptr and write
 	PBYTE dataBytes = vdBuff->data;
-	SIZE_T elemSizeBytes = _getVertexBufferElemBytes(vdBuff->type);
+	SIZE_T elemSizeBytes = sizeof(FLOAT) * vdBuff->elementComponents;
 	COPY_BYTES(
 		dataBytes + (elemSizeBytes * index),
 		outBuffer,
@@ -128,7 +95,7 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 }
 
 CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
-	PVOID inBuffer) {
+	PFLOAT inBuffer) {
 	if (vdBuffer == NULL) {
 		_CSyncLeaveErr(FALSE, "CVertexDataBufferSetElement failed bevause vdBuffer was invalid");
 	}
@@ -143,7 +110,7 @@ CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 
 	// get data ptr and write
 	PBYTE dataBytes = vdBuff->data;
-	SIZE_T elemSizeBytes = _getVertexBufferElemBytes(vdBuff->type);
+	SIZE_T elemSizeBytes = sizeof(FLOAT) * vdBuff->elementComponents;
 	COPY_BYTES(
 		inBuffer,
 		dataBytes + (elemSizeBytes * index),

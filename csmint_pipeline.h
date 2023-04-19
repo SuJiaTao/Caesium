@@ -11,15 +11,26 @@
 
 #define CSMINT_CLIP_PLANE_POSITION	-1.0f
 
-typedef struct CIPTri {
+typedef struct CIPVertInput {
+	UINT32 componentCount;
+	FLOAT  valueBuffer[CSM_VERTEX_DATA_BUFFER_MAX_COMPONENTS];
+} CIPVertInput, *PCIPVertInput;
+
+typedef struct CIPVertInputList {
+	CIPVertInput inputs[CSM_CLASS_MAX_VERTEX_DATA];
+} CIPVertInputList, *PCIPVertInputList;
+
+typedef struct CIPTriData {
+	CIPVertInputList vertInputs[3];
 	CVect3F verts[3];
-} CIPTri, *PCIPTri;
+} CIPTriData, *PCIPTriData;
 
 typedef struct CIPFragContext {
-	struct CIPTriContext* parent;
-	PCIPTri triangle;
-	CVect3F currentFrag;
-	CVect3F barycentricWeightings;
+	struct CIPTriContext*	parent;
+	PCIPTriData				triData;
+	CIPVertInputList		fragInputs;
+	CVect3F					currentFrag;
+	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 
 typedef struct CIPTriContext {
@@ -33,12 +44,12 @@ typedef struct CIPTriContext {
 
 PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
 	PCRenderClass rClass);
-UINT32 CInternalPipelineClipTri(PCIPTri inTri, PCIPTri outTriArray);
-void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTri tri);
-void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTri subTri);
+UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
+void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);
+void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData subTri);
 
 // implemented in <csmint_pl_rasterizetri.c>
-CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTri tri, CVect3F vert);
+CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F vert);
 FLOAT   CInternalPipelineFastDistance(CVect3F p1, CVect3F p2);
 
 #endif
