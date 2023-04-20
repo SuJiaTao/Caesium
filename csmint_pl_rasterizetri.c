@@ -119,7 +119,7 @@ CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F ver
 }
 
 // note: pos.z is ignored
-static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triangle, CVect3F pos) {
+static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triangle) {
 	FLOAT invDepth1 = weights.x * (1.0f / triangle->verts[0].z);
 	FLOAT invDepth2 = weights.y * (1.0f / triangle->verts[1].z);
 	FLOAT invDepth3 = weights.z * (1.0f / triangle->verts[2].z);
@@ -143,10 +143,25 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertInputList inOutVer
 
 		// loop each component and interpolate
 		for (UINT32 comp = 0; comp < vertInput1->componentCount; comp++) {
-			outVertInput->valueBuffer[comp] =
-				(bWeights.x * vertInput1->valueBuffer[comp]) +
-				(bWeights.y * vertInput2->valueBuffer[comp]) +
-				(bWeights.z * vertInput3->valueBuffer[comp]);
+			// get each value for verts
+			FLOAT val1 = vertInput1->valueBuffer[comp];
+			FLOAT val2 = vertInput2->valueBuffer[comp];
+			FLOAT val3 = vertInput3->valueBuffer[comp];
+
+			// get W of each vert
+			FLOAT w1 = 1.0f / triData->verts[0].z;
+			FLOAT w2 = 1.0f / triData->verts[1].z;
+			FLOAT w3 = 1.0f / triData->verts[2].z;
+
+			// generate perspective correct values
+			// implementation is taken from:
+			// https://stackoverflow.com/questions/24441631/how-exactly-does-opengl-do-perspectively-correct-linear-interpolation
+			FLOAT finalVal =
+				(bWeights.x * val1 * w1 + bWeights.y * val2 * w2 + bWeights.z * val3 * w3) /
+				(bWeights.x * w1 + bWeights.y * w2 + bWeights.z * w3);
+
+			// assign
+			outVertInput->valueBuffer[comp] = finalVal;
 			outVertInput->componentCount = vertInput1->componentCount;
 		}
 	}
@@ -200,13 +215,13 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
 				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
 			fContext->currentFrag			= drawVect;
-			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
+			_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
 
 			// draw fragment
 			_drawFragment(triContext);
@@ -264,13 +279,13 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 				CMakeVect3F(drawX, drawY, 0.0f);
 			CVect3F bWeights = 
 				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, subTri, drawVect);
+			drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
 
 			// prepare fragment context
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
 			fContext->currentFrag			= drawVect;
-			_prepareFragmentInputValues(&fContext->fragInputs, subTri, bWeights);
+			_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
 
 			// draw fragment
 			_drawFragment(triContext);

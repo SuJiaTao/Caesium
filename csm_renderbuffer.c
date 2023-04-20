@@ -135,3 +135,102 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle) {
 
 	_CSyncLeave(TRUE);
 }
+
+CSMCALL BOOL CMakeRenderBufferFromBytes(PCHandle pHandle, INT width, INT height,
+	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion) {
+	_CSyncEnter();
+
+	if (pHandle == NULL) {
+		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because pHandle was invalid");
+	}
+	if (width < 1 || height < 1) {
+		CInternalSetLastError("CMakeRenderBufferFromBytes failed because dimensions were invalid");
+		_CSyncLeave(FALSE);
+	}
+	if (inBytes == NULL) {
+		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because inBytes was NULL");
+	}
+	if (byteFormat >= CTextureBytesFormat_Error) {
+		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because byteFormat was invalid");
+	}
+
+	// make render buffer
+	CMakeRenderBuffer(pHandle, width, height);
+	PBYTE  inBuffer = inBytes;
+	UINT32 baseIndex;			// baseindex for inBuffer pixel
+	UINT32 scanlineSizeBytes;	// scanline size
+	UINT32 yActual;				// y accounting for vertical inversion
+
+	// set all values based on inBytes
+	for (UINT32 x = 0; x < width; x++) {
+		for (UINT32 y = 0; y < height; y++) {
+
+			// color to send to "fragment"
+			CColor color = CMakeColor3(255, 0, 255);
+
+			// calculate proper Y position
+			if (verticalInversion)
+				yActual = height - y - 1;
+			else
+				yActual = y;
+
+			switch (byteFormat)
+			{
+			case CTextureBytesFormat_RGB:
+				scanlineSizeBytes = width * 3;
+				baseIndex = (scanlineSizeBytes * yActual) + (x * 3);
+				color.r = inBuffer[baseIndex + 0];
+				color.g = inBuffer[baseIndex + 1];
+				color.b = inBuffer[baseIndex + 2];
+
+				break;
+
+			case CTextureBytesFormat_BRG:
+				scanlineSizeBytes = width * 3;
+				baseIndex = (scanlineSizeBytes * yActual) + (x * 3);
+				color.r = inBuffer[baseIndex + 2];
+				color.g = inBuffer[baseIndex + 1];
+				color.b = inBuffer[baseIndex + 0];
+
+				break;
+
+			case CTextureBytesFormat_RGBA:
+				scanlineSizeBytes = width * 4;
+				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+				color.r = inBuffer[baseIndex + 0];
+				color.g = inBuffer[baseIndex + 1];
+				color.b = inBuffer[baseIndex + 2];
+				color.a = inBuffer[baseIndex + 3];
+
+				break;
+
+			case CTextureBytesFormat_ARGB:
+				scanlineSizeBytes = width * 4;
+				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+				color.r = inBuffer[baseIndex + 3];
+				color.g = inBuffer[baseIndex + 2];
+				color.b = inBuffer[baseIndex + 1];
+				color.a = inBuffer[baseIndex + 0];
+
+				break;
+
+			case CTextureBytesFormat_BRGA:
+				scanlineSizeBytes = width * 4;
+				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+				color.r = inBuffer[baseIndex + 2];
+				color.g = inBuffer[baseIndex + 1];
+				color.b = inBuffer[baseIndex + 0];
+				color.a = inBuffer[baseIndex + 3];
+
+				break;
+
+			default:
+				break;
+			}
+
+			CRenderBufferSetFragment(*pHandle, x, y, color, 0);
+		}
+	}
+
+	_CSyncLeave(TRUE);
+}

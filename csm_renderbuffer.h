@@ -15,6 +15,15 @@ typedef struct CRenderBuffer {
 	PFLOAT depth;
 } CRenderBuffer, *PCRenderBuffer;
 
+typedef enum CTextureBytesFormat {
+	CTextureBytesFormat_RGB,
+	CTextureBytesFormat_BRG,
+	CTextureBytesFormat_RGBA,
+	CTextureBytesFormat_ARGB,
+	CTextureBytesFormat_BRGA,
+	CTextureBytesFormat_Error
+} CTextureBytesFormat, *PCTextureBytesFormat;
+
 CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height);
 CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle);
 
@@ -23,5 +32,8 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	CColor color, FLOAT depth);
 CSMCALL BOOL CRenderBufferClear(CHandle handle);
+
+CSMCALL BOOL CMakeRenderBufferFromBytes(PCHandle pHandle, INT width, INT height, 
+	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion);
 
 #endif
