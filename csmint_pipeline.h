@@ -23,6 +23,7 @@ typedef struct CIPVertInputList {
 typedef struct CIPTriData {
 	CIPVertInputList vertInputs[3];
 	CVect3F verts[3];
+	FLOAT	invDepths[3]; // cache W val to avoid per-fragment float division
 } CIPTriData, *PCIPTriData;
 
 typedef struct CIPFragContext {

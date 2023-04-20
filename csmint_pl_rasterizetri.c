@@ -56,6 +56,12 @@ static __forceinline void _swapVerts(PCVect3F v1, PCVect3F v2) {
 	*v2 = temp;
 }
 
+static __forceinline void _swapDepths(PFLOAT d1, PFLOAT d2) {
+	FLOAT temp = *d1;
+	*d1 = *d2;
+	*d2 = temp;
+}
+
 static __forceinline void _swapInputLists(PCIPVertInputList vil1, PCIPVertInputList vil2) {
 	CIPVertInputList temp = *vil1;
 	*vil1 = *vil2;
@@ -67,16 +73,19 @@ static __forceinline void _sortTriByVerticality(PCIPTriData toEdit) {
 	// set is only 3 large so performance impact is minimal
 	if (toEdit->verts[0].y < toEdit->verts[1].y) {
 		_swapVerts(toEdit->verts + 0, toEdit->verts + 1);
+		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 1);
 		_swapInputLists(toEdit->vertInputs + 0, toEdit->vertInputs + 1);
 	}
 	
 	if (toEdit->verts[0].y < toEdit->verts[2].y) {
 		_swapVerts(toEdit->verts + 0, toEdit->verts + 2);
+		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 2);
 		_swapInputLists(toEdit->vertInputs + 0, toEdit->vertInputs + 2);
 	}
 
 	if (toEdit->verts[1].y < toEdit->verts[2].y) {
 		_swapVerts(toEdit->verts + 1, toEdit->verts + 2);
+		_swapDepths(toEdit->invDepths + 1, toEdit->invDepths + 2);
 		_swapInputLists(toEdit->vertInputs + 1, toEdit->vertInputs + 2);
 	}
 }
@@ -120,9 +129,9 @@ CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F ver
 
 // note: pos.z is ignored
 static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triangle) {
-	FLOAT invDepth1 = weights.x * (1.0f / triangle->verts[0].z);
-	FLOAT invDepth2 = weights.y * (1.0f / triangle->verts[1].z);
-	FLOAT invDepth3 = weights.z * (1.0f / triangle->verts[2].z);
+	FLOAT invDepth1 = weights.x * (triangle->invDepths[0]);
+	FLOAT invDepth2 = weights.y * (triangle->invDepths[1]);
+	FLOAT invDepth3 = weights.z * (triangle->invDepths[2]);
 
 	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
@@ -148,17 +157,16 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertInputList inOutVer
 			FLOAT val2 = vertInput2->valueBuffer[comp];
 			FLOAT val3 = vertInput3->valueBuffer[comp];
 
-			// get W of each vert
-			FLOAT w1 = 1.0f / triData->verts[0].z;
-			FLOAT w2 = 1.0f / triData->verts[1].z;
-			FLOAT w3 = 1.0f / triData->verts[2].z;
+			// get W of each vert multiplied by barycentric weights
+			FLOAT w1 = (triData->invDepths[0]) * bWeights.x;
+			FLOAT w2 = (triData->invDepths[1]) * bWeights.y;
+			FLOAT w3 = (triData->invDepths[2]) * bWeights.z;
 
 			// generate perspective correct values
 			// implementation is taken from:
 			// https://stackoverflow.com/questions/24441631/how-exactly-does-opengl-do-perspectively-correct-linear-interpolation
 			FLOAT finalVal =
-				(bWeights.x * val1 * w1 + bWeights.y * val2 * w2 + bWeights.z * val3 * w3) /
-				(bWeights.x * w1 + bWeights.y * w2 + bWeights.z * w3);
+				(val1 * w1 + val2 * w2 + val3 * w3) / (w1 + w2 + w3);
 
 			// assign
 			outVertInput->valueBuffer[comp] = finalVal;
@@ -180,6 +188,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
+		_swapDepths(subTri->invDepths + 0, subTri->invDepths + 1);
 	}
 
 	// generate inverse slopes
@@ -242,6 +251,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
+		_swapDepths(subTri->invDepths + 0, subTri->invDepths + 1);
 	}
 
 	// generate inverse slopes

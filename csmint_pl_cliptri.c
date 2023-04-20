@@ -69,6 +69,12 @@ static __forceinline void _genInterpolatedVertInputs(PCIPVertInputList pList,
 	}
 }
 
+static __forceinline void _perpareTriWValues(PCIPTriData tri) {
+	for (INT i = 0; i < 3; i++) {
+		tri->invDepths[i] = 1.0f / tri->verts[i].z;
+	}
+}
+
 static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriArray) {
 	// depending on behind vertex, generate other 2
 	CVect3F v1 = { 0 }, v2 = { 0 }, v3 = { 0 };
@@ -127,6 +133,7 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[0].verts[0] = v2;
 	outTriArray[0].verts[1] = mp1;
 	outTriArray[0].verts[2] = v3;
+	_perpareTriWValues(outTriArray + 0);
 
 	COPY_BYTES(&clipInfo.tri->vertInputs, &outTriArray[0].vertInputs, sizeof(clipInfo.tri->vertInputs));
 	outTriArray[0].vertInputs[1] = vil1;
@@ -135,6 +142,7 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[1].verts[0] = mp1;
 	outTriArray[1].verts[1] = mp2;
 	outTriArray[1].verts[2] = v3;
+	_perpareTriWValues(outTriArray + 1);
 
 	COPY_BYTES(&clipInfo.tri->vertInputs, &outTriArray[1].vertInputs, sizeof(clipInfo.tri->vertInputs));
 	outTriArray[1].vertInputs[1] = vil2;
@@ -184,6 +192,7 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 	outTriArray[0].verts[0] = mp1;
 	outTriArray[0].verts[1] = v3;
 	outTriArray[0].verts[2] = mp2;
+	_perpareTriWValues(outTriArray + 0);
 
 	outTriArray[0].vertInputs[0] = vil1;
 	outTriArray[0].vertInputs[1] = *vl3;
@@ -200,8 +209,9 @@ UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray) {
 		return -1;
 	}
 
-	// if ALL are infront, ret 0 for no change
+	// if ALL are infront, ret 0 for no change, still prepare W values
 	if (clipInfo.numBehind == 0) {
+		_perpareTriWValues(inTri);
 		return 0;
 	}
 
