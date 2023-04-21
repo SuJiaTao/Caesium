@@ -97,8 +97,8 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 
 	PCRenderBuffer rb = renderBuffer;
 
-	const INT texWidth = rb->width - 1;
-	const INT texHeight = rb->height - 1;
+	const INT texWidth = rb->width;
+	const INT texHeight = rb->height;
 
 	// change UV based on sample type
 	switch (sampleType)
@@ -134,10 +134,6 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 	// ensure valid
 	index_x = max(0, min(index_x, texWidth));
 	index_y = max(0, min(index_y, texHeight));
-
-	// round to nearest pixel
-	index_x = roundf(index_x);
-	index_y = roundf(index_y);
 
 	*inOutColor = CMakeColor3(255, 0, 255); // default to err purple
 	CRenderBufferGetFragment(renderBuffer, (INT)index_x, (INT)index_y, inOutColor, NULL);

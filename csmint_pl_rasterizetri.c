@@ -38,6 +38,9 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 		);
 	}
 
+	// if color alpha is 0, cull
+	if (fragColor.a == 0) return;
+
 	// apply fragment to renderBuffer
 	if (keepFragment) {
 		CRenderBufferSetFragment(
