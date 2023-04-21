@@ -4,6 +4,7 @@
 
 #include "csmint_pipeline.h"
 #include <stdio.h>
+#include <math.h>
 
 typedef struct _clipinfo {
 	BOOL clipStates[3];
@@ -44,8 +45,15 @@ static __forceinline CVect3F _genPlaneIntersectPoint(CVect3F p1, CVect3F p2) {
 	);
 }
 
+static __forceinline FLOAT _vectDist(CVect3F v1, CVect3F v2) {
+	FLOAT dx = v2.x - v1.x;
+	FLOAT dy = v2.y - v1.y;
+	FLOAT dz = v2.z - v1.z;
+	return sqrtf(dx * dx + dy * dy + dz * dz);
+}
+
 static __forceinline void _genInterpolatedVertInputs(PCIPVertInputList pList,
-	CVect3F p1, CVect3F p2, PCIPVertInputList vp1, PCIPVertInputList vp2) {
+	CVect3F p1, CVect3F p2, CVect3F pm, PCIPVertInputList vp1, PCIPVertInputList vp2) {
 	// loop all inputs
 	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
 		// get each individual input for each vert
@@ -61,10 +69,14 @@ static __forceinline void _genInterpolatedVertInputs(PCIPVertInputList pList,
 			// generate range between two values
 			FLOAT range = val2 - val1;
 
+			// calculate distance between p1 and p2, p1 and pm
+			FLOAT d12 = _vectDist(p1, p2);
+			FLOAT d1m = _vectDist(p1, pm);
+
 			// interpolate between values based on dist from clipping plane
 			pList->inputs[inputID].componentCount = input1->componentCount;
 			pList->inputs[inputID].valueBuffer[component] =
-				val1 + range * ((CSMINT_CLIP_PLANE_POSITION - p1.z) / (p1.z - p2.z));
+				val1 + (range * (d1m / d12));
 		}
 	}
 }
@@ -126,8 +138,8 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 
 	// interpolate inputs
 	CIPVertInputList vil1 = { 0 }, vil2 = { 0 };
-	_genInterpolatedVertInputs(&vil1, v1, v2, vl1, vl2);
-	_genInterpolatedVertInputs(&vil2, v1, v3, vl1, vl3);
+	_genInterpolatedVertInputs(&vil1, v1, v2, mp1, vl1, vl2);
+	_genInterpolatedVertInputs(&vil2, v1, v3, mp2, vl1, vl3);
 
 	// generate new triangle 1
 	outTriArray[0].verts[0] = v2;
@@ -135,8 +147,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[0].verts[2] = v3;
 	_perpareTriWValues(outTriArray + 0);
 
-	COPY_BYTES(&clipInfo.tri->vertInputs, &outTriArray[0].vertInputs, sizeof(clipInfo.tri->vertInputs));
+	outTriArray[0].vertInputs[0] = *vl2;
 	outTriArray[0].vertInputs[1] = vil1;
+	outTriArray[0].vertInputs[2] = *vl3;
 
 	// generate new triangle 2
 	outTriArray[1].verts[0] = mp1;
@@ -144,8 +157,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[1].verts[2] = v3;
 	_perpareTriWValues(outTriArray + 1);
 
-	COPY_BYTES(&clipInfo.tri->vertInputs, &outTriArray[1].vertInputs, sizeof(clipInfo.tri->vertInputs));
+	outTriArray[1].vertInputs[0] = vil1;
 	outTriArray[1].vertInputs[1] = vil2;
+	outTriArray[1].vertInputs[2] = *vl3;
 }
 
 static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) {
@@ -185,8 +199,8 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 
 	// generate interpolated values
 	CIPVertInputList vil1 = { 0 }, vil2 = { 0 };
-	_genInterpolatedVertInputs(&vil1, v3, v1, vl3, vl1);
-	_genInterpolatedVertInputs(&vil2, v3, v2, vl3, vl2);
+	_genInterpolatedVertInputs(&vil1, v3, v1, mp1, vl3, vl1);
+	_genInterpolatedVertInputs(&vil2, v3, v2, mp2, vl3, vl2);
 
 	// generate final triangle
 	outTriArray[0].verts[0] = mp1;
@@ -196,7 +210,7 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 
 	outTriArray[0].vertInputs[0] = vil1;
 	outTriArray[0].vertInputs[1] = *vl3;
-	outTriArray[0].vertInputs[1] = vil2;
+	outTriArray[0].vertInputs[2] = vil2;
 }
 
 UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray) {
