@@ -63,12 +63,7 @@ CSMCALL BOOL CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT ou
 		return FALSE;
 	}
 
-	// get vertex ID
-	UINT32 vertexID = (triContext->triangleID * 3) + triContext->triVertID;
-
-	// 
-
-	CVertexDataBufferGetElement(vdb, , outBuffer);
+	CVertexDataBufferGetElement(vdb, triContext->vertexID, outBuffer);
 
 	return TRUE;
 }
@@ -156,7 +151,7 @@ CSMCALL BOOL CVertexSetVertexOutput(CHandle vertContext, UINT32 outputID,
 
 	// get vertex output ptr
 	PCIPVertOutput pOut = 
-		&(context->screenTriAndData->vertOutputs[context->triVertID].outputs[outputID]);
+		&(context->screenTriAndData->vertOutputs[context->vertexID].outputs[outputID]);
 	
 	// set value
 	pOut->componentCount = components;

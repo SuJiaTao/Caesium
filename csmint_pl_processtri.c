@@ -7,13 +7,15 @@
 void CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri) {
 	// loop each vertex
 	for (UINT32 triVertexIndex = 0; triVertexIndex < 3; triVertexIndex++) {
-		// set triContext's triVertID
-		triContext->triVertID = triVertexIndex;
+		
+		// calculate vertex ID
+		PCMesh mesh = triContext->rClass->mesh;
+		triContext->vertexID = mesh->indexArray[(triContext->triangleID * 3) + triVertexIndex];
 
 		// calculate new vertex position and vertex outputs
 		CVect3F vertOut = triContext->material->vertexShader(
 			triContext,
-			(triContext->triangleID * 3) + triVertexIndex,
+			triContext->vertexID,
 			triContext->triangleID,
 			triContext->instanceID,
 			inTri->verts[triVertexIndex]
