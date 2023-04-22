@@ -32,6 +32,7 @@
     <ClInclude Include="csm_draw.h" />
     <ClInclude Include="csm_renderbuffer.h" />
     <ClInclude Include="csm_renderclass.h" />
+    <ClInclude Include="csm_vertex.h" />
     <ClInclude Include="csm_window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +40,7 @@
     <ClCompile Include="csmint_error.c" />
     <ClCompile Include="csmint_memory.c" />
     <ClCompile Include="csmint_pl_cliptri.c" />
-    <ClCompile Include="csmint_pl_processmesh.c" />
+    <ClCompile Include="csmint_pl_processtri.c" />
     <ClCompile Include="csmint_pl_projecttri.c" />
     <ClCompile Include="csmint_pl_rasterizetri.c" />
     <ClCompile Include="csm_fragment.c" />
@@ -49,6 +50,7 @@
     <ClCompile Include="csm_draw.c" />
     <ClCompile Include="csm_renderclass.c" />
     <ClCompile Include="csm_renderbuffer.c" />
+    <ClCompile Include="csm_vertex.c" />
     <ClCompile Include="csm_window.c" />
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@
 #include "csm_buffer.h"
 #include "csm_renderclass.h"
 #include "csm_draw.h"
+#include "csm_vertex.h"
 #include "csm_fragment.h"
 
 #endif

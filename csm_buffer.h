@@ -31,11 +31,14 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 	PFLOAT outBuffer);
 CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 	PFLOAT inBuffer);
+CSMCALL UINT32	CVertexDataBufferGetElementCount(CHandle vdBuffer);
+CSMCALL UINT32	CVertexDataBufferGetComponentCount(CHandle vdBuffer);
 
 CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
 	PVOID dataIn);
 CSMCALL BOOL	CDestroyStaticDataBuffer(PCHandle pStaticDataBuffer);
 CSMCALL PVOID	CStaticDataBufferMap(CHandle sdBuffer);
 CSMCALL void	CStaticDataBufferUnmap(CHandle sdBuffer);
+CSMCALL SIZE_T	CStaticDataBufferGetSizeBytes(CHandle sdBuffer);
 
 #endif

@@ -8,61 +8,133 @@
 #include "csm_mesh.h"
 #include <stdio.h>
 
-static __forceinline void _initializeTriInputVert(PCIPTriData tInput, UINT32 vert, UINT32 baseIndex,
-	PCRenderClass rClass) {
-	// get vert input list
-	PCIPVertInputList viList = tInput->vertInputs + vert;
-
-	// calculate mesh vertex index
-	PCMesh mesh = rClass->mesh;
-	UINT32 vertID = mesh->indexArray[baseIndex + vert];
-
-	// loop all vertex inputs buffers of rClass
-	// get all vertex inputs of vert input list and assign to their respective values
-	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
-		PCVertexDataBuffer vertDataBuffer = rClass->vertexBuffers[inputID];
-		PCIPVertInput vertexInput = viList->inputs + inputID;
-
-		// if vertex buffer DNE, skip
-		if (vertDataBuffer == NULL) continue;
-
-		// write input to value buffer and set metadata
-		vertexInput->componentCount = vertDataBuffer->elementComponents;
-		CVertexDataBufferGetElement(vertDataBuffer, vertID, &vertexInput->valueBuffer);
+CSMCALL CHandle CMakeDrawContext(CHandle renderBuffer) {
+	_CSyncEnter();
+	if (renderBuffer == NULL) {
+		_CSyncLeaveErr(NULL, "CMakeDrawContext failed because renderBuffer was invalid");
 	}
+
+	PCDrawContext dc = CInternalAlloc(sizeof(CDrawContext));
+	dc->renderBuffer = renderBuffer;
+
+	_CSyncLeave(dc);
 }
 
-CSMCALL BOOL CDraw(CHandle renderBuffer, CHandle rClass, PCMatrix pMatrix) {
-	return CDrawInstanced(renderBuffer, rClass, 1, pMatrix);
+CSMCALL BOOL	CDestroyDrawContext(CHandle drawContext) {
+	_CSyncEnter();
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDestroyDrawContext failed because drawContext was invalid");
+	}
+
+	PCDrawContext context = drawContext;
+
+	// free all input data
+	for (UINT32 inputID = 0; inputID < CSM_MAX_DRAW_INPUTS; inputID++) {
+		PCDrawInput input = context->inputs + inputID;
+		if (input->pData != NULL)
+			CInternalFree(input->pData);
+	}
+
+	// free dc
+	CInternalFree(context);
+
+	_CSyncLeave(TRUE);
 }
 
-CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
-	UINT32 instanceCount, PCMatrix matrixArray) {
+CSMCALL	CHandle	CDrawContextSetDrawInput(CHandle drawContext, UINT32 inputID, PVOID inBytes, SIZE_T size) {
+	_CSyncEnter();
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawContextSetDrawInput failed because drawContext was invalid");
+	}
+	if (inputID >= CSM_MAX_DRAW_INPUTS) {
+		_CSyncLeaveErr(FALSE, "CDrawContextSetDrawInput failed because inputID was invalid");
+	}
+
+	PCDrawContext context = drawContext;
+	PCDrawInput	  input = context->inputs + inputID;
+	
+	// free existing data if needed
+	if (input->pData != NULL)
+		CInternalFree(input->pData);
+
+	// if size is 0, then skip
+	if (size == 0) {
+		_CSyncLeave(TRUE);
+	}
+
+	// alloc new and copy
+	input->pData = CInternalAlloc(size);
+	input->sizeBytes = size;
+	COPY_BYTES(inBytes, input->pData, size);
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL	CDrawContextGetDrawInput(CHandle drawContext, UINT32 inputID, PVOID outBytes) {
+	_CSyncEnter();
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because drawContext was invalid");
+	}
+	if (inputID >= CSM_MAX_DRAW_INPUTS) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because inputID was invalid");
+	}
+	if (outBytes == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because outBytes was NULL");
+	}
+
+	PCDrawContext context = drawContext;
+	PCDrawInput input = context->inputs + inputID;
+
+	// copy bytes to outbuffer
+	COPY_BYTES(input->pData, outBytes, input->sizeBytes);
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL SIZE_T	CDrawContextGetDrawInputSizeBytes(CHandle drawContext, UINT32 inputID) {
+	_CSyncEnter();
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because drawContext was invalid");
+	}
+	if (inputID >= CSM_MAX_DRAW_INPUTS) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because inputID was invalid");
+	}
+
+	PCDrawContext context = drawContext;
+	PCDrawInput input = context->inputs + inputID;
+
+	_CSyncLeave(input->sizeBytes);
+}
+
+CSMCALL BOOL CDraw(CHandle drawContext, CHandle rClass) {
+	return CDrawInstanced(drawContext, rClass, 1);
+}
+
+CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instanceCount) {
 	_CSyncEnter();
 
 	// check for bad params
-	if (renderBuffer == NULL) {
-		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because renderBuffer was invalid");
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because drawContext was invalid");
 	}
 	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because renderBuffer was invalid");
+		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because rClass was invalid");
 	}
 	if (instanceCount == 0) {
 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because instanceCount was 0");
 	}
-	if (matrixArray == NULL) {
-		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because matrixArray was 0");
-	}
+
+	// copy of class
+	PCRenderClass pClass = rClass;
+
+	// get context and render buffer
+	PCDrawContext context = drawContext;
+	PCRenderBuffer renderBuffer = context->renderBuffer;
 
 	// loop all instances
 	for (UINT32 instanceID = 0; instanceID < instanceCount; instanceID++) {
-		// process mesh vertexes (creates drawMesh on the heap)
-		PCMesh drawMesh =
-			CInternalPipelineProcessMesh(
-				instanceID, 
-				matrixArray + instanceID,
-				rClass
-			);
+		// get mesh
+		PCMesh drawMesh = CRenderClassGetMesh(rClass);
 
 		// loop each triangle of mesh and rasterize triangle
 		// this is done by walking indexes in groups of 3
@@ -79,24 +151,43 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			triData->verts[2] =
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
 
-			// generate vert inputs
-			_initializeTriInputVert(triData, 0, meshIndex, rClass);
-			_initializeTriInputVert(triData, 1, meshIndex, rClass);
-			_initializeTriInputVert(triData, 2, meshIndex, rClass);
-
-			// clip triangle
-			PCIPTriData clippedTris = CInternalAlloc(sizeof(CIPTriData) * 2);
-			UINT32 triCount = CInternalPipelineClipTri(triData, clippedTris);
-
 			// generate tri context for rasterization
 			// note: tContext->fragContext is untouched because it is determined per-fragment
 			// note: with the exception of tContext->fragContext.parent which points to tContext
 			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
-			tContext->instanceID		 = instanceID;
-			tContext->triangleID		 = triangleID;
-			tContext->rClass			 = rClass;
-			tContext->renderBuffer		 = renderBuffer;
-			tContext->fragContext.parent = tContext;
+			tContext->drawContext			= drawContext;
+			tContext->instanceID			= instanceID;
+			tContext->triangleID			= triangleID;
+			tContext->rClass				= rClass;
+			tContext->renderBuffer			= renderBuffer;
+			tContext->fragContext.parent	= tContext;
+			tContext->screenTriAndData = triData; // temporary, will be replaced when clipped
+
+			// setup material
+			if (pClass->singleMaterial == TRUE) {
+				tContext->material = pClass->materials[0];
+			}
+			else {
+				tContext->material = pClass->materials[pClass->triMaterials[triangleID]];
+					
+				// set to default material
+				if (tContext->material == NULL) {
+					tContext->material = pClass->materials[0];
+				}
+
+				// check for bad state
+				if (tContext->material == NULL) {
+					CInternalErrorPopup("Bad material state. No materials exist in class.");
+				}
+			}
+
+			// process triangle vertex inputs/outputs
+			CInternalPipelineProcessTri(tContext, triData);
+			
+
+			// clip triangle
+			PCIPTriData clippedTris = CInternalAlloc(sizeof(CIPTriData) * 2);
+			UINT32 triCount = CInternalPipelineClipTri(triData, clippedTris);
 
 			// setup materials
 			PCRenderClass tempRClass = rClass;
@@ -162,11 +253,6 @@ CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
 			// increment triangleID
 			triangleID++;
 		}
-
-		// free drawMesh and it's vertex array
-		// (refer to csmin_pl_processmesh.c)
-		CInternalFree(drawMesh->vertArray);
-		CInternalFree(drawMesh);
 	}
 
 	_CSyncLeave(TRUE);

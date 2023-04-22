@@ -16,8 +16,14 @@ CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b);
 CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3);
 CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color);
 
-CSMCALL BOOL	CFragmentGetVertexInput(CHandle fragContext, UINT32 inputID, PFLOAT outBuffer);
-CSMCALL BOOL	CFragmentGetStaticInput(CHandle fragContext, UINT32 inputID, PVOID outBuffer);
+CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID);
+
+CSMCALL BOOL	CFragmentGetVertexOutput(CHandle fragContext, UINT32 outputID, PFLOAT outBuffer);
+CSMCALL UINT32	CFragmentGetVertexOutputComponentCount(CHandle fragContext, UINT32 outputID);
+
+CSMCALL BOOL	CFragmentGetClassStaticData(CHandle fragContext, UINT32 ID, PVOID outBuffer);
+CSMCALL SIZE_T	CFragmentGetClassStaticDataSizeBytes(CHandle fragContext, UINT32 ID);
 
 CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffer, 
 	CVect2F uv, CSampleType sampleType);

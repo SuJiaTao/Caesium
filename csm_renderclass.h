@@ -13,12 +13,11 @@
 #define CSM_BAD_ID						~(0x0)
 
 typedef CVect3F (*PCFVertexShaderProc) (
-	CVect3F vertexPosition,
+	CHandle vertContext,
 	UINT32  vertexID,
 	UINT32  triangleID,
 	UINT32  instanceID,
-	CMatrix transform,
-	CHandle renderClass
+	CVect3F vertexPosition
 	);
 
 typedef BOOL (*PCFFragmentShaderProc) (

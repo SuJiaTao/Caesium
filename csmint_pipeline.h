@@ -8,32 +8,35 @@
 #include "csmint.h"
 #include "csm_mesh.h"
 #include "csm_draw.h"
+#include "csm_vertex.h"
 
 #define CSMINT_CLIP_PLANE_POSITION	-1.0f
 
-typedef struct CIPVertInput {
+typedef struct CIPVertOutput {
 	UINT32 componentCount;
 	FLOAT  valueBuffer[CSM_VERTEX_DATA_BUFFER_MAX_COMPONENTS];
-} CIPVertInput, *PCIPVertInput;
+} CIPVertOutput, *PCIPVertOutput;
 
-typedef struct CIPVertInputList {
-	CIPVertInput inputs[CSM_CLASS_MAX_VERTEX_DATA];
-} CIPVertInputList, *PCIPVertInputList;
+typedef struct CIPVertOutputList {
+	CIPVertOutput outputs[CSM_MAX_VERTEX_OUTPUTS];
+} CIPVertOutputList, *PCIPVertOutputList;
 
 typedef struct CIPTriData {
-	CIPVertInputList vertInputs[3];
+	CIPVertOutputList vertOutputs[3];
 	CVect3F verts[3];
 	FLOAT	invDepths[3]; // cache W val to avoid per-fragment float division
 } CIPTriData, *PCIPTriData;
 
 typedef struct CIPFragContext {
 	struct CIPTriContext*	parent;
-	CIPVertInputList		fragInputs;
+	CIPVertOutputList		fragInputs;
 	CVect3F					currentFrag;
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 
 typedef struct CIPTriContext {
+	PCDrawContext	drawContext;
+	UINT32			triVertID;	// only applicable for vertex shader
 	UINT32			instanceID;
 	UINT32			triangleID;
 	PCRenderClass	rClass;
@@ -43,8 +46,7 @@ typedef struct CIPTriContext {
 	PCMaterial		material;
 } CIPTriContext, * PCIPTriContext;
 
-PCMesh CInternalPipelineProcessMesh(UINT32 instanceID, PCMatrix instanceMatrix,
-	PCRenderClass rClass);
+void   CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri);
 UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
 void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);
 void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData subTri);

@@ -119,6 +119,30 @@ CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 	_CSyncLeave(TRUE);
 }
 
+CSMCALL UINT32	CVertexDataBufferGetElementCount(CHandle vdBuffer) {
+	_CSyncEnter();
+
+	if (vdBuffer == NULL) {
+		_CSyncLeaveErr(FALSE, "CVertexDataBufferGetElementCount failed bevause vdBuffer was invalid");
+	}
+
+	PCVertexDataBuffer vdb = vdBuffer;
+
+	_CSyncLeave(vdb->elementCount);
+}
+
+CSMCALL UINT32	CVertexDataBufferGetComponentCount(CHandle vdBuffer) {
+	_CSyncEnter();
+
+	if (vdBuffer == NULL) {
+		_CSyncLeaveErr(FALSE, "CVertexDataBufferGetComponentCount failed bevause vdBuffer was invalid");
+	}
+
+	PCVertexDataBuffer vdb = vdBuffer;
+
+	_CSyncLeave(vdb->elementComponents);
+}
+
 CSMCALL CHandle CMakeStaticDataBuffer(PCHAR name, SIZE_T sizeBytes,
 	PVOID dataIn) {
 	_CSyncEnter();
@@ -201,4 +225,16 @@ CSMCALL void	CStaticDataBufferUnmap(CHandle sdBuffer) {
 	LeaveCriticalSection(&sdBuff->mapLock); // lock data
 
 	_CSyncLeave(NULL);
+}
+
+CSMCALL SIZE_T	CStaticDataBufferGetSizeBytes(CHandle sdBuffer) {
+	_CSyncEnter();
+
+	if (sdBuffer == NULL) {
+		_CSyncLeaveErr(ZERO, "CStaticDataBufferGetSizeBytes failed because sdBuffer was invalid");
+	}
+
+	PCStaticDataBuffer sdBuff = sdBuffer;
+
+	_CSyncLeave(sdBuff->sizeBytes);
 }

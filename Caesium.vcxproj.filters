@@ -57,6 +57,9 @@
     <ClInclude Include="csm_fragment.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="csm_vertex.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csm_renderbuffer.c">
@@ -89,7 +92,7 @@
     <ClCompile Include="csm_draw.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csmint_pl_processmesh.c">
+    <ClCompile Include="csmint_pl_processtri.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
     <ClCompile Include="csmint_pl_projecttri.c">
@@ -102,6 +105,9 @@
       <Filter>Source\Internal</Filter>
     </ClCompile>
     <ClCompile Include="csm_fragment.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="csm_vertex.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

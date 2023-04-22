@@ -65,8 +65,8 @@ static __forceinline void _swapDepths(PFLOAT d1, PFLOAT d2) {
 	*d2 = temp;
 }
 
-static __forceinline void _swapInputLists(PCIPVertInputList vil1, PCIPVertInputList vil2) {
-	CIPVertInputList temp = *vil1;
+static __forceinline void _swapInputLists(PCIPVertOutputList vil1, PCIPVertOutputList vil2) {
+	CIPVertOutputList temp = *vil1;
 	*vil1 = *vil2;
 	*vil2 = temp;
 }
@@ -77,19 +77,19 @@ static __forceinline void _sortTriByVerticality(PCIPTriData toEdit) {
 	if (toEdit->verts[0].y < toEdit->verts[1].y) {
 		_swapVerts(toEdit->verts + 0, toEdit->verts + 1);
 		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 1);
-		_swapInputLists(toEdit->vertInputs + 0, toEdit->vertInputs + 1);
+		_swapInputLists(toEdit->vertOutputs + 0, toEdit->vertOutputs + 1);
 	}
 	
 	if (toEdit->verts[0].y < toEdit->verts[2].y) {
 		_swapVerts(toEdit->verts + 0, toEdit->verts + 2);
 		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 2);
-		_swapInputLists(toEdit->vertInputs + 0, toEdit->vertInputs + 2);
+		_swapInputLists(toEdit->vertOutputs + 0, toEdit->vertOutputs + 2);
 	}
 
 	if (toEdit->verts[1].y < toEdit->verts[2].y) {
 		_swapVerts(toEdit->verts + 1, toEdit->verts + 2);
 		_swapDepths(toEdit->invDepths + 1, toEdit->invDepths + 2);
-		_swapInputLists(toEdit->vertInputs + 1, toEdit->vertInputs + 2);
+		_swapInputLists(toEdit->vertOutputs + 1, toEdit->vertOutputs + 2);
 	}
 }
 
@@ -139,26 +139,26 @@ static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triang
 	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
 }
 
-static __forceinline void _prepareFragmentInputValues(PCIPVertInputList inOutVertList, 
+static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVertList, 
 	PCIPTriData triData, CVect3F bWeights) {
-	PCIPVertInputList vertInpList1 = &triData->vertInputs[0];
-	PCIPVertInputList vertInpList2 = &triData->vertInputs[1];
-	PCIPVertInputList vertInpList3 = &triData->vertInputs[2];
+	PCIPVertOutputList fragInputList1 = &triData->vertOutputs[0];
+	PCIPVertOutputList fragInputList2 = &triData->vertOutputs[1];
+	PCIPVertOutputList fragInputList3 = &triData->vertOutputs[2];
 
 	// interpolate all input values based on fragment
 	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
-		// get inputs
-		PCIPVertInput vertInput1 = vertInpList1->inputs + inputID;
-		PCIPVertInput vertInput2 = vertInpList2->inputs + inputID;
-		PCIPVertInput vertInput3 = vertInpList3->inputs + inputID;
-		PCIPVertInput outVertInput = inOutVertList->inputs + inputID;
+		// get frag inputs
+		PCIPVertOutput vertOutput1 = fragInputList1->outputs + inputID;
+		PCIPVertOutput vertOutput2 = fragInputList2->outputs + inputID;
+		PCIPVertOutput vertOutput3 = fragInputList3->outputs + inputID;
+		PCIPVertOutput outVertOutput = inOutVertList->outputs + inputID;
 
 		// loop each component and interpolate
-		for (UINT32 comp = 0; comp < vertInput1->componentCount; comp++) {
+		for (UINT32 comp = 0; comp < vertOutput1->componentCount; comp++) {
 			// get each value for verts
-			FLOAT val1 = vertInput1->valueBuffer[comp];
-			FLOAT val2 = vertInput2->valueBuffer[comp];
-			FLOAT val3 = vertInput3->valueBuffer[comp];
+			FLOAT val1 = vertOutput1->valueBuffer[comp];
+			FLOAT val2 = vertOutput2->valueBuffer[comp];
+			FLOAT val3 = vertOutput3->valueBuffer[comp];
 
 			// get W of each vert multiplied by barycentric weights
 			FLOAT w1 = (triData->invDepths[0]) * bWeights.x;
@@ -172,8 +172,8 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertInputList inOutVer
 				(val1 * w1 + val2 * w2 + val3 * w3) / (w1 + w2 + w3);
 
 			// assign
-			outVertInput->valueBuffer[comp] = finalVal;
-			outVertInput->componentCount = vertInput1->componentCount;
+			outVertOutput->valueBuffer[comp] = finalVal;
+			outVertOutput->componentCount = vertOutput1->componentCount;
 		}
 	}
 }

@@ -45,6 +45,7 @@ CSMCALL BOOL CTerminate();
 
 CSMCALL PCHAR CGetLastError(void);
 CSMCALL void  CFreeError(PCHAR error);
+CSMCALL void  CLogErrors(BOOL state);
 
 CSMCALL CColor CMakeColor3(INT r, INT g, INT b);
 CSMCALL CColor CMakeColor4(INT r, INT g, INT b, INT a);

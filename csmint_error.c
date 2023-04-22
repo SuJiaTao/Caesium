@@ -3,6 +3,7 @@
 // <csmint_error.c>
 
 #include "csmint_error.h"
+#include <stdio.h>
 
 void  CInternalErrorPopup(PCHAR message) {
 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
@@ -21,6 +22,12 @@ void  CInternalSetLastError(PCHAR lastError) {
 
 	// copy string
 	COPY_BYTES(lastError, _csmint.lastError, strSize);
+
+	// log if needed
+	if (_csmint.logErrors) {
+		fputs(lastError, stderr);
+	}
+		
 
 	_CSyncLeave();
 }

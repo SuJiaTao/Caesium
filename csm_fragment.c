@@ -3,6 +3,7 @@
 // 2023
 
 #include "csm_fragment.h"
+#include "csm_vertex.h"
 #include "csmint_pipeline.h"
 #include <stdio.h>
 #include <math.h>
@@ -40,39 +41,97 @@ CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color) {
 	return _convertColorToVect3F(color);
 }
 
-CSMCALL BOOL	CFragmentGetVertexInput(CHandle fragContext, UINT32 inputID, PFLOAT outBuffer) {
-	if (outBuffer == NULL) {
-		CInternalSetLastError("CFragmentGetVertexInput failed because outBuffer was NULL");
+CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetDrawInput failed because vertContext was invalid");
 		return FALSE;
 	}
-	if (fragContext == NULL) {
-		CInternalSetLastError("CFragmentGetVertexInput failed because fragContext was invalid");
+	if (outBuffer == NULL) {
+		CInternalSetLastError("CFragmentGetDrawInput failed because outBuffer was NULL");
+		return FALSE;
+	}
+	if (drawInputID >= CSM_MAX_DRAW_INPUTS) {
+		CInternalSetLastError("CFragmentGetDrawInput failed because drawInputID was invalid");
 		return FALSE;
 	}
 
 	PCIPFragContext context = fragContext;
 
-	COPY_BYTES(context->fragInputs.inputs[inputID].valueBuffer, outBuffer,
-		sizeof(FLOAT) * context->fragInputs.inputs[inputID].componentCount);
+	PCDrawInput drawInput = context->parent->drawContext->inputs + drawInputID;
+	COPY_BYTES(drawInput->pData, outBuffer, drawInput->sizeBytes);
 
 	return TRUE;
 }
 
-CSMCALL BOOL	CFragmentGetStaticInput(CHandle fragContext, UINT32 inputID, PVOID outBuffer) {
-	if (outBuffer == NULL) {
-		CInternalSetLastError("CFragmentGetStaticInput failed because outBuffer was NULL");
+CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetDrawInputSizeBytes failed because vertContext was invalid");
 		return FALSE;
 	}
-	if (fragContext == NULL) {
-		CInternalSetLastError("CFragmentGetStaticInput failed because fragContext was invalid");
+	if (drawInputID >= CSM_MAX_DRAW_INPUTS) {
+		CInternalSetLastError("CFragmentGetDrawInputSizeBytes failed because drawInputID was invalid");
 		return FALSE;
 	}
 
 	PCIPFragContext context = fragContext;
 
-	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->parent->rClass, inputID);
+	PCDrawInput drawInput = context->parent->drawContext->inputs + drawInputID;
+
+	return drawInput->sizeBytes;
+}
+
+CSMCALL BOOL	CFragmentGetVertexOutput(CHandle fragContext, UINT32 outputID, PFLOAT outBuffer) {
+	if (outBuffer == NULL) {
+		CInternalSetLastError("CFragmentGetVertexOutput failed because outBuffer was NULL");
+		return FALSE;
+	}
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetVertexOutput failed because fragContext was invalid");
+		return FALSE;
+	}
+	if (outputID >= CSM_MAX_VERTEX_OUTPUTS) {
+		CInternalSetLastError("CFragmentGetVertexOutput failed because outputID was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+
+	COPY_BYTES(context->fragInputs.outputs[outputID].valueBuffer, outBuffer,
+		sizeof(FLOAT) * context->fragInputs.outputs[outputID].componentCount);
+
+	return TRUE;
+}
+
+CSMCALL UINT32	CFragmentGetVertexOutputComponentCount(CHandle fragContext, UINT32 outputID) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetVertexOutputComponentCount failed because fragContext was invalid");
+		return FALSE;
+	}
+	if (outputID >= CSM_MAX_VERTEX_OUTPUTS) {
+		CInternalSetLastError("CFragmentGetVertexOutputComponentCount failed because outputID was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+
+	return context->fragInputs.outputs[outputID].componentCount;
+}
+
+CSMCALL BOOL	CFragmentGetClassStaticData(CHandle fragContext, UINT32 ID, PVOID outBuffer) {
+	if (outBuffer == NULL) {
+		CInternalSetLastError("CFragmentGetClassStaticData failed because outBuffer was NULL");
+		return FALSE;
+	}
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetClassStaticData failed because fragContext was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+
+	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->parent->rClass, ID);
 	if (sdb == NULL) {
-		CInternalSetLastError("CFragmentGetStaticInput failed because static data buffer does not exist");
+		CInternalSetLastError("CFragmentGetClassStaticData failed because ID was invalid");
 		return FALSE;
 	}
 
@@ -82,6 +141,23 @@ CSMCALL BOOL	CFragmentGetStaticInput(CHandle fragContext, UINT32 inputID, PVOID 
 	LeaveCriticalSection(&sdb->mapLock);
 
 	return TRUE;
+}
+
+CSMCALL SIZE_T	CFragmentGetClassStaticDataSizeBytes(CHandle fragContext, UINT32 ID) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentGetClassStaticDataSizeBytes failed because fragContext was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+
+	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->parent->rClass, ID);
+	if (sdb == NULL) {
+		CInternalSetLastError("CFragmentGetClassStaticDataSizeBytes failed because ID was invalid");
+		return FALSE;
+	}
+
+	return sdb->sizeBytes;
 }
 
 CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffer, 

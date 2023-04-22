@@ -63,6 +63,10 @@ CSMCALL void  CFreeError(PCHAR error) {
 	CInternalFree(error);
 }
 
+CSMCALL void  CLogErrors(BOOL state) {
+	_csmint.logErrors = state;
+}
+
 CSMCALL void CLock() {
 	_CSyncEnter();
 }

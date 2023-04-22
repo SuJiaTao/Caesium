@@ -7,8 +7,27 @@
 
 #include "csm_renderclass.h"
 
-CSMCALL BOOL CDraw(CHandle renderBuffer, CHandle rClass, PCMatrix pMatrix);
-CSMCALL BOOL CDrawInstanced(CHandle renderBuffer, CHandle rClass,
-	UINT32 instanceCount, PCMatrix matrixArray);
+#define CSM_MAX_DRAW_INPUTS		0x20
+
+typedef struct CDrawInput {
+	SIZE_T	sizeBytes;
+	PVOID	pData;
+} CDrawInput, *PCDrawInput;
+
+typedef struct CDrawContext {
+	CHandle		renderBuffer;
+	CDrawInput	inputs[CSM_MAX_DRAW_INPUTS];
+} CDrawContext, *PCDrawContext;
+
+CSMCALL CHandle CMakeDrawContext(CHandle renderBuffer);
+CSMCALL BOOL	CDestroyDrawContext(CHandle drawContext);
+
+CSMCALL	CHandle	CDrawContextSetDrawInput(CHandle drawContext, UINT32 inputID, PVOID inBytes, SIZE_T size);
+CSMCALL BOOL	CDrawContextGetDrawInput(CHandle drawContext, UINT32 inputID, PVOID outBytes);
+CSMCALL SIZE_T	CDrawContextGetDrawInputSizeBytes(CHandle drawContext, UINT32 inputID);
+
+CSMCALL BOOL CDraw(CHandle drawContext, CHandle rClass);
+CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass,
+	UINT32 instanceCount);
 
 #endif

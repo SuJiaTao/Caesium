@@ -13,6 +13,7 @@ typedef struct Caesium {
 	HANDLE heap;
 
 	PCHAR lastError;
+	BOOL  logErrors;
 
 	UINT32 allocateCount;
 	CRITICAL_SECTION lock; // thread sync object

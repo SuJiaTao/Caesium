@@ -52,13 +52,13 @@ static __forceinline FLOAT _vectDist(CVect3F v1, CVect3F v2) {
 	return sqrtf(dx * dx + dy * dy + dz * dz);
 }
 
-static __forceinline void _genInterpolatedVertInputs(PCIPVertInputList pList,
-	CVect3F p1, CVect3F p2, CVect3F pm, PCIPVertInputList vp1, PCIPVertInputList vp2) {
+static __forceinline void _genInterpolatedVertInputs(PCIPVertOutputList pList,
+	CVect3F p1, CVect3F p2, CVect3F pm, PCIPVertOutputList vp1, PCIPVertOutputList vp2) {
 	// loop all inputs
 	for (UINT32 inputID = 0; inputID < CSM_CLASS_MAX_VERTEX_DATA; inputID++) {
 		// get each individual input for each vert
-		PCIPVertInput input1 = vp1->inputs + inputID;
-		PCIPVertInput input2 = vp2->inputs + inputID;
+		PCIPVertOutput input1 = vp1->outputs + inputID;
+		PCIPVertOutput input2 = vp2->outputs + inputID;
 
 		// loop all components of each input (compcount WILL be the same for both unless mem corruption)
 		for (UINT32 component = 0; component < input1->componentCount; component++) {
@@ -74,8 +74,8 @@ static __forceinline void _genInterpolatedVertInputs(PCIPVertInputList pList,
 			FLOAT d1m = _vectDist(p1, pm);
 
 			// interpolate between values based on dist from clipping plane
-			pList->inputs[inputID].componentCount = input1->componentCount;
-			pList->inputs[inputID].valueBuffer[component] =
+			pList->outputs[inputID].componentCount = input1->componentCount;
+			pList->outputs[inputID].valueBuffer[component] =
 				val1 + (range * (d1m / d12));
 		}
 	}
@@ -92,7 +92,7 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	CVect3F v1 = { 0 }, v2 = { 0 }, v3 = { 0 };
 
 	// maintain all vertex input lists
-	PCIPVertInputList vl1 = NULL, vl2 = NULL, vl3 = NULL;
+	PCIPVertOutputList vl1 = NULL, vl2 = NULL, vl3 = NULL;
 
 	// this is faster than some clever logic
 	switch (clipInfo.behindTriIndexes[0])
@@ -102,9 +102,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 		v2 = clipInfo.tri->verts[1];
 		v3 = clipInfo.tri->verts[2];
 
-		vl1 = &clipInfo.tri->vertInputs[0];
-		vl2 = &clipInfo.tri->vertInputs[1];
-		vl3 = &clipInfo.tri->vertInputs[2];
+		vl1 = &clipInfo.tri->vertOutputs[0];
+		vl2 = &clipInfo.tri->vertOutputs[1];
+		vl3 = &clipInfo.tri->vertOutputs[2];
 
 		break;
 	case 1:
@@ -112,9 +112,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 		v1 = clipInfo.tri->verts[1]; // v1 is behind
 		v3 = clipInfo.tri->verts[2];
 
-		vl2 = &clipInfo.tri->vertInputs[0];
-		vl1 = &clipInfo.tri->vertInputs[1];
-		vl3 = &clipInfo.tri->vertInputs[2];
+		vl2 = &clipInfo.tri->vertOutputs[0];
+		vl1 = &clipInfo.tri->vertOutputs[1];
+		vl3 = &clipInfo.tri->vertOutputs[2];
 
 		break;
 	case 2:
@@ -122,9 +122,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 		v3 = clipInfo.tri->verts[1];
 		v1 = clipInfo.tri->verts[2]; // v1 is behind
 
-		vl2 = &clipInfo.tri->vertInputs[0];
-		vl3 = &clipInfo.tri->vertInputs[1];
-		vl1 = &clipInfo.tri->vertInputs[2];
+		vl2 = &clipInfo.tri->vertOutputs[0];
+		vl3 = &clipInfo.tri->vertOutputs[1];
+		vl1 = &clipInfo.tri->vertOutputs[2];
 
 		break;
 	default:
@@ -137,7 +137,7 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	CVect3F mp2 = _genPlaneIntersectPoint(v1, v3);
 
 	// interpolate inputs
-	CIPVertInputList vil1 = { 0 }, vil2 = { 0 };
+	CIPVertOutputList vil1 = { 0 }, vil2 = { 0 };
 	_genInterpolatedVertInputs(&vil1, v1, v2, mp1, vl1, vl2);
 	_genInterpolatedVertInputs(&vil2, v1, v3, mp2, vl1, vl3);
 
@@ -147,9 +147,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[0].verts[2] = v3;
 	_perpareTriWValues(outTriArray + 0);
 
-	outTriArray[0].vertInputs[0] = *vl2;
-	outTriArray[0].vertInputs[1] = vil1;
-	outTriArray[0].vertInputs[2] = *vl3;
+	outTriArray[0].vertOutputs[0] = *vl2;
+	outTriArray[0].vertOutputs[1] = vil1;
+	outTriArray[0].vertOutputs[2] = *vl3;
 
 	// generate new triangle 2
 	outTriArray[1].verts[0] = mp1;
@@ -157,9 +157,9 @@ static __forceinline void _clipTriCase1(_clipinfo clipInfo, PCIPTriData outTriAr
 	outTriArray[1].verts[2] = v3;
 	_perpareTriWValues(outTriArray + 1);
 
-	outTriArray[1].vertInputs[0] = vil1;
-	outTriArray[1].vertInputs[1] = vil2;
-	outTriArray[1].vertInputs[2] = *vl3;
+	outTriArray[1].vertOutputs[0] = vil1;
+	outTriArray[1].vertOutputs[1] = vil2;
+	outTriArray[1].vertOutputs[2] = *vl3;
 }
 
 static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) {
@@ -169,24 +169,24 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 	v2 = clipInfo.tri->verts[clipInfo.behindTriIndexes[1]];
 
 	// maintain all vertex input lists
-	PCIPVertInputList vl1 = NULL, vl2 = NULL, vl3 = NULL;
-	vl1 = &clipInfo.tri->vertInputs[clipInfo.behindTriIndexes[0]];
-	vl2 = &clipInfo.tri->vertInputs[clipInfo.behindTriIndexes[1]];
+	PCIPVertOutputList vl1 = NULL, vl2 = NULL, vl3 = NULL;
+	vl1 = &clipInfo.tri->vertOutputs[clipInfo.behindTriIndexes[0]];
+	vl2 = &clipInfo.tri->vertOutputs[clipInfo.behindTriIndexes[1]];
 
 	// clever trick
 	switch (clipInfo.behindTriIndexes[0] + clipInfo.behindTriIndexes[1])
 	{
 	case 1:
 		v3 = clipInfo.tri->verts[2]; // 0 + 1 is 1 so remainder is 2
-		vl3 = &clipInfo.tri->vertInputs[2];
+		vl3 = &clipInfo.tri->vertOutputs[2];
 		break;
 	case 2:
 		v3 = clipInfo.tri->verts[1]; // 0 + 2 is 2 so remainder is 1
-		vl3 = &clipInfo.tri->vertInputs[1];
+		vl3 = &clipInfo.tri->vertOutputs[1];
 		break;
 	case 3:
 		v3 = clipInfo.tri->verts[0]; // 1 + 2 is 3 so remainder is 0
-		vl3 = &clipInfo.tri->vertInputs[0];
+		vl3 = &clipInfo.tri->vertOutputs[0];
 		break;
 	default:
 		CInternalErrorPopup("Bad clipping state");
@@ -198,7 +198,7 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 	CVect3F mp2 = _genPlaneIntersectPoint(v3, v2);
 
 	// generate interpolated values
-	CIPVertInputList vil1 = { 0 }, vil2 = { 0 };
+	CIPVertOutputList vil1 = { 0 }, vil2 = { 0 };
 	_genInterpolatedVertInputs(&vil1, v3, v1, mp1, vl3, vl1);
 	_genInterpolatedVertInputs(&vil2, v3, v2, mp2, vl3, vl2);
 
@@ -208,9 +208,9 @@ static __forceinline _clipTriCase2(_clipinfo clipInfo, PCIPTriData outTriArray) 
 	outTriArray[0].verts[2] = mp2;
 	_perpareTriWValues(outTriArray + 0);
 
-	outTriArray[0].vertInputs[0] = vil1;
-	outTriArray[0].vertInputs[1] = *vl3;
-	outTriArray[0].vertInputs[2] = vil2;
+	outTriArray[0].vertOutputs[0] = vil1;
+	outTriArray[0].vertOutputs[1] = *vl3;
+	outTriArray[0].vertOutputs[2] = vil2;
 }
 
 UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray) {
