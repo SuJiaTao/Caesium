@@ -10,13 +10,13 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	PCRenderBuffer renderBuffer = triContext->renderBuffer;
 	CVect3F vertex = triContext->fragContext.currentFrag;
 
-	// do early out of bounds test
-	if (vertex.x < 0 || vertex.x >= renderBuffer->width ||
-		vertex.y < 0 || vertex.y >= renderBuffer->height) return;
-
 	// generate frag position
 	INT fragPosX = floorf(vertex.x - 0.5f);
 	INT fragPosY = floorf(vertex.y - 0.5f);
+
+	// do early out of bounds test
+	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
+		fragPosY < 0 || fragPosY >= renderBuffer->height) return;
 
 	// do early depth test
 	volatile FLOAT earlyDepth;

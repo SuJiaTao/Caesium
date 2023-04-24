@@ -151,7 +151,7 @@ CSMCALL BOOL CVertexSetVertexOutput(CHandle vertContext, UINT32 outputID,
 
 	// get vertex output ptr
 	PCIPVertOutput pOut = 
-		&(context->screenTriAndData->vertOutputs[context->vertexID].outputs[outputID]);
+		context->screenTriAndData->vertOutputs[context->triVertexID].outputs + outputID;
 	
 	// set value
 	pOut->componentCount = components;

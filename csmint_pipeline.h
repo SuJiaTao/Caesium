@@ -36,7 +36,8 @@ typedef struct CIPFragContext {
 
 typedef struct CIPTriContext {
 	PCDrawContext	drawContext;
-	UINT32			vertexID;	// only applicable for vertex shader
+	UINT32			triVertexID;	// only applicable for vertex shader
+	UINT32			vertexID;		// only applicable for vertex shader
 	UINT32			instanceID;
 	UINT32			triangleID;
 	PCRenderClass	rClass;
