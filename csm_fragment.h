@@ -9,6 +9,7 @@
 
 typedef enum CSampleType {
 	CSampleType_Clamp,
+	CSampleType_ClampToEdge,
 	CSampleType_Repeat
 } CSampleType;
 

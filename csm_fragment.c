@@ -173,13 +173,18 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 
 	PCRenderBuffer rb = renderBuffer;
 
-	const INT texWidth = rb->width - 1;
-	const INT texHeight = rb->height - 1;
+	const INT texWidth = rb->width;
+	const INT texHeight = rb->height;
 
 	// change UV based on sample type
 	switch (sampleType)
 	{
 	case CSampleType_Clamp:
+		if (uv.x < 0.0f || uv.x >= 1.0f) return TRUE;
+		if (uv.y < 0.0f || uv.y >= 1.0f) return TRUE;
+		break;
+
+	case CSampleType_ClampToEdge:
 		uv.x = max(0.0f, min(uv.x, 1.0f));
 		uv.y = max(0.0f, min(uv.y, 1.0f));
 		break;
@@ -203,16 +208,20 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 		return FALSE;
 	}
 
-	// generate framebuffer "index"
+	// generate framebuffer float index
 	FLOAT index_x = (uv.x * (FLOAT)texWidth);
 	FLOAT index_y = (uv.y * (FLOAT)texHeight);
 
+	// convert to integer
+	UINT32 fb_x = lroundf(index_x - 0.5f);
+	UINT32 fb_y = lroundf(index_y - 0.5f);
+
 	// ensure valid
-	index_x = max(0, min(index_x, texWidth));
-	index_y = max(0, min(index_y, texHeight));
+	fb_x = max(0, min(fb_x, texWidth  - 1));
+	fb_y = max(0, min(fb_y, texHeight - 1));
 
 	*inOutColor = CMakeColor4(0, 0, 0, 0); // set default to fully transparent
-	CRenderBufferGetFragment(renderBuffer, (INT)index_x, (INT)index_y, inOutColor, NULL);
+	CRenderBufferGetFragment(renderBuffer, fb_x, fb_y, inOutColor, NULL);
 
 	return TRUE;
 }
