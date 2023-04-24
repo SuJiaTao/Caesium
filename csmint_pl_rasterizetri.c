@@ -319,6 +319,10 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	// p1 -> middle
 	// p2 -> bottom
 
+	// cull if triangle is squashed
+	if ((INT)triangle->verts[0].x == (INT)triangle->verts[1].x &&
+		(INT)triangle->verts[0].x == (INT)triangle->verts[2].x) return;
+
 	// generate point given a horizontal cut of the triangle
 	FLOAT invslope =
 		(triangle->verts[0].x - triangle->verts[2].x) /
