@@ -14,8 +14,13 @@ typedef enum CSampleType {
 } CSampleType;
 
 CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b);
+CSMCALL CColor	CFragmentConvertFloat4ToColor(FLOAT r, FLOAT g, FLOAT b, FLOAT a);
 CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3);
+CSMCALL CColor	CFragmentConvertVect4ToColor(CVect4F vect4);
 CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color);
+CSMCALL CVect4F CFragmentConvertColorToVect4(CColor color);
+
+CSMCALL CColor	CFragmentBlendColor(CColor bottom, CColor top);
 
 CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
 CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID);

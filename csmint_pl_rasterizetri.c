@@ -3,6 +3,7 @@
 // 2023
 
 #include "csmint_pipeline.h"
+#include "csm_fragment.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -18,13 +19,14 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
 		fragPosY < 0 || fragPosY >= renderBuffer->height) return;
 
-	// do early depth test
-	volatile FLOAT earlyDepth;
-	CRenderBufferGetFragment(renderBuffer, fragPosX, fragPosY, NULL, &earlyDepth);
+	// do early depth test and also get belowColor
+	volatile FLOAT  earlyDepth;
+	volatile CColor belowColor;
+	CRenderBufferGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &earlyDepth);
 	if (earlyDepth > vertex.x) return;
 
 	// prepare rasterization color
-	CColor fragColor = CMakeColor3(255, 0, 255);
+	CColor fragColor = CMakeColor3(0, 0, 0);
 	BOOL keepFragment = TRUE;
 
 	if (triContext->material != NULL) {
@@ -37,9 +39,17 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 			&fragColor
 		);
 	}
+	else
+	{
+		// on no material, set to ERR purple
+		fragColor = CMakeColor3(255, 0, 255);
+	}
 
 	// if color alpha is 0, cull
 	if (fragColor.a == 0) return;
+
+	// apply alpha blend
+	fragColor = CFragmentBlendColor(belowColor, fragColor);
 
 	// apply fragment to renderBuffer
 	if (keepFragment) {
@@ -268,7 +278,8 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	PCRenderBuffer renderBuff = triContext->renderBuffer;
 
 	// calculate top and bottom
-	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
+	// (1 below actual to not draw over flat bottom tri partition)
+	const INT DRAW_Y_START = min(renderBuff->height, LBase.y - 1);
 	const INT DRAW_Y_END = max(0, bottom.y);
 
 	// note: Y walks downwards

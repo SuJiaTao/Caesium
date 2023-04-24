@@ -33,12 +33,48 @@ CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b) {
 	return CFragmentConvertVect3ToColor(CMakeVect3F(r, g, b));
 }
 
+CSMCALL CColor	CFragmentConvertFloat4ToColor(FLOAT r, FLOAT g, FLOAT b, FLOAT a) {
+	return CFragmentConvertVect4ToColor(CMakeVect4F(r, g, b, a));
+}
+
 CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3) {
 	return _convertVect3FToColor(vect3);
 }
 
+CSMCALL CColor	CFragmentConvertVect4ToColor(CVect4F vect4) {
+	CColor rColor;
+	rColor.r = _clampToColorRange(vect4.x);
+	rColor.g = _clampToColorRange(vect4.y);
+	rColor.b = _clampToColorRange(vect4.z);
+	rColor.a = _clampToColorRange(vect4.w);
+	return rColor;
+}
+
 CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color) {
 	return _convertColorToVect3F(color);
+}
+
+CSMCALL CVect4F CFragmentConvertColorToVect4(CColor color) {
+	CVect4F ret;
+	ret.x = color.r;
+	ret.y = color.g;
+	ret.z = color.b;
+	ret.w = color.a;
+	return ret;
+}
+
+CSMCALL CColor	CFragmentBlendColor(CColor bottom, CColor top) {
+	CColor ret;
+	CVect4F old_c = CFragmentConvertColorToVect4(bottom);
+	CVect4F new_c = CFragmentConvertColorToVect4(top);
+
+	CVect3F blend_c;
+	FLOAT  alpha = new_c.w * 0.003921568627f; // div by 255
+	blend_c.x = new_c.x * alpha + (1.0f - alpha) * old_c.x;
+	blend_c.y = new_c.y * alpha + (1.0f - alpha) * old_c.y;
+	blend_c.z = new_c.z * alpha + (1.0f - alpha) * old_c.z;
+	
+	return CFragmentConvertVect3ToColor(blend_c);
 }
 
 CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer) {
