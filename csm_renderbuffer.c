@@ -26,6 +26,9 @@ CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 	rb->color = CInternalAlloc(sizeof(PCColor) * rb->width * rb->height + rb->height);
 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
 
+	// clear once
+	CRenderBufferClear(rb);
+
 	*pHandle = rb;
 
 	_CSyncLeave(TRUE);
