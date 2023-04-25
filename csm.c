@@ -34,6 +34,14 @@ CSMCALL BOOL CTerminate() {
 	return TRUE;
 }
 
+CSMCALL PVOID CAlloc(SIZE_T size) {
+	CInternalAlloc(size);
+}
+
+CSMCALL void  CFree(PVOID block) {
+	CInternalFree(block);
+}
+
 CSMCALL CColor CMakeColor3(INT r, INT g, INT b) {
 	CColor rCol;
 	rCol.r = r;

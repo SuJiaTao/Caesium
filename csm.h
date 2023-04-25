@@ -43,6 +43,9 @@ typedef struct CColor {
 CSMCALL BOOL CInitialize();
 CSMCALL BOOL CTerminate();
 
+CSMCALL PVOID CAlloc(SIZE_T size);
+CSMCALL void  CFree(PVOID block);
+
 CSMCALL PCHAR CGetLastError(void);
 CSMCALL void  CFreeError(PCHAR error);
 CSMCALL void  CLogErrors(BOOL state);

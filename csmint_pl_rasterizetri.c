@@ -230,7 +230,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 			min(renderBuff->width, RBase.x + (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
 
 			// create fragment with interpolated depth
 			CVect3F drawVect =
@@ -295,7 +295,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 			min(renderBuff->width, RBase.x - (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
 
 			// create fragment with interpolated depth
 			// create fragment with interpolated depth
