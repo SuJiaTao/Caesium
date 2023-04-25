@@ -110,7 +110,7 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 
 	// do depth test
 	volatile FLOAT oldDepth = *(_findDepthPtr(pBuffer, x, y));
-	if (oldDepth > depth) {
+	if (oldDepth >= depth) {
 		_CSyncLeave(FALSE);
 	}
 

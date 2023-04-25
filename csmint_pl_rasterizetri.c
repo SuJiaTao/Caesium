@@ -23,7 +23,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	volatile FLOAT  earlyDepth;
 	volatile CColor belowColor;
 	CRenderBufferGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &earlyDepth);
-	if (earlyDepth > vertex.x) return;
+	if (earlyDepth >= vertex.x) return;
 
 	// prepare rasterization color
 	CColor fragColor = CMakeColor4(0, 0, 0, 0);
