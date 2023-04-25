@@ -110,6 +110,9 @@
     <ClCompile Include="csm_vertex.c">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="csmint.c">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="structure.txt">

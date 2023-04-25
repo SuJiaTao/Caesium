@@ -8,6 +8,8 @@
 #include "csm_window.h"
 #include <intrin.h>
 
+#define CSMINT_FUNCNAMESTACK_SIZE	0x80
+
 typedef struct Caesium {
 	BOOL   init;
 	HANDLE heap;
@@ -19,11 +21,20 @@ typedef struct Caesium {
 	CRITICAL_SECTION lock; // thread sync object
 
 	PCWindow windows[CSM_MAX_WINDOWS];
+
+	PCHAR	funcNameStack[CSMINT_FUNCNAMESTACK_SIZE];
+	UINT32	funcNameStackPtr;
 } Caesium, *PCaesium;
 Caesium _csmint;
 
-#define _CSyncEnter( )	EnterCriticalSection(&_csmint.lock)
-#define _CSyncLeave(x)	LeaveCriticalSection(&_csmint.lock); \
+void CInternalPushFuncNameStack(PCHAR funcname);
+void CInternalPopFuncNameStack(void);
+
+#define _CSyncEnter( )	CInternalPushFuncNameStack(__func__); \
+						EnterCriticalSection(&_csmint.lock)
+
+#define _CSyncLeave(x)	CInternalPopFuncNameStack();		 \
+						LeaveCriticalSection(&_csmint.lock); \
 						return x
 
 #define ZERO_BYTES(ptr, count) __stosb(ptr, ZERO, count) 

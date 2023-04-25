@@ -24,8 +24,12 @@ void  CInternalSetLastError(PCHAR lastError) {
 	COPY_BYTES(lastError, _csmint.lastError, strSize);
 
 	// log if needed
-	if (_csmint.logErrors) {
-		fputs(lastError, stderr);
+	if (_csmint.logErrors != NULL) {
+		fprintf(stderr, "Current Caesium Error: %s\n", lastError);
+		fprintf(stderr, "Caesium callstack: \n");
+		for (UINT32 stackID = 0; stackID <= _csmint.funcNameStackPtr; stackID++) {
+			fprintf(stderr, "CALLSTACK [%02d]: %s\n", stackID, _csmint.funcNameStack[stackID]);
+		}
 	}
 		
 

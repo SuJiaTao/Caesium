@@ -11,8 +11,7 @@ void  CInternalErrorPopup(PCHAR message);
 void  CInternalSetLastError(PCHAR lastError);
 void  CInternalGetLastError(PCHAR errBuffer, SIZE_T maxSize);
 
-#define _CSyncLeaveErr(x, err)	LeaveCriticalSection(&_csmint.lock); \
-								CInternalSetLastError(err); \
-								return x
+#define _CSyncLeaveErr(x, err)	CInternalSetLastError(err); \
+								_CSyncLeave(x)
 
 #endif
