@@ -10,9 +10,9 @@
 #include "csm.h"
 
 typedef struct CRenderBuffer {
-	UINT32 width, height;
-	PCColor  color;
-	PFLOAT depth;
+	UINT32	width, height;
+	PCColor	color;
+	PFLOAT	depth;
 } CRenderBuffer, *PCRenderBuffer;
 
 typedef enum CTextureBytesFormat {
@@ -31,7 +31,7 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 	PCColor colorOut, PFLOAT depthOut);
 CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	CColor color, FLOAT depth);
-CSMCALL BOOL CRenderBufferClear(CHandle handle);
+CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth);
 
 CSMCALL BOOL CMakeRenderBufferFromBytes(PCHandle pHandle, INT width, INT height, 
 	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion);

@@ -27,7 +27,7 @@ CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
 
 	// clear once
-	CRenderBufferClear(rb);
+	CRenderBufferClear(rb, TRUE, TRUE);
 
 	*pHandle = rb;
 
@@ -120,21 +120,26 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	_CSyncLeave(TRUE);
 }
 
-CSMCALL BOOL CRenderBufferClear(CHandle handle) {
+CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
 	_CSyncEnter();
 
 	if (handle == NULL) {
 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because pBuffer was invalid");
+	}
+	if (color == FALSE && depth == FALSE) {
+		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because both color and depth flag were false");
 	}
 
 	PCRenderBuffer pBuffer = handle;
 	INT elemCount = pBuffer->width * pBuffer->height;
 	
 	// set all colors to 0
-	__stosb(pBuffer->color, ZERO, elemCount * sizeof(CColor));
+	if (color == TRUE)
+		__stosd(pBuffer->color, ZERO, elemCount);
 
 	// set all depth
-	__stosd(pBuffer->depth, CSM_RENDERBUFFER_MAX_DEPTH, elemCount);
+	if (depth == TRUE)
+		__stosd(pBuffer->depth, CSM_RENDERBUFFER_MAX_DEPTH, elemCount);
 
 	_CSyncLeave(TRUE);
 }
