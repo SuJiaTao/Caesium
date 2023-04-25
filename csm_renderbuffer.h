@@ -31,7 +31,14 @@ CSMCALL BOOL CRenderBufferGetFragment(CHandle handle, INT x, INT y,
 	PCColor colorOut, PFLOAT depthOut);
 CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 	CColor color, FLOAT depth);
+CSMCALL BOOL CRenderBufferDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth);
 CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth);
+
+CSMCALL BOOL CRenderBufferUnsafeGetFragment(CHandle handle, INT x, INT y,
+	PCColor colorOut, PFLOAT depthOut);
+CSMCALL BOOL CRenderBufferUnsafeSetFragment(CHandle handle, INT x, INT y,
+	CColor color, FLOAT depth);
+CSMCALL BOOL CRenderBufferUnsafeDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth);
 
 CSMCALL BOOL CMakeRenderBufferFromBytes(PCHandle pHandle, INT width, INT height, 
 	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion);

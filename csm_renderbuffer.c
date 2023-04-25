@@ -108,16 +108,21 @@ CSMCALL BOOL CRenderBufferSetFragment(CHandle handle, INT x, INT y,
 		_CSyncLeaveErr(FALSE, "CRenderBufferSetFragment failed because position was invalid");
 	}
 
-	// do depth test
-	volatile FLOAT oldDepth = *(_findDepthPtr(pBuffer, x, y));
-	if (oldDepth >= depth) {
-		_CSyncLeave(FALSE);
+	_CSyncLeave(CRenderBufferUnsafeSetFragment(pBuffer, x, y, color, depth));
+}
+
+CSMCALL BOOL CRenderBufferDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth) {
+	if (handle == NULL) {
+		_CSyncLeaveErr(FALSE, "CRenderBufferDepthTest failed because handle was invalid");
 	}
 
-	*(_findColorPtr(pBuffer, x, y)) = color;
-	*(_findDepthPtr(pBuffer, x, y)) = depth;
+	PCRenderBuffer pBuffer = handle;
+	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
+		_CSyncLeaveErr(FALSE, "CRenderBufferDepthTest failed because position was invalid");
+	}
 
-	_CSyncLeave(TRUE);
+	// do depth test
+	_CSyncLeave(CRenderBufferUnsafeDepthTest(handle, x, y, newDepth));
 }
 
 CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
@@ -138,10 +143,41 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
 		__stosd(pBuffer->color, ZERO, elemCount);
 
 	// set all depth
-	if (depth == TRUE)
-		__stosd(pBuffer->depth, CSM_RENDERBUFFER_MAX_DEPTH, elemCount);
+	const FLOAT clearDepth = CSM_RENDERBUFFER_MAX_DEPTH;
+	if (depth == TRUE) {
+		__stosd(pBuffer->depth, *(PDWORD)&clearDepth, elemCount);
+	}
 
 	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL CRenderBufferUnsafeGetFragment(CHandle handle, INT x, INT y,
+	PCColor colorOut, PFLOAT depthOut) {
+	COPY_BYTES(_findColorPtr(handle, x, y), colorOut, sizeof(CColor));
+	COPY_BYTES(_findDepthPtr(handle, x, y), depthOut, sizeof(FLOAT));
+
+	return TRUE;
+}
+
+CSMCALL BOOL CRenderBufferUnsafeSetFragment(CHandle handle, INT x, INT y,
+	CColor color, FLOAT depth) {
+	if (CRenderBufferUnsafeDepthTest(handle, x, y, depth) == FALSE) return FALSE;
+
+	COPY_BYTES(&color, _findColorPtr(handle, x, y), sizeof(CColor));
+	COPY_BYTES(&depth, _findDepthPtr(handle, x, y), sizeof(FLOAT));
+
+	return TRUE;
+}
+
+CSMCALL BOOL CRenderBufferUnsafeDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth) {
+	// do depth test
+	FLOAT oldDepth;
+	COPY_BYTES(_findDepthPtr(handle, x, y), &oldDepth, sizeof(FLOAT));
+	if (oldDepth >= newDepth) {
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 CSMCALL BOOL CMakeRenderBufferFromBytes(PCHandle pHandle, INT width, INT height,
