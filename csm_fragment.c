@@ -77,6 +77,14 @@ CSMCALL CColor	CFragmentBlendColor(CColor bottom, CColor top) {
 	return CFragmentConvertVect3ToColor(blend_c);
 }
 
+CSMCALL CColor	CFragmentBlendColorWeighted(CColor c1, CColor c2, FLOAT factor) {
+	// clamp factor to [0, 1]
+	factor = min(1.0f, max(0.0f, factor));
+
+	c2.a = factor * 255.0f;
+	return CFragmentBlendColor(c1, c2);
+}
+
 CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer) {
 	if (fragContext == NULL) {
 		CInternalSetLastError("CFragmentGetDrawInput failed because vertContext was invalid");

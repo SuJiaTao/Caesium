@@ -26,7 +26,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (earlyDepth > vertex.x) return;
 
 	// prepare rasterization color
-	CColor fragColor = CMakeColor3(0, 0, 0);
+	CColor fragColor = CMakeColor4(0, 0, 0, 0);
 	BOOL keepFragment = TRUE;
 
 	if (triContext->material != NULL) {
@@ -195,9 +195,6 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	CVect3F LBase = subTri->verts[1];
 	CVect3F RBase = subTri->verts[2];
 
-	// on triangle squashed, return
-	if ((top.y - LBase.y) <= 1.0f) return;
-
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
@@ -257,9 +254,6 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	CVect3F LBase  = subTri->verts[0];
 	CVect3F RBase  = subTri->verts[1];
 	CVect3F bottom = subTri->verts[2];
-
-	// on triangle squashed, return
-	if ((LBase.y - bottom.y) < 1.0f) return;
 
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {

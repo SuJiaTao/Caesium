@@ -21,6 +21,7 @@ CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color);
 CSMCALL CVect4F CFragmentConvertColorToVect4(CColor color);
 
 CSMCALL CColor	CFragmentBlendColor(CColor bottom, CColor top);
+CSMCALL CColor	CFragmentBlendColorWeighted(CColor c1, CColor c2, FLOAT factor);
 
 CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
 CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID);
