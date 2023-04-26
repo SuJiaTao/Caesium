@@ -19,32 +19,31 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	CVect3F vertex = triContext->fragContext.currentFrag;
 
 	// generate frag position
-	INT fragPosX = (INT)(vertex.x - 0.5f);
-	INT fragPosY = (INT)(vertex.y - 0.5f);
+	INT fragPosX = (INT)(vertex.x);
+	INT fragPosY = (INT)(vertex.y);
 
 	// do early out of bounds test
 	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
 		fragPosY < 0 || fragPosY >= renderBuffer->height) return;
 
-	// do early depth test and also get belowColor
-	volatile FLOAT  earlyDepth;
-	volatile CColor belowColor;
+	// do early depth test
+	CColor belowColor;
+	FLOAT  earlyDepth;
 	CRenderBufferUnsafeGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &earlyDepth);
 	if (earlyDepth >= vertex.z) return;
 
 	// prepare rasterization color
 	CColor fragColor = CMakeColor4(0, 0, 0, 0);
-	BOOL keepFragment = TRUE;
-
 	if (triContext->material != NULL) {
 		// apply fragment shader
-		keepFragment = triContext->material->fragmentShader(
+		BOOL keepFrag = triContext->material->fragmentShader(
 			&triContext->fragContext,
 			triContext->triangleID,
 			triContext->instanceID,
 			vertex,
 			&fragColor
 		);
+		if (keepFrag == FALSE) return; // cull if needed
 	}
 	else
 	{
@@ -55,19 +54,18 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	// if color alpha is 0, cull
 	if (fragColor.a == 0) return;
 
-	// apply alpha blend
-	fragColor = CFragmentBlendColor(belowColor, fragColor);
+	// apply alpha blend (if needed)
+	if (fragColor.a != 255)
+		fragColor = CFragmentBlendColor(belowColor, fragColor);
 
 	// apply fragment to renderBuffer
-	if (keepFragment) {
-		CRenderBufferUnsafeSetFragment(
-			renderBuffer,
-			fragPosX,
-			fragPosY,
-			fragColor,
-			vertex.z
-		);
-	}
+	CRenderBufferUnsafeSetFragment(
+		renderBuffer,
+		fragPosX,
+		fragPosY,
+		fragColor,
+		vertex.z
+	);
 }
 
 static __forceinline void _swapVerts(PCVect3F v1, PCVect3F v2) {
@@ -150,11 +148,11 @@ CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F ver
 
 // note: pos.z is ignored
 static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triangle) {
-	FLOAT invDepth1 = weights.x * (triangle->invDepths[0]);
-	FLOAT invDepth2 = weights.y * (triangle->invDepths[1]);
-	FLOAT invDepth3 = weights.z * (triangle->invDepths[2]);
+	weights.x *= (triangle->invDepths[0]);
+	weights.y *= (triangle->invDepths[1]);
+	weights.z *= (triangle->invDepths[2]);
 
-	return _fltInv(invDepth1 + invDepth2 + invDepth3);
+	return _fltInv(weights.x + weights.y + weights.z);
 }
 
 static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVertList, 
@@ -240,7 +238,6 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
-
 			// create fragment with interpolated depth
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
@@ -252,6 +249,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 			PCIPFragContext fContext		= &triContext->fragContext;
 			fContext->barycentricWeightings = bWeights;
 			fContext->currentFrag			= drawVect;
+
 			_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
 
 			// draw fragment
@@ -304,7 +302,6 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
 
-			// create fragment with interpolated depth
 			// create fragment with interpolated depth
 			CVect3F drawVect =
 				CMakeVect3F(drawX, drawY, 0.0f);
