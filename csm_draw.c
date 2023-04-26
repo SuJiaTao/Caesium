@@ -94,10 +94,10 @@ CSMCALL BOOL	CDrawContextGetDrawInput(CHandle drawContext, UINT32 inputID, PVOID
 CSMCALL SIZE_T	CDrawContextGetDrawInputSizeBytes(CHandle drawContext, UINT32 inputID) {
 	_CSyncEnter();
 	if (drawContext == NULL) {
-		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because drawContext was invalid");
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInputSizeBytes failed because drawContext was invalid");
 	}
 	if (inputID >= CSM_MAX_DRAW_INPUTS) {
-		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInput failed because inputID was invalid");
+		_CSyncLeaveErr(FALSE, "CDrawContextGetDrawInputSizeBytes failed because inputID was invalid");
 	}
 
 	PCDrawContext context = drawContext;
@@ -106,12 +106,24 @@ CSMCALL SIZE_T	CDrawContextGetDrawInputSizeBytes(CHandle drawContext, UINT32 inp
 	_CSyncLeave(input->sizeBytes);
 }
 
+CSMCALL UINT64	CDrawContextGetLastDrawTimeMS(CHandle drawContext) {
+	_CSyncEnter();
+	if (drawContext == NULL) {
+		_CSyncLeaveErr(FALSE, "CDrawContextGetLastDrawTimeMS failed because drawContext was invalid");
+	}
+
+	PCDrawContext context = drawContext;
+	_CSyncLeave(context->lastDrawTimeMS);
+}
+
 CSMCALL BOOL CDraw(CHandle drawContext, CHandle rClass) {
 	return CDrawInstanced(drawContext, rClass, 1);
 }
 
 CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instanceCount) {
 	_CSyncEnter();
+
+	ULONGLONG startTime = GetTickCount64();
 
 	// check for bad params
 	if (drawContext == NULL) {
@@ -254,6 +266,9 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 			triangleID++;
 		}
 	}
+
+	ULONGLONG endTime = GetTickCount64();
+	context->lastDrawTimeMS = endTime - startTime;
 
 	_CSyncLeave(TRUE);
 }

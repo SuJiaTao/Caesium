@@ -12,8 +12,8 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	CVect3F vertex = triContext->fragContext.currentFrag;
 
 	// generate frag position
-	INT fragPosX = floorf(vertex.x - 0.5f);
-	INT fragPosY = floorf(vertex.y - 0.5f);
+	INT fragPosX = (INT)(vertex.x - 0.5f);
+	INT fragPosY = (INT)(vertex.y - 0.5f);
 
 	// do early out of bounds test
 	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
