@@ -4,8 +4,15 @@
 
 #include "csmint_pipeline.h"
 #include "csm_fragment.h"
+#include <immintrin.h>
 #include <math.h>
 #include <stdio.h>
+
+static __forceinline FLOAT _fltInv(FLOAT flt) {
+	FLOAT rf;
+	_mm_store_ss(&rf, _mm_rcp_ss(_mm_set_ss(flt)));
+	return rf;
+}
 
 static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	PCRenderBuffer renderBuffer = triContext->renderBuffer;
@@ -127,10 +134,11 @@ static __forceinline CVect3F _generateBarycentricWeights(PCIPTriData triangle, C
 
 	// implementation taken from wikipedia
 
-	weights.x = ((p2.y - p3.y) * (vert.x - p3.x) + (p3.x - p2.x) * (vert.y - p3.y)) /
-		((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y));
-	weights.y = ((p3.y - p1.y) * (vert.x - p3.x) + (p1.x - p3.x) * (vert.y - p3.y)) /
-		((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y));
+	FLOAT invDenom = _fltInv((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y));
+	FLOAT dv3x = vert.x - p3.x;
+	FLOAT dv3y = vert.y - p3.y;
+	weights.x = ((p2.y - p3.y) * (dv3x) + (p3.x - p2.x) * (dv3y)) * invDenom;
+	weights.y = ((p3.y - p1.y) * (dv3x) + (p1.x - p3.x) * (dv3y)) * invDenom;
 	weights.z = 1 - weights.x - weights.y;
 
 	return weights;
@@ -146,7 +154,7 @@ static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triang
 	FLOAT invDepth2 = weights.y * (triangle->invDepths[1]);
 	FLOAT invDepth3 = weights.z * (triangle->invDepths[2]);
 
-	return 1.0f / (invDepth1 + invDepth2 + invDepth3);
+	return _fltInv(invDepth1 + invDepth2 + invDepth3);
 }
 
 static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVertList, 
@@ -162,6 +170,9 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVe
 		PCIPVertOutput vertOutput2 = fragInputList2->outputs + inputID;
 		PCIPVertOutput vertOutput3 = fragInputList3->outputs + inputID;
 		PCIPVertOutput outVertOutput = inOutVertList->outputs + inputID;
+
+		// if componentcount is 0, skip
+		if (vertOutput1->componentCount == 0) continue;
 
 		// loop each component and interpolate
 		for (UINT32 comp = 0; comp < vertOutput1->componentCount; comp++) {
@@ -202,8 +213,9 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	}
 
 	// generate inverse slopes
-	FLOAT invSlopeL = (top.x - LBase.x) / (top.y - LBase.y);
-	FLOAT invSlopeR = (top.x - RBase.x) / (top.y - RBase.y);
+	FLOAT invDY = _fltInv(top.y - LBase.y);
+	FLOAT invSlopeL = (top.x - LBase.x) * invDY;
+	FLOAT invSlopeR = (top.x - RBase.x) * invDY;
 
 	// on bad values, don't draw
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
@@ -262,8 +274,9 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	}
 
 	// generate inverse slopes
-	FLOAT invSlopeL = (bottom.x - LBase.x) / (bottom.y - LBase.y);
-	FLOAT invSlopeR = (bottom.x - RBase.x) / (bottom.y - RBase.y);
+	FLOAT invDY = _fltInv(bottom.y - LBase.y);
+	FLOAT invSlopeL = (bottom.x - LBase.x) * invDY;
+	FLOAT invSlopeR = (bottom.x - RBase.x) * invDY;
 
 	// on bad values, don't draw
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;

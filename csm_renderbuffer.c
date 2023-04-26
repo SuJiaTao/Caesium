@@ -153,8 +153,8 @@ CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
 
 CSMCALL BOOL CRenderBufferUnsafeGetFragment(CHandle handle, INT x, INT y,
 	PCColor colorOut, PFLOAT depthOut) {
-	COPY_BYTES(_findColorPtr(handle, x, y), colorOut, sizeof(CColor));
-	COPY_BYTES(_findDepthPtr(handle, x, y), depthOut, sizeof(FLOAT));
+	colorOut[0] = _findColorPtr(handle, x, y)[0];
+	depthOut[0] = _findDepthPtr(handle, x, y)[0];
 
 	return TRUE;
 }
@@ -163,8 +163,8 @@ CSMCALL BOOL CRenderBufferUnsafeSetFragment(CHandle handle, INT x, INT y,
 	CColor color, FLOAT depth) {
 	if (CRenderBufferUnsafeDepthTest(handle, x, y, depth) == FALSE) return FALSE;
 
-	COPY_BYTES(&color, _findColorPtr(handle, x, y), sizeof(CColor));
-	COPY_BYTES(&depth, _findDepthPtr(handle, x, y), sizeof(FLOAT));
+	_findColorPtr(handle, x, y)[0] = color;
+	_findDepthPtr(handle, x, y)[0] = depth;
 
 	return TRUE;
 }
@@ -172,7 +172,7 @@ CSMCALL BOOL CRenderBufferUnsafeSetFragment(CHandle handle, INT x, INT y,
 CSMCALL BOOL CRenderBufferUnsafeDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth) {
 	// do depth test
 	FLOAT oldDepth;
-	COPY_BYTES(_findDepthPtr(handle, x, y), &oldDepth, sizeof(FLOAT));
+	oldDepth = _findDepthPtr(handle, x, y)[0];
 	if (oldDepth >= newDepth) {
 		return FALSE;
 	}
