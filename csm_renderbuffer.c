@@ -6,6 +6,7 @@
 #include "csm_renderbuffer.h"
 #include <float.h>
 #include <stdio.h>
+#include <math.h>
 
 CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
 	_CSyncEnter();
@@ -173,7 +174,7 @@ CSMCALL BOOL CRenderBufferUnsafeDepthTest(CHandle handle, INT x, INT y, FLOAT ne
 	// do depth test
 	FLOAT oldDepth;
 	oldDepth = _findDepthPtr(handle, x, y)[0];
-	if (oldDepth >= newDepth) {
+	if (oldDepth - newDepth >= CSM_RENDERBUFFER_DEPTH_TEST_EPSILON) {
 		return FALSE;
 	}
 

@@ -20,10 +20,6 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	INT fragPosX = triContext->fragContext.fragPos.x;
 	INT fragPosY = triContext->fragContext.fragPos.y;
 
-	// do early out of bounds test
-	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
-		fragPosY < 0 || fragPosY >= renderBuffer->height) return;
-
 	// get below color
 	CColor belowColor;
 	FLOAT  unusedDepth;
@@ -202,6 +198,9 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 		_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
 	drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
 
+	// early depth test
+	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
+
 	// prepare fragment context
 	PCIPFragContext fContext = &triContext->fragContext;
 	fContext->barycentricWeightings = bWeights;
@@ -240,7 +239,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	PCRenderBuffer renderBuff = triContext->renderBuffer;
 
 	const INT DRAW_Y_START = max(0, LBase.y);
-	const INT DRAW_Y_END   = min(renderBuff->height, top.y);
+	const INT DRAW_Y_END   = min(renderBuff->height - 1, top.y);
 
 	for (INT drawY = DRAW_Y_START; drawY <= DRAW_Y_END; drawY++) {
 
@@ -252,7 +251,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 		const INT DRAW_X_START =
 			max(0, LBase.x + (invSlopeL * yDist));
 		const INT DRAW_X_END =
-			min(renderBuff->width, RBase.x + (invSlopeR * yDist));
+			min(renderBuff->width - 1, RBase.x + (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
@@ -287,7 +286,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	PCRenderBuffer renderBuff = triContext->renderBuffer;
 
 	// calculate top and bottom
-	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
+	const INT DRAW_Y_START = min(renderBuff->height - 1, LBase.y);
 	const INT DRAW_Y_END = max(0, bottom.y);
 
 	// note: Y walks downwards
@@ -300,7 +299,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 		const INT DRAW_X_START =
 			max(0, LBase.x - (invSlopeL * yDist));
 		const INT DRAW_X_END =
-			min(renderBuff->width, RBase.x - (invSlopeR * yDist));
+			min(renderBuff->width - 1, RBase.x - (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
