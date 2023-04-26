@@ -11,6 +11,7 @@
 #define CSM_MAX_VERTEX_OUTPUTS				0x10
 
 CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL PVOID	CVertexUnsafeGetDrawInputDirect(CHandle vertContext, UINT32 drawInputID);
 CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInputID);
 
 CSMCALL BOOL	CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT outBuffer);

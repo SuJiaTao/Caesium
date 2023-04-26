@@ -27,6 +27,20 @@ CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID 
 	return TRUE;
 }
 
+CSMCALL PVOID	CVertexUnsafeGetDrawInputDirect(CHandle vertContext, UINT32 drawInputID) {
+	if (vertContext == NULL) {
+		CInternalSetLastError("CVertexUnsafeGetDrawInputDirect failed because vertContext was invalid");
+		return FALSE;
+	}
+	if (drawInputID >= CSM_MAX_DRAW_INPUTS) {
+		CInternalSetLastError("CVertexUnsafeGetDrawInputDirect failed because drawInputID was invalid");
+		return FALSE;
+	}
+
+	PCIPTriContext triContext = vertContext;
+	return triContext->drawContext->inputs[drawInputID].pData;
+}
+
 CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInputID) {
 	if (vertContext == NULL) {
 		CInternalSetLastError("CVertexGetDrawInputSizeBytes failed because vertContext was invalid");

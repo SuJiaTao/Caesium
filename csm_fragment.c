@@ -107,6 +107,20 @@ CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOI
 	return TRUE;
 }
 
+CSMCALL PVOID	CFragmentUnsafeGetDrawInputDirect(CHandle fragContext, UINT32 drawInputID) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentUnsafeGetDrawInputDirect failed because vertContext was invalid");
+		return FALSE;
+	}
+	if (drawInputID >= CSM_MAX_DRAW_INPUTS) {
+		CInternalSetLastError("CFragmentUnsafeGetDrawInputDirect failed because drawInputID was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+	return context->parent->drawContext->inputs[drawInputID].pData;
+}
+
 CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID) {
 	if (fragContext == NULL) {
 		CInternalSetLastError("CFragmentGetDrawInputSizeBytes failed because vertContext was invalid");
@@ -144,6 +158,20 @@ CSMCALL BOOL	CFragmentGetVertexOutput(CHandle fragContext, UINT32 outputID, PFLO
 		sizeof(FLOAT) * context->fragInputs.outputs[outputID].componentCount);
 
 	return TRUE;
+}
+
+CSMCALL PFLOAT	CFragmentUnsafeGetVertexOutputDirect(CHandle fragContext, UINT32 outputID) {
+	if (fragContext == NULL) {
+		CInternalSetLastError("CFragmentUnsafeGetVertexOutputDirect failed because fragContext was invalid");
+		return FALSE;
+	}
+	if (outputID >= CSM_MAX_VERTEX_OUTPUTS) {
+		CInternalSetLastError("CFragmentUnsafeGetVertexOutputDirect failed because outputID was invalid");
+		return FALSE;
+	}
+
+	PCIPFragContext context = fragContext;
+	return context->fragInputs.outputs[outputID].valueBuffer;
 }
 
 CSMCALL UINT32	CFragmentGetVertexOutputComponentCount(CHandle fragContext, UINT32 outputID) {

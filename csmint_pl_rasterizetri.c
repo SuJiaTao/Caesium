@@ -350,6 +350,6 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	COPY_BYTES(triangle, &flatTopTri, sizeof(CIPTriData));
 	flatTopTri.verts[0] = horzPoint; // top is now flat
 
-	_drawFlatBottomTri(triContext, &flatBottomTri); // weird NaN issue
+	_drawFlatBottomTri(triContext, &flatBottomTri);
 	_drawFlatTopTri(triContext, &flatTopTri);
 }

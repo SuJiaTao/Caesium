@@ -24,9 +24,11 @@ CSMCALL CColor	CFragmentBlendColor(CColor bottom, CColor top);
 CSMCALL CColor	CFragmentBlendColorWeighted(CColor c1, CColor c2, FLOAT factor);
 
 CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL PVOID	CFragmentUnsafeGetDrawInputDirect(CHandle fragContext, UINT32 drawInputID);
 CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID);
 
 CSMCALL BOOL	CFragmentGetVertexOutput(CHandle fragContext, UINT32 outputID, PFLOAT outBuffer);
+CSMCALL PFLOAT	CFragmentUnsafeGetVertexOutputDirect(CHandle fragContext, UINT32 outputID);
 CSMCALL UINT32	CFragmentGetVertexOutputComponentCount(CHandle fragContext, UINT32 outputID);
 
 CSMCALL BOOL	CFragmentGetClassStaticData(CHandle fragContext, UINT32 ID, PVOID outBuffer);
