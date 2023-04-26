@@ -20,12 +20,18 @@ typedef CVect3F (*PCFVertexShaderProc) (
 	CVect3F vertexPosition
 	);
 
+typedef struct CFragPos {
+	INT   x;
+	INT	  y;
+	FLOAT depth;
+} CFragPos, *PCFragPos;
+
 typedef BOOL (*PCFFragmentShaderProc) (
-	CHandle fragContext,
-	UINT32  triangleID,
-	UINT32  instanceID,
-	CVect3F inFragPos,
-	PCColor	inOutColor
+	CHandle  fragContext,
+	UINT32   triangleID,
+	UINT32   instanceID,
+	CFragPos inFragPos,
+	PCColor	 inOutColor
 	);
 
 typedef struct CMaterial {

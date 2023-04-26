@@ -16,21 +16,18 @@ static __forceinline FLOAT _fltInv(FLOAT flt) {
 
 static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	PCRenderBuffer renderBuffer = triContext->renderBuffer;
-	CVect3F vertex = triContext->fragContext.currentFrag;
-
 	// generate frag position
-	INT fragPosX = (INT)(vertex.x);
-	INT fragPosY = (INT)(vertex.y);
+	INT fragPosX = triContext->fragContext.fragPos.x;
+	INT fragPosY = triContext->fragContext.fragPos.y;
 
 	// do early out of bounds test
 	if (fragPosX < 0 || fragPosX >= renderBuffer->width ||
 		fragPosY < 0 || fragPosY >= renderBuffer->height) return;
 
-	// do early depth test
+	// get below color
 	CColor belowColor;
-	FLOAT  earlyDepth;
-	CRenderBufferUnsafeGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &earlyDepth);
-	if (earlyDepth >= vertex.z) return;
+	FLOAT  unusedDepth;
+	CRenderBufferUnsafeGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &unusedDepth);
 
 	// prepare rasterization color
 	CColor fragColor = CMakeColor4(0, 0, 0, 0);
@@ -40,7 +37,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 			&triContext->fragContext,
 			triContext->triangleID,
 			triContext->instanceID,
-			vertex,
+			triContext->fragContext.fragPos,
 			&fragColor
 		);
 		if (keepFrag == FALSE) return; // cull if needed
@@ -64,7 +61,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 		fragPosX,
 		fragPosY,
 		fragColor,
-		vertex.z
+		triContext->fragContext.fragPos.depth
 	);
 }
 
@@ -197,6 +194,27 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVe
 	}
 }
 
+static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT drawX, INT drawY) {
+	// create fragment with interpolated depth
+	CVect3F drawVect =
+		CMakeVect3F(drawX, drawY, 0.0f);
+	CVect3F bWeights =
+		_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
+	drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
+
+	// prepare fragment context
+	PCIPFragContext fContext = &triContext->fragContext;
+	fContext->barycentricWeightings = bWeights;
+	fContext->fragPos.x = drawX;
+	fContext->fragPos.y = drawY;
+	fContext->fragPos.depth = drawVect.z;
+
+	_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
+
+	// draw fragment
+	_drawFragment(triContext);
+}
+
 static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData subTri) {
 
 	// generate each position
@@ -237,23 +255,9 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 			min(renderBuff->width, RBase.x + (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
-			// create fragment with interpolated depth
-			CVect3F drawVect =
-				CMakeVect3F(drawX, drawY, 0.0f);
-			CVect3F bWeights = 
-				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
-
-			// prepare fragment context
-			PCIPFragContext fContext		= &triContext->fragContext;
-			fContext->barycentricWeightings = bWeights;
-			fContext->currentFrag			= drawVect;
-
-			_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
-
-			// draw fragment
-			_drawFragment(triContext);
+		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+			// prepare and draw fragment
+			_prepareAndDrawFragment(triContext, drawX, drawY);
 		}
 	}
 }
@@ -283,8 +287,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	PCRenderBuffer renderBuff = triContext->renderBuffer;
 
 	// calculate top and bottom
-	// (1 below actual to not draw over flat bottom tri partition)
-	const INT DRAW_Y_START = min(renderBuff->height, LBase.y - 1);
+	const INT DRAW_Y_START = min(renderBuff->height, LBase.y);
 	const INT DRAW_Y_END = max(0, bottom.y);
 
 	// note: Y walks downwards
@@ -300,23 +303,9 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 			min(renderBuff->width, RBase.x - (invSlopeR * yDist));
 
 		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX < DRAW_X_END; drawX++) {
-
-			// create fragment with interpolated depth
-			CVect3F drawVect =
-				CMakeVect3F(drawX, drawY, 0.0f);
-			CVect3F bWeights = 
-				_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
-			drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
-
-			// prepare fragment context
-			PCIPFragContext fContext		= &triContext->fragContext;
-			fContext->barycentricWeightings = bWeights;
-			fContext->currentFrag			= drawVect;
-			_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
-
-			// draw fragment
-			_drawFragment(triContext);
+		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
+			// prepare and draw fragment
+			_prepareAndDrawFragment(triContext, drawX, drawY);
 		}
 	}
 }

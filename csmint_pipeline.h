@@ -30,7 +30,7 @@ typedef struct CIPTriData {
 typedef struct CIPFragContext {
 	struct CIPTriContext*	parent;
 	CIPVertOutputList		fragInputs;
-	CVect3F					currentFrag;
+	CFragPos				fragPos;
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 

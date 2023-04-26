@@ -59,11 +59,11 @@ CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
 }
 
 static __forceinline PCColor _findColorPtr(PCRenderBuffer b, INT x, INT y) {
-	return b->color + (x + (y * b->width));
+	return b->color + (x + ((b->height - y - 1) * b->width));
 }
 
 static __forceinline PFLOAT _findDepthPtr(PCRenderBuffer b, INT x, INT y) {
-	return b->depth + (x + (y * b->width));
+	return b->depth + (x + ((b->height - y - 1) * b->width));
 }
 
 static __forceinline BOOL _checkPosInRB(PCRenderBuffer b, INT x, INT y) {
