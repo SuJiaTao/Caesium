@@ -7,59 +7,62 @@
 #include "csmint_pipeline.h"
 #include <stdio.h>
 #include <math.h>
+#include <immintrin.h>
 
-static __forceinline CVect3F _convertColorToVect3F(CColor col) {
-	CVect3F ret;
-	ret.x = col.r;
-	ret.y = col.g;
-	ret.z = col.b;
-	return ret;
-}
-
-static __forceinline FLOAT _clampToColorRange(FLOAT val) {
-	return min(255, max(0, val));
-}
-
-static __forceinline CColor _convertVect3FToColor(CVect3F vect) {
-	CColor ret;
-	ret.r = _clampToColorRange(vect.x);
-	ret.g = _clampToColorRange(vect.y);
-	ret.b = _clampToColorRange(vect.z);
-	ret.a = 255;
-	return ret;
+static __forceinline void _clampFloatToColorRange(PFLOAT f) {
+	_mm_store_ss(
+		f, 
+		_mm_max_ss(
+			_mm_set_ss(0.0f), 
+			_mm_min_ss(
+				_mm_set_ss(255.0f), 
+				_mm_load_ss(f)
+			)
+		)
+	);
 }
 
 CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b) {
-	return CFragmentConvertVect3ToColor(CMakeVect3F(r, g, b));
+	_clampFloatToColorRange(&r);
+	_clampFloatToColorRange(&g);
+	_clampFloatToColorRange(&b);
+	CColor rc = { r, g, b, 255 };
+	return rc;
 }
 
 CSMCALL CColor	CFragmentConvertFloat4ToColor(FLOAT r, FLOAT g, FLOAT b, FLOAT a) {
-	return CFragmentConvertVect4ToColor(CMakeVect4F(r, g, b, a));
+	_clampFloatToColorRange(&r);
+	_clampFloatToColorRange(&g);
+	_clampFloatToColorRange(&b);
+	_clampFloatToColorRange(&a);
+	CColor rc = { r, g, b, a };
+	return rc;
 }
 
 CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3) {
-	return _convertVect3FToColor(vect3);
+	_clampFloatToColorRange(&vect3.x);
+	_clampFloatToColorRange(&vect3.y);
+	_clampFloatToColorRange(&vect3.z);
+	CColor rc = { vect3.x, vect3.y, vect3.z, 255 };
+	return rc;
 }
 
 CSMCALL CColor	CFragmentConvertVect4ToColor(CVect4F vect4) {
-	CColor rColor;
-	rColor.r = _clampToColorRange(vect4.x);
-	rColor.g = _clampToColorRange(vect4.y);
-	rColor.b = _clampToColorRange(vect4.z);
-	rColor.a = _clampToColorRange(vect4.w);
-	return rColor;
+	_clampFloatToColorRange(&vect4.x);
+	_clampFloatToColorRange(&vect4.y);
+	_clampFloatToColorRange(&vect4.z);
+	_clampFloatToColorRange(&vect4.w);
+	CColor rc = { vect4.x, vect4.y, vect4.z, vect4.w };
+	return rc;
 }
 
 CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color) {
-	return _convertColorToVect3F(color);
+	CVect3F ret = { color.r, color.g, color.b };
+	return ret;
 }
 
 CSMCALL CVect4F CFragmentConvertColorToVect4(CColor color) {
-	CVect4F ret;
-	ret.x = color.r;
-	ret.y = color.g;
-	ret.z = color.b;
-	ret.w = color.a;
+	CVect4F ret = { color.r, color.g, color.b, color.a };
 	return ret;
 }
 
