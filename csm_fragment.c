@@ -290,14 +290,15 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 	FLOAT index_y = (uv.y * (FLOAT)texHeight);
 
 	// convert to integer
-	UINT32 fb_x = lroundf(index_x - 0.5f);
-	UINT32 fb_y = lroundf(index_y - 0.5f);
+	UINT32 fb_x = (INT)(index_x);
+	UINT32 fb_y = (INT)(index_y);
 
 	// ensure valid
 	fb_x = max(0, min(fb_x, texWidth  - 1));
 	fb_y = max(0, min(fb_y, texHeight - 1));
 
-	CRenderBufferGetFragment(renderBuffer, fb_x, fb_y, inOutColor, NULL);
+	FLOAT unusedDepth;
+	CRenderBufferUnsafeGetFragment(renderBuffer, fb_x, fb_y, inOutColor, &unusedDepth);
 
 	return TRUE;
 }
