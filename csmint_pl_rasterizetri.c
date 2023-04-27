@@ -309,8 +309,9 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	}
 }
 
-void   CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self) {
+DWORD WINAPI CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self) {
 	// set await rastertask and no task assigned
+	self->m_signal_kill					= FALSE;
 	self->m_signal_rasterTask			= FALSE;
 	self->t_signal_awaitingRasterTask	= TRUE;
 

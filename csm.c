@@ -3,6 +3,7 @@
 // <csm.c>
 
 #include "csmint.h"
+#include <stdio.h>
 
 CSMCALL BOOL CInitialize() {
 	// check for already initailized
@@ -39,13 +40,12 @@ CSMCALL BOOL CTerminate() {
 	_CSyncEnter();
 
 	if (_csmint.allocateCount > 0) {
-		_CSyncLeave(FALSE);
-	}
-
-	// kill all threads
-	for (UINT32 threadID = 0; threadID < CSMINT_RASTERTHREAD_COUNT; threadID++) {
-		_csmint.rasterThreads[threadID].m_signal_kill = TRUE;
-		WaitForSingleObject(_csmint.rasterThreads[threadID].thread, ZERO);
+		CHAR errorStrBuff[0xFF];
+		sprintf_s(errorStrBuff, 0xFF,
+			"CTerminated failed because there were still %d allocations unfreed",
+			_csmint.allocateCount
+		);
+		_CSyncLeaveErr(FALSE, errorStrBuff);
 	}
 	
 	HeapDestroy(&_csmint.heap);
