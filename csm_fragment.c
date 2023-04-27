@@ -26,7 +26,11 @@ CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b) {
 	_clampFloatToColorRange(&r);
 	_clampFloatToColorRange(&g);
 	_clampFloatToColorRange(&b);
-	CColor rc = { r, g, b, 255 };
+	CColor rc;
+	rc.r = r;
+	rc.g = g;
+	rc.b = b;
+	rc.a = 255;
 	return rc;
 }
 
@@ -35,7 +39,11 @@ CSMCALL CColor	CFragmentConvertFloat4ToColor(FLOAT r, FLOAT g, FLOAT b, FLOAT a)
 	_clampFloatToColorRange(&g);
 	_clampFloatToColorRange(&b);
 	_clampFloatToColorRange(&a);
-	CColor rc = { r, g, b, a };
+	CColor rc;
+	rc.r = r;
+	rc.g = g;
+	rc.b = b;
+	rc.a = a;
 	return rc;
 }
 
@@ -43,7 +51,11 @@ CSMCALL CColor	CFragmentConvertVect3ToColor(CVect3F vect3) {
 	_clampFloatToColorRange(&vect3.x);
 	_clampFloatToColorRange(&vect3.y);
 	_clampFloatToColorRange(&vect3.z);
-	CColor rc = { vect3.x, vect3.y, vect3.z, 255 };
+	CColor rc;
+	rc.r = vect3.x;
+	rc.g = vect3.y;
+	rc.b = vect3.z;
+	rc.a = 255;
 	return rc;
 }
 
@@ -52,17 +64,28 @@ CSMCALL CColor	CFragmentConvertVect4ToColor(CVect4F vect4) {
 	_clampFloatToColorRange(&vect4.y);
 	_clampFloatToColorRange(&vect4.z);
 	_clampFloatToColorRange(&vect4.w);
-	CColor rc = { vect4.x, vect4.y, vect4.z, vect4.w };
+	CColor rc;
+	rc.r = vect4.x;
+	rc.g = vect4.y;
+	rc.b = vect4.z;
+	rc.a = vect4.w;
 	return rc;
 }
 
 CSMCALL CVect3F CFragmentConvertColorToVect3(CColor color) {
-	CVect3F ret = { color.r, color.g, color.b };
+	CVect3F ret;
+	ret.x = color.r;
+	ret.y = color.g;
+	ret.z = color.b;
 	return ret;
 }
 
 CSMCALL CVect4F CFragmentConvertColorToVect4(CColor color) {
-	CVect4F ret = { color.r, color.g, color.b, color.a };
+	CVect4F ret;
+	ret.x = color.r;
+	ret.y = color.g;
+	ret.z = color.b;
+	ret.w = color.a;
 	return ret;
 }
 
