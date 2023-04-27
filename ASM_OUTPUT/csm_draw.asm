@@ -25,7 +25,8 @@ PUBLIC	??_C@_0DG@CIBDKAFG@CDrawInstanced?5failed?5because?5d@ ; `string'
 PUBLIC	??_C@_0DB@INGALEIM@CDrawInstanced?5failed?5because?5r@ ; `string'
 PUBLIC	??_C@_0DC@FAHJIAKO@CDrawInstanced?5failed?5because?5i@ ; `string'
 PUBLIC	??_C@_0DB@OMLAGJKB@Bad?5material?5state?4?5No?5material@ ; `string'
-EXTRN	__imp_GetTickCount64:PROC
+EXTRN	__imp_QueryPerformanceCounter:PROC
+EXTRN	__imp_QueryPerformanceFrequency:PROC
 ;	COMDAT ??_C@_0DB@OMLAGJKB@Bad?5material?5state?4?5No?5material@
 CONST	SEGMENT
 ??_C@_0DB@OMLAGJKB@Bad?5material?5state?4?5No?5material@ DB 'Bad material'
@@ -137,32 +138,32 @@ PUBLIC	CDestroyDrawContext
 PUBLIC	CMakeDrawContext
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CDrawInstanced DD imagerel $LN669@CDrawInsta
-	DD	imagerel $LN669@CDrawInsta+435
+$pdata$CDrawInstanced DD imagerel $LN831
+	DD	imagerel $LN831+489
 	DD	imagerel $unwind$CDrawInstanced
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$1$CDrawInstanced DD imagerel $LN669@CDrawInsta+435
-	DD	imagerel $LN669@CDrawInsta+468
+$pdata$1$CDrawInstanced DD imagerel $LN831+489
+	DD	imagerel $LN831+522
 	DD	imagerel $chain$1$CDrawInstanced
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$3$CDrawInstanced DD imagerel $LN669@CDrawInsta+468
-	DD	imagerel $LN669@CDrawInsta+1197
+$pdata$3$CDrawInstanced DD imagerel $LN831+522
+	DD	imagerel $LN831+1255
 	DD	imagerel $chain$3$CDrawInstanced
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$4$CDrawInstanced DD imagerel $LN669@CDrawInsta+1197
-	DD	imagerel $LN669@CDrawInsta+1241
+$pdata$4$CDrawInstanced DD imagerel $LN831+1255
+	DD	imagerel $LN831+1322
 	DD	imagerel $chain$4$CDrawInstanced
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$5$CDrawInstanced DD imagerel $LN669@CDrawInsta+1241
-	DD	imagerel $LN669@CDrawInsta+1318
+$pdata$5$CDrawInstanced DD imagerel $LN831+1322
+	DD	imagerel $LN831+1418
 	DD	imagerel $chain$5$CDrawInstanced
 pdata	ENDS
 ;	COMDAT pdata
@@ -262,35 +263,883 @@ xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$5$CDrawInstanced DD 021H
-	DD	imagerel $LN669@CDrawInsta
-	DD	imagerel $LN669@CDrawInsta+435
+	DD	imagerel $LN831
+	DD	imagerel $LN831+489
 	DD	imagerel $unwind$CDrawInstanced
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$4$CDrawInstanced DD 021H
-	DD	imagerel $LN669@CDrawInsta+435
-	DD	imagerel $LN669@CDrawInsta+468
+	DD	imagerel $LN831+489
+	DD	imagerel $LN831+522
 	DD	imagerel $chain$1$CDrawInstanced
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$3$CDrawInstanced DQ 0000cf40a00040a21r	; 1.80137e-308
-	DD	0dd405H
-	DD	imagerel $LN669@CDrawInsta+435
-	DD	imagerel $LN669@CDrawInsta+468
+$chain$3$CDrawInstanced DD 041021H
+	DD	012f410H
+	DD	01bd408H
+	DD	imagerel $LN831+489
+	DD	imagerel $LN831+522
 	DD	imagerel $chain$1$CDrawInstanced
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$1$CDrawInstanced DQ 0000ec40f00040f21r	; 2.05344e-308
-	DD	0157408H
-	DD	imagerel $LN669@CDrawInsta
-	DD	imagerel $LN669@CDrawInsta+435
+$chain$1$CDrawInstanced DD 041221H
+	DD	01ac412H
+	DD	0197408H
+	DD	imagerel $LN831
+	DD	imagerel $LN831+489
 	DD	imagerel $unwind$CDrawInstanced
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CDrawInstanced DQ 0e00fe21300051301r	; -5.34353e+154
-	DQ	00000300b500c600dr		; 2.60991e-310
+$unwind$CDrawInstanced DD 061f19H
+	DD	013010dH
+	DD	06004e006H
+	DD	030025003H
+	DD	imagerel __GSHandlerCheck
+	DD	088H
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+;	COMDAT CDraw
+_TEXT	SEGMENT
+drawContext$ = 8
+rClass$ = 16
+CDraw	PROC						; COMDAT
+
+; 120  : 	return CDrawInstanced(drawContext, rClass, 1);
+
+	mov	r8d, 1
+	jmp	CDrawInstanced
+CDraw	ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint_pl_processtri.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+;	COMDAT CDrawInstanced
+_TEXT	SEGMENT
+instanceID$1$ = 48
+instanceCount$1$ = 52
+drawContext$GSCopy$1$ = 56
+drawMesh$1$ = 64
+$T1 = 80
+$T2 = 96
+counterHz$ = 112
+counterEndTick$ = 120
+counterStartTick$ = 128
+__$ArrayPad$ = 136
+drawContext$ = 192
+rClass$ = 200
+instanceCount$ = 208
+CDrawInstanced PROC					; COMDAT
+
+; 123  : CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instanceCount) {
+
+$LN831:
+	push	rbx
+	push	rbp
+	push	rsi
+	push	r14
+	sub	rsp, 152				; 00000098H
+	mov	rax, QWORD PTR __security_cookie
+	xor	rax, rsp
+	mov	QWORD PTR __$ArrayPad$[rsp], rax
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 123  : CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instanceCount) {
+
+	mov	ebx, r8d
+	mov	DWORD PTR instanceCount$1$[rsp], ebx
+	mov	rsi, rdx
+	mov	QWORD PTR drawContext$GSCopy$1$[rsp], rcx
+	mov	r14, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN27@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN27@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0P@FKLLMFGP@CDrawInstanced@
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbp+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 124  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 124  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 125  : 
+; 126  : 	// get counter Hz
+; 127  : 	LARGE_INTEGER counterHz;
+; 128  : 	QueryPerformanceFrequency(&counterHz);
+
+	lea	rcx, QWORD PTR counterHz$[rsp]
+	call	QWORD PTR __imp_QueryPerformanceFrequency
+
+; 129  : 	counterHz.QuadPart /= 1000;
+
+	mov	rax, 2361183241434822607		; 20c49ba5e353f7cfH
+
+; 130  : 
+; 131  : 	// get start tick
+; 132  : 	LARGE_INTEGER counterStartTick;
+; 133  : 	QueryPerformanceCounter(&counterStartTick);
+
+	lea	rcx, QWORD PTR counterStartTick$[rsp]
+	imul	QWORD PTR counterHz$[rsp]
+	sar	rdx, 7
+	mov	rax, rdx
+	shr	rax, 63					; 0000003fH
+	add	rdx, rax
+	mov	QWORD PTR counterHz$[rsp], rdx
+	call	QWORD PTR __imp_QueryPerformanceCounter
+
+; 134  : 
+; 135  : 	// check for bad params
+; 136  : 	if (drawContext == NULL) {
+
+	test	r14, r14
+	jne	SHORT $LN10@CDrawInsta
+
+; 137  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because drawContext was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DG@CIBDKAFG@CDrawInstanced?5failed?5because?5d@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN32@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN32@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 137  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because drawContext was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 137  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because drawContext was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CDrawInsta
+$LN10@CDrawInsta:
+
+; 138  : 	}
+; 139  : 	if (rClass == NULL) {
+
+	test	rsi, rsi
+	jne	SHORT $LN11@CDrawInsta
+
+; 140  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because rClass was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DB@INGALEIM@CDrawInstanced?5failed?5because?5r@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN37@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN37@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 140  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because rClass was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 140  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because rClass was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CDrawInsta
+$LN11@CDrawInsta:
+
+; 141  : 	}
+; 142  : 	if (instanceCount == 0) {
+
+	test	ebx, ebx
+	jne	SHORT $LN12@CDrawInsta
+
+; 143  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because instanceCount was 0");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DC@FAHJIAKO@CDrawInstanced?5failed?5because?5i@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN42@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN42@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 143  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because instanceCount was 0");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 143  : 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because instanceCount was 0");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CDrawInsta
+$LN12@CDrawInsta:
+	mov	QWORD PTR [rsp+200], rdi
+
+; 144  : 	}
+; 145  : 
+; 146  : 	// copy of class
+; 147  : 	PCRenderClass pClass = rClass;
+
+	xor	edi, edi
+	mov	QWORD PTR [rsp+208], r12
+
+; 148  : 
+; 149  : 	// get context and render buffer
+; 150  : 	PCDrawContext context = drawContext;
+; 151  : 	PCRenderBuffer renderBuffer = context->renderBuffer;
+
+	mov	r12, QWORD PTR [r14]
+	mov	DWORD PTR instanceID$1$[rsp], edi
+
+; 152  : 
+; 153  : 	// loop all instances
+; 154  : 	for (UINT32 instanceID = 0; instanceID < instanceCount; instanceID++) {
+
+	test	ebx, ebx
+	je	$LN3@CDrawInsta
+	mov	QWORD PTR [rsp+216], r13
+	mov	QWORD PTR [rsp+144], r15
+	npad	6
+$LL4@CDrawInsta:
+
+; 155  : 		// get mesh
+; 156  : 		PCMesh drawMesh = CRenderClassGetMesh(rClass);
+
+	mov	rcx, rsi
+	call	CRenderClassGetMesh
+
+; 157  : 
+; 158  : 		// loop each triangle of mesh and rasterize triangle
+; 159  : 		// this is done by walking indexes in groups of 3
+; 160  : 		UINT32 triangleID = 0;
+
+	xor	r15d, r15d
+	mov	QWORD PTR drawMesh$1$[rsp], rax
+
+; 161  : 		for (UINT32 meshIndex = 0; meshIndex < drawMesh->indexCount; meshIndex += 3) {
+
+	xor	r13d, r13d
+	mov	rbx, rax
+	cmp	DWORD PTR [rax+16], r13d
+	jbe	$LN2@CDrawInsta
+$LL7@CDrawInsta:
+
+; 162  : 			// alloc triangle to heap
+; 163  : 			PCIPTriData triData = CInternalAlloc(sizeof(CIPTriData));
+
+	mov	ecx, 1776				; 000006f0H
+	call	CInternalAlloc
+
+; 164  : 
+; 165  : 			// get triangle from mesh
+; 166  : 			triData->verts[0] = 
+
+	mov	rcx, QWORD PTR [rbx+24]
+	mov	r14, rax
+	lea	rbp, QWORD PTR [rax+1728]
+	movsxd	rdx, DWORD PTR [rcx+r13*4]
+	mov	rcx, QWORD PTR [rbx+8]
+	lea	r8, QWORD PTR [rdx+rdx*2]
+	vmovsd	xmm0, QWORD PTR [rcx+r8*4]
+	vmovsd	QWORD PTR [rbp], xmm0
+	mov	ecx, DWORD PTR [rcx+r8*4+8]
+
+; 167  : 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 0]];
+; 168  : 			triData->verts[1] =
+
+	lea	r8d, DWORD PTR [r13+2]
+	mov	DWORD PTR [rbp+8], ecx
+	lea	ecx, DWORD PTR [r8-1]
+	mov	rax, QWORD PTR [rbx+24]
+	movsxd	rcx, DWORD PTR [rax+rcx*4]
+	mov	rax, QWORD PTR [rbx+8]
+	lea	rdx, QWORD PTR [rcx+rcx*2]
+	vmovsd	xmm0, QWORD PTR [rax+rdx*4]
+	vmovsd	QWORD PTR [r14+1740], xmm0
+	mov	eax, DWORD PTR [rax+rdx*4+8]
+	mov	DWORD PTR [r14+1748], eax
+
+; 169  : 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 1]];
+; 170  : 			triData->verts[2] =
+
+	mov	rax, QWORD PTR [rbx+24]
+	movsxd	rcx, DWORD PTR [rax+r8*4]
+	mov	rax, QWORD PTR [rbx+8]
+	lea	rdx, QWORD PTR [rcx+rcx*2]
+
+; 171  : 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
+; 172  : 
+; 173  : 			// generate tri context for rasterization
+; 174  : 			// note: tContext->fragContext is untouched because it is determined per-fragment
+; 175  : 			// note: with the exception of tContext->fragContext.parent which points to tContext
+; 176  : 			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
+
+	mov	ecx, 664				; 00000298H
+	vmovsd	xmm0, QWORD PTR [rax+rdx*4]
+	vmovsd	QWORD PTR [r14+1752], xmm0
+	mov	eax, DWORD PTR [rax+rdx*4+8]
+	mov	DWORD PTR [r14+1760], eax
+	call	CInternalAlloc
+	mov	rbx, rax
+
+; 177  : 			tContext->drawContext			= drawContext;
+
+	mov	rax, QWORD PTR drawContext$GSCopy$1$[rsp]
+	mov	QWORD PTR [rbx], rax
+
+; 178  : 			tContext->instanceID			= instanceID;
+
+	mov	DWORD PTR [rbx+16], edi
+
+; 179  : 			tContext->triangleID			= triangleID;
+
+	mov	DWORD PTR [rbx+20], r15d
+
+; 180  : 			tContext->rClass				= rClass;
+
+	mov	QWORD PTR [rbx+24], rsi
+
+; 181  : 			tContext->renderBuffer			= renderBuffer;
+
+	mov	QWORD PTR [rbx+648], r12
+
+; 182  : 			tContext->fragContext.parent	= tContext;
+
+	mov	QWORD PTR [rbx+40], rbx
+
+; 183  : 			tContext->screenTriAndData = triData; // temporary, will be replaced when clipped
+
+	mov	QWORD PTR [rbx+32], r14
+
+; 184  : 
+; 185  : 			// setup material
+; 186  : 			if (pClass->singleMaterial == TRUE) {
+
+	cmp	DWORD PTR [rsi+464], 1
+	jne	SHORT $LN13@CDrawInsta
+
+; 187  : 				tContext->material = pClass->materials[0];
+
+	mov	rax, QWORD PTR [rsi+400]
+	mov	QWORD PTR [rbx+656], rax
+
+; 188  : 			}
+
+	jmp	SHORT $LN44@CDrawInsta
+$LN13@CDrawInsta:
+
+; 189  : 			else {
+; 190  : 				tContext->material = pClass->materials[pClass->triMaterials[triangleID]];
+
+	mov	rax, QWORD PTR [rsi+472]
+	mov	ecx, DWORD PTR [rax+r15*4]
+	mov	rax, QWORD PTR [rsi+rcx*8+400]
+	mov	QWORD PTR [rbx+656], rax
+
+; 191  : 					
+; 192  : 				// set to default material
+; 193  : 				if (tContext->material == NULL) {
+
+	test	rax, rax
+	jne	SHORT $LN44@CDrawInsta
+
+; 194  : 					tContext->material = pClass->materials[0];
+
+	mov	rax, QWORD PTR [rsi+400]
+	mov	QWORD PTR [rbx+656], rax
+
+; 195  : 				}
+; 196  : 
+; 197  : 				// check for bad state
+; 198  : 				if (tContext->material == NULL) {
+
+	test	rax, rax
+	jne	SHORT $LN44@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0DB@OMLAGJKB@Bad?5material?5state?4?5No?5material@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+$LN44@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint_pl_processtri.c
+
+; 9    : 	for (UINT32 triVertexIndex = 0; triVertexIndex < 3; triVertexIndex++) {
+
+	xor	edi, edi
+	npad	10
+$LL49@CDrawInsta:
+
+; 10   : 		
+; 11   : 		// calculate vertex ID and trivertex ID
+; 12   : 		PCMesh mesh = triContext->rClass->mesh;
+; 13   : 		triContext->vertexID = mesh->indexArray[(triContext->triangleID * 3) + triVertexIndex];
+
+	mov	rax, QWORD PTR [rbx+24]
+	mov	r9d, DWORD PTR [rbx+20]
+
+; 14   : 		triContext->triVertexID = triVertexIndex;
+; 15   : 
+; 16   : 		// calculate new vertex position and vertex outputs
+; 17   : 		CVect3F vertOut = triContext->material->vertexShader(
+
+	mov	r10, QWORD PTR [rbx+656]
+	mov	rcx, QWORD PTR [rax+8]
+	lea	edx, DWORD PTR [rdi+r9*2]
+	add	edx, r9d
+	mov	rax, QWORD PTR [rcx+24]
+	lea	rcx, QWORD PTR $T2[rsp]
+	mov	r8d, DWORD PTR [rax+rdx*4]
+	mov	rdx, rbx
+	mov	DWORD PTR [rbx+12], r8d
+	mov	DWORD PTR [rbx+8], edi
+	mov	eax, DWORD PTR [rbp+8]
+	vmovsd	xmm0, QWORD PTR [rbp]
+	mov	DWORD PTR $T1[rsp+8], eax
+	lea	rax, QWORD PTR $T1[rsp]
+	mov	QWORD PTR [rsp+40], rax
+	mov	eax, DWORD PTR [rbx+16]
+	mov	DWORD PTR [rsp+32], eax
+	vmovsd	QWORD PTR $T1[rsp], xmm0
+	call	QWORD PTR [r10+8]
+	inc	edi
+	lea	rbp, QWORD PTR [rbp+12]
+	mov	ecx, DWORD PTR [rax+8]
+
+; 18   : 			triContext,
+; 19   : 			triContext->vertexID,
+; 20   : 			triContext->triangleID,
+; 21   : 			triContext->instanceID,
+; 22   : 			inTri->verts[triVertexIndex]
+; 23   : 		);
+; 24   : 
+; 25   : 		// update triangle verticies
+; 26   : 		inTri->verts[triVertexIndex] = vertOut;
+
+	vmovsd	xmm0, QWORD PTR [rax]
+	vmovsd	QWORD PTR [rbp-12], xmm0
+	mov	DWORD PTR [rbp-4], ecx
+	cmp	edi, 3
+	jb	SHORT $LL49@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 208  : 			PCIPTriData clippedTris = CInternalAlloc(sizeof(CIPTriData) * 2);
+
+	mov	ecx, 3552				; 00000de0H
+	call	CInternalAlloc
+
+; 209  : 			UINT32 triCount = CInternalPipelineClipTri(triData, clippedTris);
+
+	mov	rdx, rax
+	mov	rcx, r14
+	mov	rdi, rax
+	call	CInternalPipelineClipTri
+
+; 210  : 
+; 211  : 			// setup materials
+; 212  : 			PCRenderClass tempRClass = rClass;
+; 213  : 			tContext->material = tempRClass->materials[tempRClass->triMaterials[triangleID]];
+
+	mov	rcx, QWORD PTR [rsi+472]
+	mov	edx, DWORD PTR [rcx+r15*4]
+	mov	rcx, QWORD PTR [rsi+rdx*8+400]
+	mov	QWORD PTR [rbx+656], rcx
+
+; 214  : 
+; 215  : 			// if material is NULL, use default material (0)
+; 216  : 			if (tContext->material == NULL)
+
+	test	rcx, rcx
+	jne	SHORT $LN17@CDrawInsta
+
+; 217  : 				tContext->material = tempRClass->materials[0];
+
+	mov	rcx, QWORD PTR [rsi+400]
+	mov	QWORD PTR [rbx+656], rcx
+$LN17@CDrawInsta:
+
+; 218  : 
+; 219  : 			// change based on clip output
+; 220  : 			switch (triCount)
+
+	test	eax, eax
+	je	SHORT $LN19@CDrawInsta
+	cmp	eax, 1
+	je	SHORT $LN20@CDrawInsta
+	cmp	eax, 2
+	je	SHORT $LN21@CDrawInsta
+	cmp	eax, -1					; ffffffffH
+	je	SHORT $LN807@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BD@EAKJIILB@Bad?5clipping?5state@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	jmp	SHORT $LN807@CDrawInsta
+$LN21@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 245  : 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+
+	mov	rdx, rdi
+	mov	rcx, r12
+	call	CInternalPipelineProjectTri
+
+; 246  : 
+; 247  : 				// rasterize clipped triangle 1
+; 248  : 				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
+
+	mov	rcx, rbx
+	call	CInternalPipelineRasterizeTri
+
+; 249  : 
+; 250  : 				// project triangle 2
+; 251  : 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 1);
+
+	lea	rdx, QWORD PTR [rdi+1776]
+
+; 252  : 
+; 253  : 				// rasterize triangle 2
+; 254  : 				CInternalPipelineRasterizeTri(tContext, clippedTris + 1);
+; 255  : 
+; 256  : 				break;
+
+	jmp	SHORT $LN829@CDrawInsta
+$LN20@CDrawInsta:
+
+; 228  : 
+; 229  : 				// rasterize triangle
+; 230  : 				CInternalPipelineRasterizeTri(tContext, triData);
+; 231  : 
+; 232  : 				break;
+; 233  : 
+; 234  : 			case 1: // clipped original tri into 1 tri
+; 235  : 				// project triangle
+; 236  : 				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+
+	mov	rdx, rdi
+
+; 237  : 
+; 238  : 				// rasterize clipped triangle
+; 239  : 				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
+; 240  : 
+; 241  : 				break;
+
+	jmp	SHORT $LN829@CDrawInsta
+$LN19@CDrawInsta:
+
+; 221  : 			{
+; 222  : 			case -1: // CULL
+; 223  : 				break;
+; 224  : 
+; 225  : 			case 0: // default case. no extra tris used
+; 226  : 				// project triangle
+; 227  : 				CInternalPipelineProjectTri(renderBuffer, triData);
+
+	mov	rdx, r14
+$LN829@CDrawInsta:
+
+; 257  : 
+; 258  : 			default:
+; 259  : 				CInternalErrorPopup("Bad clipping state");
+; 260  : 				break;
+; 261  : 			}
+; 262  : 
+; 263  : 			// free extra triangles
+; 264  : 			CInternalFree(clippedTris);
+
+	mov	rcx, r12
+	call	CInternalPipelineProjectTri
+	mov	rcx, rbx
+	call	CInternalPipelineRasterizeTri
+$LN807@CDrawInsta:
+	mov	rcx, rdi
+	call	CInternalFree
+
+; 265  : 
+; 266  : 			// free triangle data
+; 267  : 			CInternalFree(triData);
+
+	mov	rcx, r14
+	call	CInternalFree
+
+; 268  : 
+; 269  : 			// free triangle context
+; 270  : 			CInternalFree(tContext);
+
+	mov	rcx, rbx
+	call	CInternalFree
+	mov	rbx, QWORD PTR drawMesh$1$[rsp]
+
+; 271  : 
+; 272  : 			// increment triangleID
+; 273  : 			triangleID++;
+
+	inc	r15d
+	mov	edi, DWORD PTR instanceID$1$[rsp]
+	add	r13d, 3
+	cmp	r13d, DWORD PTR [rbx+16]
+	jb	$LL7@CDrawInsta
+$LN2@CDrawInsta:
+
+; 152  : 
+; 153  : 	// loop all instances
+; 154  : 	for (UINT32 instanceID = 0; instanceID < instanceCount; instanceID++) {
+
+	inc	edi
+	mov	DWORD PTR instanceID$1$[rsp], edi
+	cmp	edi, DWORD PTR instanceCount$1$[rsp]
+	jb	$LL4@CDrawInsta
+	mov	r14, QWORD PTR drawContext$GSCopy$1$[rsp]
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	r15, QWORD PTR [rsp+144]
+	mov	r13, QWORD PTR [rsp+216]
+$LN3@CDrawInsta:
+
+; 274  : 		}
+; 275  : 	}
+; 276  : 
+; 277  : 	// get end tick
+; 278  : 	LARGE_INTEGER counterEndTick;
+; 279  : 	QueryPerformanceCounter(&counterEndTick);
+
+	lea	rcx, QWORD PTR counterEndTick$[rsp]
+	call	QWORD PTR __imp_QueryPerformanceCounter
+
+; 280  : 
+; 281  : 	// calculate elapsed time
+; 282  : 	LONGLONG counterTicksElapsed = counterEndTick.QuadPart - counterStartTick.QuadPart;
+
+	mov	rax, QWORD PTR counterEndTick$[rsp]
+	sub	rax, QWORD PTR counterStartTick$[rsp]
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	r12, QWORD PTR [rsp+208]
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 285  : 	LONGLONG elapsedMS = (counterTicksElapsed / counterHz.QuadPart);
+
+	cdq
+	idiv	QWORD PTR counterHz$[rsp]
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	rdi, QWORD PTR [rsp+200]
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 286  : 	context->lastDrawTimeMS = (UINT64)elapsedMS;
+
+	mov	QWORD PTR [r14+520], rax
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN812@CDrawInsta
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN812@CDrawInsta:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 288  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_draw.c
+
+; 288  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+$LN1@CDrawInsta:
+
+; 289  : }
+
+	mov	rcx, QWORD PTR __$ArrayPad$[rsp]
+	xor	rcx, rsp
+	call	__security_check_cookie
+	add	rsp, 152				; 00000098H
+	pop	r14
+	pop	rsi
+	pop	rbp
+	pop	rbx
+	ret	0
+CDrawInstanced ENDP
+_TEXT	ENDS
 END

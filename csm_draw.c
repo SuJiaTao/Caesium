@@ -123,7 +123,14 @@ CSMCALL BOOL CDraw(CHandle drawContext, CHandle rClass) {
 CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instanceCount) {
 	_CSyncEnter();
 
-	ULONGLONG startTime = GetTickCount64();
+	// get counter Hz
+	LARGE_INTEGER counterHz;
+	QueryPerformanceFrequency(&counterHz);
+	counterHz.QuadPart /= 1000;
+
+	// get start tick
+	LARGE_INTEGER counterStartTick;
+	QueryPerformanceCounter(&counterStartTick);
 
 	// check for bad params
 	if (drawContext == NULL) {
@@ -267,8 +274,16 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 		}
 	}
 
-	ULONGLONG endTime = GetTickCount64();
-	context->lastDrawTimeMS = endTime - startTime;
+	// get end tick
+	LARGE_INTEGER counterEndTick;
+	QueryPerformanceCounter(&counterEndTick);
+
+	// calculate elapsed time
+	LONGLONG counterTicksElapsed = counterEndTick.QuadPart - counterStartTick.QuadPart;
+
+	// convert to MS
+	LONGLONG elapsedMS = (counterTicksElapsed / counterHz.QuadPart);
+	context->lastDrawTimeMS = (UINT64)elapsedMS;
 
 	_CSyncLeave(TRUE);
 }
