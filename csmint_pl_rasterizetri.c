@@ -203,6 +203,7 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 
 	// prepare fragment context
 	PCIPFragContext fContext = &triContext->fragContext;
+	fContext->parent = triContext;
 	fContext->barycentricWeightings = bWeights;
 	fContext->fragPos.x = drawX;
 	fContext->fragPos.y = drawY;
@@ -212,6 +213,52 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 
 	// draw fragment
 	_drawFragment(triContext);
+}
+
+static __forceinline void _awaitAllRenderThreads(PCIPTriContext triContext) {
+	PCDrawContext dc = triContext->drawContext;
+	// await all finished
+	while (TRUE) {
+		UINT32 doneThreads = 0;
+		for (UINT32 threadID = 0; threadID < CSM_DRAWTHREADS_COUNT; threadID++) {
+			// increment doneThread is true
+			if (dc->drawThreads[threadID].signal_t_awaitingRasterTask == TRUE) {
+				doneThreads++;
+			}
+		}
+
+		// on all complete, return
+		if (doneThreads == CSM_DRAWTHREADS_COUNT) break;
+	}
+}
+
+static __forceinline void _dispatchScanlineToThreads(PCIPTriContext triContext,
+	INT startX, INT endX, INT drawY) {
+	PCDrawContext dc = triContext->drawContext;
+
+	// loop forever
+	while (TRUE) {
+
+		// loop all threads
+		for (UINT32 threadID = 0; threadID < CSM_DRAWTHREADS_COUNT; threadID++) {
+
+			// if thread is awaiting task
+			PCDrawThreadContext dtc = dc->drawThreads + threadID;
+			if (dtc->signal_t_awaitingRasterTask == TRUE) {
+				// setup thread raster data
+				dtc->triContext		= triContext;
+				dtc->rasterStartX	= startX;
+				dtc->rasterEndX		= endX;
+				dtc->drawY			= drawY;
+
+				// request thread to draw
+				dtc->signal_m_requestRasterTask = TRUE;
+
+				// done
+				return;
+			}
+		}
+	}
 }
 
 static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData subTri) {
@@ -253,12 +300,19 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 		const INT DRAW_X_END =
 			min(renderBuff->width - 1, RBase.x + (invSlopeR * yDist));
 
-		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
-			// prepare and draw fragment
-			_prepareAndDrawFragment(triContext, drawX, drawY);
-		}
+		// make copy of triangle context
+		PCIPTriContext triContextCopy = CInternalAlloc(sizeof(CIPTriContext));
+		*triContextCopy = *triContext;
+
+		_dispatchScanlineToThreads(
+			triContextCopy,
+			DRAW_X_START,
+			DRAW_X_END,
+			drawY
+		);
 	}
+
+	_awaitAllRenderThreads(triContext);
 }
 
 static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
@@ -331,6 +385,13 @@ DWORD WINAPI CInternalPipelineRasterThreadProc(PCDrawThreadContext self) {
 			for (INT drawX = self->rasterStartX; drawX <= self->rasterEndX; drawX++) {
 				_prepareAndDrawFragment(self->triContext, drawX, self->drawY);
 			}
+
+			// free triContext and set to NULL
+			CInternalFree(self->triContext);
+			self->triContext = NULL;
+
+			// unset request to false
+			self->signal_m_requestRasterTask = FALSE;
 
 			// set awaiting task
 			self->signal_t_awaitingRasterTask = TRUE;
