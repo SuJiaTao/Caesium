@@ -47,6 +47,9 @@ typedef struct CIPTriContext {
 	PCMaterial		material;
 } CIPTriContext, * PCIPTriContext;
 
+// implemented in <csmint_pl_rasterizetri.c>
+void   CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self);
+
 void   CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri);
 UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
 void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);

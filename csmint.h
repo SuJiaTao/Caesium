@@ -9,6 +9,20 @@
 #include <intrin.h>
 
 #define CSMINT_FUNCNAMESTACK_SIZE	0x80
+#define CSMINT_RASTERTHREAD_COUNT	0x10
+
+typedef struct CIPRasterThreadContext {
+	HANDLE		thread;
+
+	BOOL		m_signal_kill;
+	BOOL		m_signal_rasterTask;
+	BOOL		t_signal_awaitingRasterTask;
+
+	struct CIPTriContext*	triContext;
+	INT				drawY;
+	INT				rasterStartX;
+	INT				rasterEndX;
+} CIPRasterThreadContext, * PCIPRasterThreadContext;
 
 typedef struct Caesium {
 	BOOL   init;
@@ -26,6 +40,8 @@ typedef struct Caesium {
 	UINT32	funcNameStackPtr;
 
 	LARGE_INTEGER perfCounterHzMs;
+
+	CIPRasterThreadContext rasterThreads[CSMINT_RASTERTHREAD_COUNT];
 } Caesium, *PCaesium;
 Caesium _csmint;
 

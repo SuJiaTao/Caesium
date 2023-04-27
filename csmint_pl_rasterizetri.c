@@ -309,6 +309,37 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	}
 }
 
+void   CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self) {
+	// set await rastertask and no task assigned
+	self->m_signal_rasterTask			= FALSE;
+	self->t_signal_awaitingRasterTask	= TRUE;
+
+	// loop forever
+	while (TRUE) {
+		// kill on signal
+		if (self->m_signal_kill == TRUE) {
+			ExitThread(0);
+		}
+		
+		// on recieved signal
+		if (self->m_signal_rasterTask == TRUE) {
+			// set no longer waiting
+			self->t_signal_awaitingRasterTask = FALSE;
+
+			// process fragment
+			for (INT drawX = self->rasterStartX; drawX <= self->rasterEndX; drawX++) {
+				_prepareAndDrawFragment(self->triContext, drawX, self->drawY);
+			}
+
+			// set awaiting task
+			self->t_signal_awaitingRasterTask = TRUE;
+		}
+
+		// sleep to not hog processor
+		Sleep(1);
+	}
+}
+
 void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData triangle) {
 	
 	// set triContext's triangle to current screen triangle
