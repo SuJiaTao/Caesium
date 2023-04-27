@@ -24,6 +24,8 @@ typedef struct Caesium {
 
 	PCHAR	funcNameStack[CSMINT_FUNCNAMESTACK_SIZE];
 	UINT32	funcNameStackPtr;
+
+	LARGE_INTEGER perfCounterHzMs;
 } Caesium, *PCaesium;
 Caesium _csmint;
 

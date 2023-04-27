@@ -142,98 +142,98 @@ PUBLIC	CRenderBufferUnsafeGetFragment
 PUBLIC	CRenderBufferUnsafeDepthTest
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende
-	DD	imagerel $LN67@CMakeRende+344
+$pdata$CMakeRenderBufferFromBytes DD imagerel $LN67
+	DD	imagerel $LN67+344
 	DD	imagerel $unwind$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$0$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+344
-	DD	imagerel $LN67@CMakeRende+476
+$pdata$0$CMakeRenderBufferFromBytes DD imagerel $LN67+344
+	DD	imagerel $LN67+476
 	DD	imagerel $chain$0$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$2$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+476
-	DD	imagerel $LN67@CMakeRende+479
+$pdata$2$CMakeRenderBufferFromBytes DD imagerel $LN67+476
+	DD	imagerel $LN67+479
 	DD	imagerel $chain$2$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$3$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+479
-	DD	imagerel $LN67@CMakeRende+509
+$pdata$3$CMakeRenderBufferFromBytes DD imagerel $LN67+479
+	DD	imagerel $LN67+509
 	DD	imagerel $chain$3$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$5$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+509
-	DD	imagerel $LN67@CMakeRende+987
+$pdata$5$CMakeRenderBufferFromBytes DD imagerel $LN67+509
+	DD	imagerel $LN67+987
 	DD	imagerel $chain$5$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$6$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+987
-	DD	imagerel $LN67@CMakeRende+1008
+$pdata$6$CMakeRenderBufferFromBytes DD imagerel $LN67+987
+	DD	imagerel $LN67+1008
 	DD	imagerel $chain$6$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$7$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+1008
-	DD	imagerel $LN67@CMakeRende+1080
+$pdata$7$CMakeRenderBufferFromBytes DD imagerel $LN67+1008
+	DD	imagerel $LN67+1080
 	DD	imagerel $chain$7$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$8$CMakeRenderBufferFromBytes DD imagerel $LN67@CMakeRende+1080
-	DD	imagerel $LN67@CMakeRende+1182
+$pdata$8$CMakeRenderBufferFromBytes DD imagerel $LN67+1080
+	DD	imagerel $LN67+1182
 	DD	imagerel $chain$8$CMakeRenderBufferFromBytes
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CRenderBufferClear DD imagerel $LN29@CRenderBuf
-	DD	imagerel $LN29@CRenderBuf+456
+$pdata$CRenderBufferClear DD imagerel $LN29
+	DD	imagerel $LN29+456
 	DD	imagerel $unwind$CRenderBufferClear
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CRenderBufferDepthTest DD imagerel $LN35@CRenderBuf
-	DD	imagerel $LN35@CRenderBuf+322
+$pdata$CRenderBufferDepthTest DD imagerel $LN35
+	DD	imagerel $LN35+322
 	DD	imagerel $unwind$CRenderBufferDepthTest
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CRenderBufferSetFragment DD imagerel $LN48@CRenderBuf
-	DD	imagerel $LN48@CRenderBuf+437
+$pdata$CRenderBufferSetFragment DD imagerel $LN48
+	DD	imagerel $LN48+437
 	DD	imagerel $unwind$CRenderBufferSetFragment
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CRenderBufferGetFragment DD imagerel $LN41@CRenderBuf
-	DD	imagerel $LN41@CRenderBuf+429
+$pdata$CRenderBufferGetFragment DD imagerel $LN41
+	DD	imagerel $LN41+429
 	DD	imagerel $unwind$CRenderBufferGetFragment
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CDestroyRenderBuffer DD imagerel $LN26@CDestroyRe
-	DD	imagerel $LN26@CDestroyRe+445
+$pdata$CDestroyRenderBuffer DD imagerel $LN26
+	DD	imagerel $LN26+445
 	DD	imagerel $unwind$CDestroyRenderBuffer
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CMakeRenderBuffer DD imagerel $LN30@CMakeRende
-	DD	imagerel $LN30@CMakeRende+154
+$pdata$CMakeRenderBuffer DD imagerel $LN30
+	DD	imagerel $LN30+154
 	DD	imagerel $unwind$CMakeRenderBuffer
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$0$CMakeRenderBuffer DD imagerel $LN30@CMakeRende+154
-	DD	imagerel $LN30@CMakeRende+252
+$pdata$0$CMakeRenderBuffer DD imagerel $LN30+154
+	DD	imagerel $LN30+252
 	DD	imagerel $chain$0$CMakeRenderBuffer
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$1$CMakeRenderBuffer DD imagerel $LN30@CMakeRende+252
-	DD	imagerel $LN30@CMakeRende+434
+$pdata$1$CMakeRenderBuffer DD imagerel $LN30+252
+	DD	imagerel $LN30+434
 	DD	imagerel $chain$1$CMakeRenderBuffer
 pdata	ENDS
 ;	COMDAT pdata
@@ -248,104 +248,2279 @@ xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$1$CMakeRenderBuffer DD 021H
-	DD	imagerel $LN30@CMakeRende
-	DD	imagerel $LN30@CMakeRende+154
+	DD	imagerel $LN30
+	DD	imagerel $LN30+154
 	DD	imagerel $unwind$CMakeRenderBuffer
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$0$CMakeRenderBuffer DQ 00006340500020521r ; 8.62661e-309
-	DD	imagerel $LN30@CMakeRende
-	DD	imagerel $LN30@CMakeRende+154
+$chain$0$CMakeRenderBuffer DD 020521H
+	DD	063405H
+	DD	imagerel $LN30
+	DD	imagerel $LN30+154
 	DD	imagerel $unwind$CMakeRenderBuffer
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CMakeRenderBuffer DQ 00009741500081501r	; 1.31466e-308
-	DQ	00007541500086415r		; 1.01915e-308
+$unwind$CMakeRenderBuffer DD 081501H
+	DD	097415H
+	DD	086415H
+	DD	075415H
 	DD	0e0113215H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CDestroyRenderBuffer DQ 00006344500064501r ; 8.62797e-309
-	DQ	07006320a0007640ar		; 4.30736e+231
+$unwind$CDestroyRenderBuffer DD 064501H
+	DD	063445H
+	DD	07640aH
+	DD	07006320aH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CRenderBufferGetFragment DQ 00009741a000a1a01r ; 1.31467e-308
-	DQ	00007541a0008641ar		; 1.01916e-308
-	DQ	0e016321a0006341ar		; -7.4399e+154
+$unwind$CRenderBufferGetFragment DD 0a1a01H
+	DD	09741aH
+	DD	08641aH
+	DD	07541aH
+	DD	06341aH
+	DD	0e016321aH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CRenderBufferSetFragment DQ 000087456000a5601r ; 1.17573e-308
-	DQ	000093413000a5413r		; 1.27989e-308
-	DQ	0600be00df00f3213r		; 4.67182e+154
+$unwind$CRenderBufferSetFragment DD 0a5601H
+	DD	087456H
+	DD	0a5413H
+	DD	093413H
+	DD	0f00f3213H
+	DD	0600be00dH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CRenderBufferDepthTest DQ 00002681a000a1a01r ; 3.34685e-309
-	DQ	000095414000a6414r		; 1.29728e-308
-	DQ	07010521400083414r		; 6.33451e+231
+$unwind$CRenderBufferDepthTest DD 0a1a01H
+	DD	02681aH
+	DD	0a6414H
+	DD	095414H
+	DD	083414H
+	DD	070105214H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CRenderBufferClear DQ 00008641400081401r ; 1.1669e-308
-	DQ	00006341400075414r		; 8.62693e-309
+$unwind$CRenderBufferClear DD 081401H
+	DD	086414H
+	DD	075414H
+	DD	063414H
 	DD	070103214H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$8$CMakeRenderBufferFromBytes DD 021H
-	DD	imagerel $LN67@CMakeRende
-	DD	imagerel $LN67@CMakeRende+344
+	DD	imagerel $LN67
+	DD	imagerel $LN67+344
 	DD	imagerel $unwind$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$7$CMakeRenderBufferFromBytes DD 021H
-	DD	imagerel $LN67@CMakeRende+476
-	DD	imagerel $LN67@CMakeRende+479
+	DD	imagerel $LN67+476
+	DD	imagerel $LN67+479
 	DD	imagerel $chain$2$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$6$CMakeRenderBufferFromBytes DD 021H
-	DD	imagerel $LN67@CMakeRende+479
-	DD	imagerel $LN67@CMakeRende+509
+	DD	imagerel $LN67+479
+	DD	imagerel $LN67+509
 	DD	imagerel $chain$3$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$5$CMakeRenderBufferFromBytes DQ 00004680e00040e21r ; 6.12794e-309
+$chain$5$CMakeRenderBufferFromBytes DD 040e21H
+	DD	04680eH
 	DD	0126408H
-	DD	imagerel $LN67@CMakeRende+479
-	DD	imagerel $LN67@CMakeRende+509
+	DD	imagerel $LN67+479
+	DD	imagerel $LN67+509
 	DD	imagerel $chain$3$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$3$CMakeRenderBufferFromBytes DQ 00011540800020821r ; 2.40979e-308
-	DD	imagerel $LN67@CMakeRende+476
-	DD	imagerel $LN67@CMakeRende+479
+$chain$3$CMakeRenderBufferFromBytes DD 020821H
+	DD	0115408H
+	DD	imagerel $LN67+476
+	DD	imagerel $LN67+479
 	DD	imagerel $chain$2$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$2$CMakeRenderBufferFromBytes DQ 00013c40000020021r ; 2.74875e-308
-	DD	imagerel $LN67@CMakeRende
-	DD	imagerel $LN67@CMakeRende+344
+$chain$2$CMakeRenderBufferFromBytes DD 020021H
+	DD	013c400H
+	DD	imagerel $LN67
+	DD	imagerel $LN67+344
 	DD	imagerel $unwind$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$0$CMakeRenderBufferFromBytes DQ 00013c40800020821r ; 2.74877e-308
-	DD	imagerel $LN67@CMakeRende
-	DD	imagerel $LN67@CMakeRende+344
+$chain$0$CMakeRenderBufferFromBytes DD 020821H
+	DD	013c408H
+	DD	imagerel $LN67
+	DD	imagerel $LN67+344
 	DD	imagerel $unwind$CMakeRenderBufferFromBytes
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CMakeRenderBufferFromBytes DQ 0f009920d00060d01r ; -4.96234e+231
-	DQ	030027003d005e007r		; 1.99037e-77
+$unwind$CMakeRenderBufferFromBytes DD 060d01H
+	DD	0f009920dH
+	DD	0d005e007H
+	DD	030027003H
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CMakeRenderBuffer
+_TEXT	SEGMENT
+pHandle$ = 48
+width$ = 56
+height$ = 64
+CMakeRenderBuffer PROC					; COMDAT
+
+; 11   : CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
+
+$LN30:
+	mov	QWORD PTR [rsp+16], rbp
+	mov	QWORD PTR [rsp+24], rsi
+	mov	QWORD PTR [rsp+32], rdi
+	push	r14
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 11   : CSMCALL BOOL CMakeRenderBuffer(PCHandle pHandle, INT width, INT height) {
+
+	mov	r14, rcx
+	mov	edi, r8d
+	mov	esi, edx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN9@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN9@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BC@KMNDFHKG@CMakeRenderBuffer@
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbp+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 12   : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 12   : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 13   : 
+; 14   : 	// check for bad params
+; 15   : 	if (pHandle == NULL) {
+
+	test	r14, r14
+	jne	SHORT $LN2@CMakeRende
+
+; 16   : 		CInternalSetLastError("CMakeRenderBuffer failed because pHandle was NULL");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DC@MJJLIAHJ@CMakeRenderBuffer?5failed?5becaus@
+
+; 17   : 		_CSyncLeave(FALSE);
+
+	jmp	$LN28@CMakeRende
+$LN2@CMakeRende:
+
+; 18   : 	}
+; 19   : 	if (width < 1 || height < 1) {
+
+	cmp	esi, 1
+	jl	$LN4@CMakeRende
+	cmp	edi, 1
+	jl	$LN4@CMakeRende
+
+; 21   : 		_CSyncLeave(FALSE);
+; 22   : 	}
+; 23   : 
+; 24   : 	PCRenderBuffer rb = CInternalAlloc(sizeof(CRenderBuffer));
+
+	mov	ecx, 24
+	mov	QWORD PTR [rsp+48], rbx
+	call	CInternalAlloc
+
+; 25   : 	rb->width = width;
+; 26   : 	rb->height = height;
+; 27   : 	rb->color = CInternalAlloc(sizeof(PCColor) * rb->width * rb->height + rb->height);
+
+	lea	rcx, QWORD PTR [rsi*8+1]
+	mov	rbx, rax
+	imul	rcx, rdi
+	mov	DWORD PTR [rax], esi
+	mov	DWORD PTR [rax+4], edi
+	call	CInternalAlloc
+
+; 28   : 	rb->depth = CInternalAlloc(sizeof(FLOAT) * rb->width * rb->height);
+
+	mov	ecx, DWORD PTR [rbx+4]
+	mov	edx, DWORD PTR [rbx]
+	imul	rcx, rdx
+	mov	QWORD PTR [rbx+8], rax
+	shl	rcx, 2
+	call	CInternalAlloc
+
+; 29   : 
+; 30   : 	// clear once
+; 31   : 	CRenderBufferClear(rb, TRUE, TRUE);
+
+	mov	edx, 1
+	mov	QWORD PTR [rbx+16], rax
+	mov	r8d, edx
+	mov	rcx, rbx
+	call	CRenderBufferClear
+
+; 32   : 
+; 33   : 	*pHandle = rb;
+
+	mov	QWORD PTR [r14], rbx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	mov	rbx, QWORD PTR [rsp+48]
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN24@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN24@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	ecx, eax
+	mov	QWORD PTR [rbp+rcx*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 35   : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 35   : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	SHORT $LN1@CMakeRende
+$LN4@CMakeRende:
+
+; 20   : 		CInternalSetLastError("CMakeRenderBuffer failed because dimensions were invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DJ@BDIAHJIA@CMakeRenderBuffer?5failed?5becaus@
+$LN28@CMakeRende:
+
+; 36   : }
+
+	call	CInternalSetLastError
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN19@CMakeRende
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN19@CMakeRende:
+	mov	QWORD PTR [rbp+rax*8+200], 0
+	lea	rcx, OFFSET FLAT:_csmint+32
+	dec	DWORD PTR _csmint+1224
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN1@CMakeRende:
+	mov	rbp, QWORD PTR [rsp+56]
+	mov	rsi, QWORD PTR [rsp+64]
+	mov	rdi, QWORD PTR [rsp+72]
+	add	rsp, 32					; 00000020H
+	pop	r14
+	ret	0
+CMakeRenderBuffer ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CDestroyRenderBuffer
+_TEXT	SEGMENT
+pHandle$ = 48
+CDestroyRenderBuffer PROC				; COMDAT
+
+; 38   : CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
+
+$LN26:
+	mov	QWORD PTR [rsp+16], rsi
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 38   : CSMCALL BOOL CDestroyRenderBuffer(PCHandle pHandle) {
+
+	mov	rdi, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN8@CDestroyRe
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN8@CDestroyRe:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BF@JFFEHIH@CDestroyRenderBuffer@
+	mov	QWORD PTR [rsp+48], rbx
+	lea	rsi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rsi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 39   : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 39   : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 40   : 
+; 41   : 	// check for bad params
+; 42   : 	if (pHandle == NULL) {
+
+	test	rdi, rdi
+	jne	SHORT $LN2@CDestroyRe
+
+; 43   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was NULL");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DF@FLKHKJKD@CDestroyRenderBuffer?5failed?5bec@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN13@CDestroyRe
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN13@CDestroyRe:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	xor	ebx, ebx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 43   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was NULL");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], rbx
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 43   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was NULL");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	mov	rbx, QWORD PTR [rsp+48]
+
+; 60   : }
+
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN2@CDestroyRe:
+
+; 44   : 	}
+; 45   : 
+; 46   : 	// get buffer from pointer
+; 47   : 	PCRenderBuffer buffer = *pHandle;
+
+	mov	rbx, QWORD PTR [rdi]
+
+; 48   : 	if (buffer == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN3@CDestroyRe
+
+; 49   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DI@BOEJJBKH@CDestroyRenderBuffer?5failed?5bec@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN18@CDestroyRe
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN18@CDestroyRe:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	xor	ebx, ebx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 49   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], rbx
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 49   : 		_CSyncLeaveErr(FALSE, "CDestroyRenderBuffer failed because pHandle was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	mov	rbx, QWORD PTR [rsp+48]
+
+; 60   : }
+
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN3@CDestroyRe:
+
+; 50   : 	}
+; 51   : 
+; 52   : 	// free values
+; 53   : 	CInternalFree(buffer->color);
+
+	mov	rcx, QWORD PTR [rbx+8]
+	call	CInternalFree
+
+; 54   : 	CInternalFree(buffer->depth);
+
+	mov	rcx, QWORD PTR [rbx+16]
+	call	CInternalFree
+
+; 55   : 	CInternalFree(buffer);
+
+	mov	rcx, rbx
+	call	CInternalFree
+
+; 56   : 
+; 57   : 	*pHandle = NULL;
+
+	xor	ebx, ebx
+	mov	QWORD PTR [rdi], rbx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN23@CDestroyRe
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN23@CDestroyRe:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], rbx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 59   : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 59   : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	eax, 1
+
+; 60   : }
+
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CDestroyRenderBuffer ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CRenderBufferGetFragment
+_TEXT	SEGMENT
+handle$ = 48
+x$ = 56
+y$ = 64
+colorOut$ = 72
+depthOut$ = 80
+CRenderBufferGetFragment PROC				; COMDAT
+
+; 75   : 	PCColor colorOut, PFLOAT depthOut) {
+
+$LN41:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rbp
+	mov	QWORD PTR [rsp+24], rsi
+	mov	QWORD PTR [rsp+32], rdi
+	push	r14
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 75   : 	PCColor colorOut, PFLOAT depthOut) {
+
+	mov	r14, r9
+	mov	esi, r8d
+	mov	edi, edx
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN10@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN10@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BJ@GONLCKF@CRenderBufferGetFragment@
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbp+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 76   : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 76   : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 77   : 
+; 78   : 	if (handle == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CRenderBuf
+
+; 79   : 		_CSyncLeaveErr(FALSE, "CRenderBufferGetFragment failed because handle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DL@CBKOMBLI@CRenderBufferGetFragment?5failed@
+	jmp	$LN39@CRenderBuf
+$LN2@CRenderBuf:
+
+; 71   : 	return (x >= 0 && x < b->width) && (y >= 0 && y < b->height);
+
+	test	edi, edi
+	js	$LN19@CRenderBuf
+	mov	ecx, DWORD PTR [rbx]
+	cmp	edi, ecx
+	jae	$LN19@CRenderBuf
+	test	esi, esi
+	js	$LN19@CRenderBuf
+	mov	eax, DWORD PTR [rbx+4]
+	cmp	esi, eax
+	jae	$LN19@CRenderBuf
+
+; 85   : 	}
+; 86   : 
+; 87   : 
+; 88   : 	// no err raised for NULL(s)
+; 89   : 	if (colorOut != NULL) {
+
+	test	r14, r14
+	je	SHORT $LN4@CRenderBuf
+
+; 63   : 	return b->color + (x + ((b->height - y - 1) * b->width));
+
+	sub	eax, esi
+	dec	eax
+	imul	ecx, eax
+
+; 90   : 		*colorOut = *(_findColorPtr(pBuffer, x, y));
+
+	mov	rax, QWORD PTR [rbx+8]
+
+; 63   : 	return b->color + (x + ((b->height - y - 1) * b->width));
+
+	add	ecx, edi
+
+; 90   : 		*colorOut = *(_findColorPtr(pBuffer, x, y));
+
+	mov	ecx, DWORD PTR [rax+rcx*4]
+	mov	DWORD PTR [r14], ecx
+$LN4@CRenderBuf:
+
+; 91   : 	}
+; 92   : 	if (depthOut != NULL) {
+
+	mov	rdx, QWORD PTR depthOut$[rsp]
+	test	rdx, rdx
+	je	SHORT $LN5@CRenderBuf
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	mov	ecx, DWORD PTR [rbx+4]
+
+; 93   : 		*depthOut = *(_findDepthPtr(pBuffer, x, y));
+
+	mov	rax, QWORD PTR [rbx+16]
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	sub	ecx, esi
+	dec	ecx
+	imul	ecx, DWORD PTR [rbx]
+	add	ecx, edi
+
+; 93   : 		*depthOut = *(_findDepthPtr(pBuffer, x, y));
+
+	mov	ecx, DWORD PTR [rax+rcx*4]
+	mov	DWORD PTR [rdx], ecx
+$LN5@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN34@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN34@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 96   : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 96   : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	SHORT $LN1@CRenderBuf
+$LN19@CRenderBuf:
+
+; 80   : 	}
+; 81   : 
+; 82   : 	PCRenderBuffer pBuffer = handle;
+; 83   : 	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
+; 84   : 		_CSyncLeaveErr(FALSE, "CRenderBufferGetFragment failed because position was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DN@HAGNIOIH@CRenderBufferGetFragment?5failed@
+$LN39@CRenderBuf:
+
+; 97   : }
+
+	call	CInternalSetLastError
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN25@CRenderBuf
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN25@CRenderBuf:
+	mov	QWORD PTR [rbp+rax*8+200], 0
+	lea	rcx, OFFSET FLAT:_csmint+32
+	dec	DWORD PTR _csmint+1224
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN1@CRenderBuf:
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	rbp, QWORD PTR [rsp+56]
+	mov	rsi, QWORD PTR [rsp+64]
+	mov	rdi, QWORD PTR [rsp+72]
+	add	rsp, 32					; 00000020H
+	pop	r14
+	ret	0
+CRenderBufferGetFragment ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CRenderBufferSetFragment
+_TEXT	SEGMENT
+handle$ = 64
+x$ = 72
+y$ = 80
+color$ = 88
+depth$ = 96
+CRenderBufferSetFragment PROC				; COMDAT
+
+; 100  : 	CColor color, FLOAT depth) {
+
+$LN48:
+	mov	QWORD PTR [rsp+16], rbx
+	mov	QWORD PTR [rsp+24], rbp
+	push	rsi
+	push	r14
+	push	r15
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 100  : 	CColor color, FLOAT depth) {
+
+	mov	ebx, r9d
+	mov	r14d, r8d
+	mov	ebp, edx
+	mov	rsi, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN8@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN8@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BJ@JPDGECG@CRenderBufferSetFragment@
+	mov	QWORD PTR [rsp+64], rdi
+	lea	r15, OFFSET FLAT:_csmint
+	mov	QWORD PTR [r15+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 101  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 101  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 102  : 
+; 103  : 	if (handle == NULL) {
+
+	test	rsi, rsi
+	jne	SHORT $LN2@CRenderBuf
+
+; 104  : 		_CSyncLeaveErr(FALSE, "CRenderBufferSetFragment failed because handle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DL@JEKEAJIB@CRenderBufferSetFragment?5failed@
+	jmp	$LN46@CRenderBuf
+$LN2@CRenderBuf:
+
+; 71   : 	return (x >= 0 && x < b->width) && (y >= 0 && y < b->height);
+
+	test	ebp, ebp
+	js	$LN17@CRenderBuf
+	cmp	ebp, DWORD PTR [rsi]
+	jae	$LN17@CRenderBuf
+	test	r14d, r14d
+	js	$LN17@CRenderBuf
+	cmp	r14d, DWORD PTR [rsi+4]
+	jae	$LN17@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN28@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN28@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	xor	edi, edi
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 112  : 	_CSyncLeave(CRenderBufferUnsafeSetFragment(pBuffer, x, y, color, depth));
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r15+rax*8+200], rdi
+
+; 22   : 
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 112  : 	_CSyncLeave(CRenderBufferUnsafeSetFragment(pBuffer, x, y, color, depth));
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	mov	ecx, DWORD PTR [rsi+4]
+
+; 176  : 	oldDepth = _findDepthPtr(handle, x, y)[0];
+
+	mov	rax, QWORD PTR [rsi+16]
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	sub	ecx, r14d
+
+; 177  : 	if (oldDepth - newDepth >= CSM_RENDERBUFFER_DEPTH_TEST_EPSILON) {
+
+	vmovss	xmm1, DWORD PTR depth$[rsp]
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	dec	ecx
+	imul	ecx, DWORD PTR [rsi]
+	add	ecx, ebp
+
+; 176  : 	oldDepth = _findDepthPtr(handle, x, y)[0];
+
+	vmovss	xmm0, DWORD PTR [rax+rcx*4]
+
+; 177  : 	if (oldDepth - newDepth >= CSM_RENDERBUFFER_DEPTH_TEST_EPSILON) {
+
+	vsubss	xmm0, xmm0, xmm1
+	vcomiss	xmm0, DWORD PTR __real@ba83126f
+	jae	SHORT $LN30@CRenderBuf
+
+; 170  : 	return TRUE;
+
+	mov	rax, QWORD PTR [rsi+8]
+	mov	edi, 1
+	mov	DWORD PTR [rax+rcx*4], ebx
+	mov	ecx, DWORD PTR [rsi+4]
+	mov	rax, QWORD PTR [rsi+16]
+	sub	ecx, r14d
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	dec	ecx
+	imul	ecx, DWORD PTR [rsi]
+	add	ecx, ebp
+
+; 168  : 	_findDepthPtr(handle, x, y)[0] = depth;
+
+	vmovss	DWORD PTR [rax+rcx*4], xmm1
+$LN30@CRenderBuf:
+
+; 112  : 	_CSyncLeave(CRenderBufferUnsafeSetFragment(pBuffer, x, y, color, depth));
+
+	mov	eax, edi
+	jmp	SHORT $LN1@CRenderBuf
+$LN17@CRenderBuf:
+
+; 105  : 	}
+; 106  : 
+; 107  : 	PCRenderBuffer pBuffer = handle;
+; 108  : 	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
+; 109  : 		_CSyncLeaveErr(FALSE, "CRenderBufferSetFragment failed because position was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DN@OLFGPMLF@CRenderBufferSetFragment?5failed@
+$LN46@CRenderBuf:
+
+; 113  : }
+
+	call	CInternalSetLastError
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN23@CRenderBuf
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN23@CRenderBuf:
+	xor	edi, edi
+	lea	rcx, OFFSET FLAT:_csmint+32
+	mov	QWORD PTR [r15+rax*8+200], rdi
+	dec	DWORD PTR _csmint+1224
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN1@CRenderBuf:
+	mov	rdi, QWORD PTR [rsp+64]
+	mov	rbx, QWORD PTR [rsp+72]
+	mov	rbp, QWORD PTR [rsp+80]
+	add	rsp, 32					; 00000020H
+	pop	r15
+	pop	r14
+	pop	rsi
+	ret	0
+CRenderBufferSetFragment ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CRenderBufferDepthTest
+_TEXT	SEGMENT
+handle$ = 64
+x$ = 72
+y$ = 80
+newDepth$ = 88
+CRenderBufferDepthTest PROC				; COMDAT
+
+; 115  : CSMCALL BOOL CRenderBufferDepthTest(CHandle handle, INT x, INT y, FLOAT newDepth) {
+
+$LN35:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rbp
+	mov	QWORD PTR [rsp+24], rsi
+	push	rdi
+	sub	rsp, 48					; 00000030H
+	vmovaps	XMMWORD PTR [rsp+32], xmm6
+	mov	ebp, r8d
+	mov	esi, edx
+	mov	rbx, rcx
+	vmovaps	xmm6, xmm3
+
+; 116  : 	if (handle == NULL) {
+
+	test	rcx, rcx
+	jne	SHORT $LN2@CRenderBuf
+
+; 117  : 		_CSyncLeaveErr(FALSE, "CRenderBufferDepthTest failed because handle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DJ@FCDJMGPO@CRenderBufferDepthTest?5failed?5b@
+	jmp	$LN33@CRenderBuf
+$LN2@CRenderBuf:
+
+; 71   : 	return (x >= 0 && x < b->width) && (y >= 0 && y < b->height);
+
+	test	esi, esi
+	js	$LN12@CRenderBuf
+	cmp	esi, DWORD PTR [rcx]
+	jae	$LN12@CRenderBuf
+	test	ebp, ebp
+	js	SHORT $LN12@CRenderBuf
+	cmp	ebp, DWORD PTR [rcx+4]
+	jae	SHORT $LN12@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN23@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN23@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	lea	rcx, OFFSET FLAT:_csmint
+	xor	edi, edi
+	mov	QWORD PTR [rcx+rax*8+200], rdi
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 126  : 	_CSyncLeave(CRenderBufferUnsafeDepthTest(handle, x, y, newDepth));
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 126  : 	_CSyncLeave(CRenderBufferUnsafeDepthTest(handle, x, y, newDepth));
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	mov	edx, DWORD PTR [rbx+4]
+
+; 176  : 	oldDepth = _findDepthPtr(handle, x, y)[0];
+
+	mov	rcx, QWORD PTR [rbx+16]
+
+; 67   : 	return b->depth + (x + ((b->height - y - 1) * b->width));
+
+	sub	edx, ebp
+	dec	edx
+	imul	edx, DWORD PTR [rbx]
+	add	edx, esi
+
+; 176  : 	oldDepth = _findDepthPtr(handle, x, y)[0];
+
+	vmovss	xmm0, DWORD PTR [rcx+rdx*4]
+
+; 177  : 	if (oldDepth - newDepth >= CSM_RENDERBUFFER_DEPTH_TEST_EPSILON) {
+
+	vsubss	xmm1, xmm0, xmm6
+	vcomiss	xmm1, DWORD PTR __real@ba83126f
+	setb	dil
+
+; 126  : 	_CSyncLeave(CRenderBufferUnsafeDepthTest(handle, x, y, newDepth));
+
+	mov	eax, edi
+	jmp	SHORT $LN1@CRenderBuf
+$LN12@CRenderBuf:
+
+; 118  : 	}
+; 119  : 
+; 120  : 	PCRenderBuffer pBuffer = handle;
+; 121  : 	if (_checkPosInRB(pBuffer, x, y) == FALSE) {
+; 122  : 		_CSyncLeaveErr(FALSE, "CRenderBufferDepthTest failed because position was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DL@EICKIADA@CRenderBufferDepthTest?5failed?5b@
+$LN33@CRenderBuf:
+
+; 127  : }
+
+	call	CInternalSetLastError
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN18@CRenderBuf
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN18@CRenderBuf:
+	lea	rcx, OFFSET FLAT:_csmint
+	xor	edi, edi
+	mov	QWORD PTR [rcx+rax*8+200], rdi
+	lea	rcx, OFFSET FLAT:_csmint+32
+	dec	DWORD PTR _csmint+1224
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN1@CRenderBuf:
+	mov	rbx, QWORD PTR [rsp+64]
+	mov	rbp, QWORD PTR [rsp+72]
+	mov	rsi, QWORD PTR [rsp+80]
+	vmovaps	xmm6, XMMWORD PTR [rsp+32]
+	add	rsp, 48					; 00000030H
+	pop	rdi
+	ret	0
+CRenderBufferDepthTest ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CRenderBufferClear
+_TEXT	SEGMENT
+handle$ = 48
+color$ = 56
+depth$ = 64
+CRenderBufferClear PROC					; COMDAT
+
+; 129  : CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
+
+$LN29:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rbp
+	mov	QWORD PTR [rsp+24], rsi
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 129  : CSMCALL BOOL CRenderBufferClear(CHandle handle, BOOL color, BOOL depth) {
+
+	mov	esi, r8d
+	mov	edi, edx
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN10@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN10@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BD@BAPELIIJ@CRenderBufferClear@
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbp+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 130  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 130  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 131  : 
+; 132  : 	if (handle == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CRenderBuf
+
+; 133  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because pBuffer was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DG@HDDIECNC@CRenderBufferClear?5failed?5becau@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN15@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN15@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 133  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because pBuffer was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 133  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because pBuffer was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CRenderBuf
+$LN2@CRenderBuf:
+
+; 134  : 	}
+; 135  : 	if (color == FALSE && depth == FALSE) {
+
+	test	edi, edi
+	jne	SHORT $LN3@CRenderBuf
+	test	esi, esi
+	jne	SHORT $LN3@CRenderBuf
+
+; 136  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because both color and depth flag were false");
+
+	lea	rcx, OFFSET FLAT:??_C@_0EH@LCAPAIAB@CRenderBufferClear?5failed?5becau@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN20@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN20@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 136  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because both color and depth flag were false");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 136  : 		_CSyncLeaveErr(FALSE, "CRenderBufferClear failed because both color and depth flag were false");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	SHORT $LN1@CRenderBuf
+$LN3@CRenderBuf:
+
+; 137  : 	}
+; 138  : 
+; 139  : 	PCRenderBuffer pBuffer = handle;
+; 140  : 	INT elemCount = pBuffer->width * pBuffer->height;
+
+	mov	eax, DWORD PTR [rbx+4]
+	imul	eax, DWORD PTR [rbx]
+	movsxd	rdx, eax
+
+; 141  : 	
+; 142  : 	// set all colors to 0
+; 143  : 	if (color == TRUE)
+
+	cmp	edi, 1
+	jne	SHORT $LN27@CRenderBuf
+
+; 144  : 		__stosd(pBuffer->color, ZERO, elemCount);
+
+	mov	rdi, QWORD PTR [rbx+8]
+	xor	eax, eax
+	mov	rcx, rdx
+	rep stosd
+$LN27@CRenderBuf:
+
+; 145  : 
+; 146  : 	// set all depth
+; 147  : 	const FLOAT clearDepth = CSM_RENDERBUFFER_MAX_DEPTH;
+; 148  : 	if (depth == TRUE) {
+
+	cmp	esi, 1
+	jne	SHORT $LN5@CRenderBuf
+
+; 149  : 		__stosd(pBuffer->depth, *(PDWORD)&clearDepth, elemCount);
+
+	mov	rdi, QWORD PTR [rbx+16]
+	mov	eax, -1027080192			; c2c80000H
+	mov	rcx, rdx
+	rep stosd
+$LN5@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN25@CRenderBuf
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN25@CRenderBuf:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 152  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 152  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+$LN1@CRenderBuf:
+
+; 153  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	rbp, QWORD PTR [rsp+56]
+	mov	rsi, QWORD PTR [rsp+64]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CRenderBufferClear ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csm.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+;	COMDAT CMakeRenderBufferFromBytes
+_TEXT	SEGMENT
+rCol$1 = 48
+color$2 = 128
+pHandle$ = 128
+width$ = 136
+height$ = 144
+inBytes$ = 152
+byteFormat$ = 160
+verticalInversion$ = 168
+CMakeRenderBufferFromBytes PROC				; COMDAT
+
+; 185  : 	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion) {
+
+$LN67:
+	push	rbx
+	push	rdi
+	push	r13
+	push	r14
+	push	r15
+	sub	rsp, 80					; 00000050H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 185  : 	PVOID inBytes, CTextureBytesFormat byteFormat, BOOL verticalInversion) {
+
+	mov	rdi, r9
+	mov	r15d, r8d
+	mov	r14d, edx
+	mov	r13, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN27@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN27@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BL@IKPCPHJO@CMakeRenderBufferFromBytes@
+	lea	rbx, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbx+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 186  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 186  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 187  : 
+; 188  : 	if (pHandle == NULL) {
+
+	test	r13, r13
+	jne	SHORT $LN10@CMakeRende
+
+; 189  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DO@HPHAAMED@CMakeRenderBufferFromBytes?5fail@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN32@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN32@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbx+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 189  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 189  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because pHandle was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 281  : }
+
+	add	rsp, 80					; 00000050H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	rdi
+	pop	rbx
+	ret	0
+$LN10@CMakeRende:
+
+; 190  : 	}
+; 191  : 	if (width < 1 || height < 1) {
+
+	cmp	r14d, 1
+	jl	$LN12@CMakeRende
+	cmp	r15d, 1
+	jl	$LN12@CMakeRende
+
+; 194  : 	}
+; 195  : 	if (inBytes == NULL) {
+
+	test	rdi, rdi
+	jne	SHORT $LN13@CMakeRende
+
+; 196  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because inBytes was NULL");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DL@EJICGCJM@CMakeRenderBufferFromBytes?5fail@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN42@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN42@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbx+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 196  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because inBytes was NULL");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 196  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because inBytes was NULL");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 281  : }
+
+	add	rsp, 80					; 00000050H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	rdi
+	pop	rbx
+	ret	0
+$LN13@CMakeRende:
+	mov	QWORD PTR [rsp+152], r12
+
+; 197  : 	}
+; 198  : 	if (byteFormat >= CTextureBytesFormat_Error) {
+
+	mov	r12d, DWORD PTR byteFormat$[rsp]
+	cmp	r12d, 5
+	jl	SHORT $LN14@CMakeRende
+
+; 199  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because byteFormat was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0EB@FALABHOG@CMakeRenderBufferFromBytes?5fail@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN47@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN47@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbx+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 199  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because byteFormat was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 199  : 		_CSyncLeaveErr(FALSE, "CMakeRenderBufferFromBytes failed because byteFormat was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN64@CMakeRende:
+	mov	r12, QWORD PTR [rsp+152]
+
+; 281  : }
+
+	add	rsp, 80					; 00000050H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	rdi
+	pop	rbx
+	ret	0
+$LN14@CMakeRende:
+
+; 200  : 	}
+; 201  : 
+; 202  : 	// make render buffer
+; 203  : 	CMakeRenderBuffer(pHandle, width, height);
+
+	mov	r8d, r15d
+	mov	QWORD PTR [rsp+136], rbp
+	mov	edx, r14d
+	mov	rcx, r13
+	call	CMakeRenderBuffer
+
+; 204  : 	PBYTE  inBuffer = inBytes;
+; 205  : 	UINT32 baseIndex;			// baseindex for inBuffer pixel
+; 206  : 	UINT32 scanlineSizeBytes;	// scanline size
+; 207  : 	UINT32 yActual;				// y accounting for vertical inversion
+; 208  : 
+; 209  : 	// set all values based on inBytes
+; 210  : 	for (UINT32 x = 0; x < width; x++) {
+
+	xor	ebp, ebp
+	test	r14d, r14d
+	je	$LN3@CMakeRende
+	mov	QWORD PTR [rsp+144], rsi
+	vmovaps	XMMWORD PTR [rsp+64], xmm6
+	vxorps	xmm6, xmm6, xmm6
+	npad	1
+$LL4@CMakeRende:
+
+; 211  : 		for (UINT32 y = 0; y < height; y++) {
+
+	xor	esi, esi
+	test	r15d, r15d
+	je	$LN2@CMakeRende
+; File C:\Bailey\Programming\Caesium\csm.c
+
+; 52   : 	rCol.g = g;
+
+	mov	WORD PTR rCol$1[rsp+1], 65280		; 0000ff00H
+
+; 53   : 	rCol.b = b;
+
+	mov	BYTE PTR rCol$1[rsp], 255		; 000000ffH
+
+; 54   : 	rCol.a = 255;
+
+	mov	BYTE PTR rCol$1[rsp+3], 255		; 000000ffH
+	mov	ebx, DWORD PTR rCol$1[rsp]
+$LL7@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 218  : 				yActual = height - y - 1;
+
+	mov	eax, r15d
+	mov	DWORD PTR color$2[rsp], ebx
+	sub	eax, esi
+
+; 219  : 			else
+; 220  : 				yActual = y;
+
+	mov	edx, esi
+	dec	eax
+
+; 221  : 
+; 222  : 			switch (byteFormat)
+
+	mov	ecx, r12d
+	cmp	DWORD PTR verticalInversion$[rsp], 0
+	cmovne	edx, eax
+	test	r12d, r12d
+	je	$LN17@CMakeRende
+	sub	ecx, 1
+	je	$LN18@CMakeRende
+	sub	ecx, 1
+	je	$LN19@CMakeRende
+	sub	ecx, 1
+	je	SHORT $LN20@CMakeRende
+	cmp	ecx, 1
+	jne	$LN22@CMakeRende
+
+; 261  : 
+; 262  : 			case CTextureBytesFormat_BRGA:
+; 263  : 				scanlineSizeBytes = width * 4;
+; 264  : 				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+
+	imul	edx, r14d
+	add	edx, ebp
+	shl	edx, 2
+
+; 265  : 				color.r = inBuffer[baseIndex + 2];
+; 266  : 				color.g = inBuffer[baseIndex + 1];
+; 267  : 				color.b = inBuffer[baseIndex + 0];
+
+	movzx	ecx, BYTE PTR [rdx+rdi]
+	lea	eax, DWORD PTR [rdx+2]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+2], al
+	lea	eax, DWORD PTR [rdx+1]
+	mov	BYTE PTR color$2[rsp], cl
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+1], al
+
+; 268  : 				color.a = inBuffer[baseIndex + 3];
+
+	lea	eax, DWORD PTR [rdx+3]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+3], al
+
+; 269  : 
+; 270  : 				break;
+
+	jmp	$LN22@CMakeRende
+$LN20@CMakeRende:
+
+; 251  : 
+; 252  : 			case CTextureBytesFormat_ARGB:
+; 253  : 				scanlineSizeBytes = width * 4;
+; 254  : 				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+
+	imul	edx, r14d
+	add	edx, ebp
+	shl	edx, 2
+
+; 255  : 				color.r = inBuffer[baseIndex + 3];
+; 256  : 				color.g = inBuffer[baseIndex + 2];
+; 257  : 				color.b = inBuffer[baseIndex + 1];
+; 258  : 				color.a = inBuffer[baseIndex + 0];
+
+	movzx	ecx, BYTE PTR [rdx+rdi]
+	lea	eax, DWORD PTR [rdx+3]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+2], al
+	lea	eax, DWORD PTR [rdx+2]
+	mov	BYTE PTR color$2[rsp+3], cl
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+1], al
+	lea	eax, DWORD PTR [rdx+1]
+
+; 259  : 
+; 260  : 				break;
+
+	jmp	$LN65@CMakeRende
+$LN19@CMakeRende:
+
+; 241  : 
+; 242  : 			case CTextureBytesFormat_RGBA:
+; 243  : 				scanlineSizeBytes = width * 4;
+; 244  : 				baseIndex = (scanlineSizeBytes * yActual) + (x * 4);
+
+	imul	edx, r14d
+	add	edx, ebp
+	shl	edx, 2
+
+; 245  : 				color.r = inBuffer[baseIndex + 0];
+
+	movzx	ecx, BYTE PTR [rdx+rdi]
+
+; 246  : 				color.g = inBuffer[baseIndex + 1];
+
+	lea	eax, DWORD PTR [rdx+1]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+1], al
+
+; 247  : 				color.b = inBuffer[baseIndex + 2];
+
+	lea	eax, DWORD PTR [rdx+2]
+	mov	BYTE PTR color$2[rsp+2], cl
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp], al
+
+; 248  : 				color.a = inBuffer[baseIndex + 3];
+
+	lea	eax, DWORD PTR [rdx+3]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+3], al
+
+; 249  : 
+; 250  : 				break;
+
+	jmp	SHORT $LN22@CMakeRende
+$LN18@CMakeRende:
+
+; 230  : 
+; 231  : 				break;
+; 232  : 
+; 233  : 			case CTextureBytesFormat_BRG:
+; 234  : 				scanlineSizeBytes = width * 3;
+; 235  : 				baseIndex = (scanlineSizeBytes * yActual) + (x * 3);
+
+	imul	edx, r14d
+	add	edx, ebp
+	lea	edx, DWORD PTR [rdx+rdx*2]
+
+; 236  : 				color.r = inBuffer[baseIndex + 2];
+; 237  : 				color.g = inBuffer[baseIndex + 1];
+; 238  : 				color.b = inBuffer[baseIndex + 0];
+
+	movzx	ecx, BYTE PTR [rdx+rdi]
+	lea	eax, DWORD PTR [rdx+2]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+2], al
+	lea	eax, DWORD PTR [rdx+1]
+	mov	BYTE PTR color$2[rsp], cl
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+1], al
+
+; 239  : 
+; 240  : 				break;
+
+	jmp	SHORT $LN22@CMakeRende
+$LN17@CMakeRende:
+
+; 223  : 			{
+; 224  : 			case CTextureBytesFormat_RGB:
+; 225  : 				scanlineSizeBytes = width * 3;
+; 226  : 				baseIndex = (scanlineSizeBytes * yActual) + (x * 3);
+
+	imul	edx, r14d
+	add	edx, ebp
+	lea	edx, DWORD PTR [rdx+rdx*2]
+
+; 227  : 				color.r = inBuffer[baseIndex + 0];
+
+	movzx	ecx, BYTE PTR [rdx+rdi]
+
+; 228  : 				color.g = inBuffer[baseIndex + 1];
+
+	lea	eax, DWORD PTR [rdx+1]
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp+1], al
+
+; 229  : 				color.b = inBuffer[baseIndex + 2];
+
+	lea	eax, DWORD PTR [rdx+2]
+	mov	BYTE PTR color$2[rsp+2], cl
+$LN65@CMakeRende:
+
+; 271  : 
+; 272  : 			default:
+; 273  : 				break;
+; 274  : 			}
+; 275  : 
+; 276  : 			CRenderBufferSetFragment(*pHandle, x, y, color, 0);
+
+	movzx	eax, BYTE PTR [rax+rdi]
+	mov	BYTE PTR color$2[rsp], al
+$LN22@CMakeRende:
+	mov	r9d, DWORD PTR color$2[rsp]
+	mov	r8d, esi
+	mov	rcx, QWORD PTR [r13]
+	mov	edx, ebp
+	vmovss	DWORD PTR [rsp+32], xmm6
+	call	CRenderBufferSetFragment
+	inc	esi
+	cmp	esi, r15d
+	jb	$LL7@CMakeRende
+$LN2@CMakeRende:
+
+; 204  : 	PBYTE  inBuffer = inBytes;
+; 205  : 	UINT32 baseIndex;			// baseindex for inBuffer pixel
+; 206  : 	UINT32 scanlineSizeBytes;	// scanline size
+; 207  : 	UINT32 yActual;				// y accounting for vertical inversion
+; 208  : 
+; 209  : 	// set all values based on inBytes
+; 210  : 	for (UINT32 x = 0; x < width; x++) {
+
+	inc	ebp
+	cmp	ebp, r14d
+	jb	$LL4@CMakeRende
+	vmovaps	xmm6, XMMWORD PTR [rsp+64]
+	lea	rbx, OFFSET FLAT:_csmint
+	mov	rsi, QWORD PTR [rsp+144]
+$LN3@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	mov	rbp, QWORD PTR [rsp+136]
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN54@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN54@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbx+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 280  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 280  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	$LN64@CMakeRende
+$LN12@CMakeRende:
+
+; 192  : 		CInternalSetLastError("CMakeRenderBufferFromBytes failed because dimensions were invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0EC@NHOPCMGF@CMakeRenderBufferFromBytes?5fail@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN37@CMakeRende
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN37@CMakeRende:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbx+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 193  : 		_CSyncLeave(FALSE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_renderbuffer.c
+
+; 193  : 		_CSyncLeave(FALSE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 281  : }
+
+	add	rsp, 80					; 00000050H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	rdi
+	pop	rbx
+	ret	0
+CMakeRenderBufferFromBytes ENDP
+_TEXT	ENDS
 END

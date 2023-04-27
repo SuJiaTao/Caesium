@@ -153,80 +153,80 @@ PUBLIC	CWindowSetTitle
 PUBLIC	CMakeWindow
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CDestroyWindow DD imagerel $LN26@CDestroyWi
-	DD	imagerel $LN26@CDestroyWi+423
+$pdata$CDestroyWindow DD imagerel $LN26
+	DD	imagerel $LN26+423
 	DD	imagerel $unwind$CDestroyWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CWindowUpdate DD imagerel $LN20@CWindowUpd
-	DD	imagerel $LN20@CWindowUpd+386
+$pdata$CWindowUpdate DD imagerel $LN20
+	DD	imagerel $LN20+386
 	DD	imagerel $unwind$CWindowUpdate
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CWindowShouldClose DD imagerel $LN20@CWindowSho
-	DD	imagerel $LN20@CWindowSho+292
+$pdata$CWindowShouldClose DD imagerel $LN20
+	DD	imagerel $LN20+292
 	DD	imagerel $unwind$CWindowShouldClose
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CWindowSetRenderBuffer DD imagerel $LN20@CWindowSet
-	DD	imagerel $LN20@CWindowSet+316
+$pdata$CWindowSetRenderBuffer DD imagerel $LN20
+	DD	imagerel $LN20+316
 	DD	imagerel $unwind$CWindowSetRenderBuffer
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CWindowSetDimensions DD imagerel $LN30@CWindowSet
-	DD	imagerel $LN30@CWindowSet+364
+$pdata$CWindowSetDimensions DD imagerel $LN30
+	DD	imagerel $LN30+364
 	DD	imagerel $unwind$CWindowSetDimensions
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CWindowSetTitle DD imagerel $LN20@CWindowSet
-	DD	imagerel $LN20@CWindowSet+325
+$pdata$CWindowSetTitle DD imagerel $LN20
+	DD	imagerel $LN20+325
 	DD	imagerel $unwind$CWindowSetTitle
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CMakeWindow DD imagerel $LN46@CMakeWindo
-	DD	imagerel $LN46@CMakeWindo+262
+$pdata$CMakeWindow DD imagerel $LN46
+	DD	imagerel $LN46+262
 	DD	imagerel $unwind$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$1$CMakeWindow DD imagerel $LN46@CMakeWindo+262
-	DD	imagerel $LN46@CMakeWindo+408
+$pdata$1$CMakeWindow DD imagerel $LN46+262
+	DD	imagerel $LN46+408
 	DD	imagerel $chain$1$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$2$CMakeWindow DD imagerel $LN46@CMakeWindo+408
-	DD	imagerel $LN46@CMakeWindo+449
+$pdata$2$CMakeWindow DD imagerel $LN46+408
+	DD	imagerel $LN46+449
 	DD	imagerel $chain$2$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$3$CMakeWindow DD imagerel $LN46@CMakeWindo+449
-	DD	imagerel $LN46@CMakeWindo+454
+$pdata$3$CMakeWindow DD imagerel $LN46+449
+	DD	imagerel $LN46+454
 	DD	imagerel $chain$3$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$4$CMakeWindow DD imagerel $LN46@CMakeWindo+454
-	DD	imagerel $LN46@CMakeWindo+757
+$pdata$4$CMakeWindow DD imagerel $LN46+454
+	DD	imagerel $LN46+757
 	DD	imagerel $chain$4$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$5$CMakeWindow DD imagerel $LN46@CMakeWindo+757
-	DD	imagerel $LN46@CMakeWindo+827
+$pdata$5$CMakeWindow DD imagerel $LN46+757
+	DD	imagerel $LN46+827
 	DD	imagerel $chain$5$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$6$CMakeWindow DD imagerel $LN46@CMakeWindo+827
-	DD	imagerel $LN46@CMakeWindo+919
+$pdata$6$CMakeWindow DD imagerel $LN46+827
+	DD	imagerel $LN46+919
 	DD	imagerel $chain$6$CMakeWindow
 pdata	ENDS
 ;	COMDAT pdata
@@ -256,99 +256,2658 @@ $chain$2$_csmWndProc DD 021H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$1$_csmWndProc DQ 00025c40800020821r	; 6.0538e-308
+$chain$1$_csmWndProc DD 020821H
+	DD	025c408H
 	DD	imagerel _csmWndProc
 	DD	imagerel _csmWndProc+686
 	DD	imagerel $unwind$_csmWndProc
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$_csmWndProc DQ 000266477000a7719r	; 6.2281e-308
-	DQ	0e008f00a00270111r		; -4.17949e+154
-	DQ	0300250037004d006r		; 1.97688e-77
+$unwind$_csmWndProc DD 0a7719H
+	DD	0266477H
+	DD	0270111H
+	DD	0e008f00aH
+	DD	07004d006H
+	DD	030025003H
 	DD	imagerel __GSHandlerCheck
 	DD	0110H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$6$CMakeWindow DD 021H
-	DD	imagerel $LN46@CMakeWindo
-	DD	imagerel $LN46@CMakeWindo+262
+	DD	imagerel $LN46
+	DD	imagerel $LN46+262
 	DD	imagerel $unwind$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$5$CMakeWindow DD 021H
-	DD	imagerel $LN46@CMakeWindo+449
-	DD	imagerel $LN46@CMakeWindo+454
+	DD	imagerel $LN46+449
+	DD	imagerel $LN46+454
 	DD	imagerel $chain$3$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$4$CMakeWindow DQ 0001c640800020821r	; 3.94822e-308
-	DD	imagerel $LN46@CMakeWindo+449
-	DD	imagerel $LN46@CMakeWindo+454
+$chain$4$CMakeWindow DD 020821H
+	DD	01c6408H
+	DD	imagerel $LN46+449
+	DD	imagerel $LN46+454
 	DD	imagerel $chain$3$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$3$CMakeWindow DQ 0001b740000020021r	; 3.81783e-308
-	DD	imagerel $LN46@CMakeWindo
-	DD	imagerel $LN46@CMakeWindo+262
+$chain$3$CMakeWindow DD 020021H
+	DD	01b7400H
+	DD	imagerel $LN46
+	DD	imagerel $LN46+262
 	DD	imagerel $unwind$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $chain$2$CMakeWindow DD 021H
-	DD	imagerel $LN46@CMakeWindo
-	DD	imagerel $LN46@CMakeWindo+262
+	DD	imagerel $LN46
+	DD	imagerel $LN46+262
 	DD	imagerel $unwind$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$chain$1$CMakeWindow DQ 0001b740800020821r	; 3.81784e-308
-	DD	imagerel $LN46@CMakeWindo
-	DD	imagerel $LN46@CMakeWindo+262
+$chain$1$CMakeWindow DD 020821H
+	DD	01b7408H
+	DD	imagerel $LN46
+	DD	imagerel $LN46+262
 	DD	imagerel $unwind$CMakeWindow
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CMakeWindow DQ 0001d546a00096a19r	; 4.0788e-308
-	DQ	0e008f00a001e0111r		; -4.17949e+154
-	DQ	000003002c004d006r		; 2.60809e-310
+$unwind$CMakeWindow DD 096a19H
+	DD	01d546aH
+	DD	01e0111H
+	DD	0e008f00aH
+	DD	0c004d006H
+	DD	03002H
 	DD	imagerel __GSHandlerCheck
 	DD	0c0H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CWindowSetTitle DQ 00007640f00060f01r	; 1.02782e-308
-	DQ	0700b320f0006340fr		; 5.2777e+231
+$unwind$CWindowSetTitle DD 060f01H
+	DD	07640fH
+	DD	06340fH
+	DD	0700b320fH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CWindowSetDimensions DQ 0000c641400081401r ; 1.72317e-308
-	DQ	0000a3414000b5414r		; 1.41896e-308
+$unwind$CWindowSetDimensions DD 081401H
+	DD	0c6414H
+	DD	0b5414H
+	DD	0a3414H
 	DD	070107214H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CWindowSetRenderBuffer DQ 00007640f00060f01r ; 1.02782e-308
-	DQ	0700b320f0006340fr		; 5.2777e+231
+$unwind$CWindowSetRenderBuffer DD 060f01H
+	DD	07640fH
+	DD	06340fH
+	DD	0700b320fH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CWindowShouldClose DQ 00006340a00040a01r ; 8.62672e-309
+$unwind$CWindowShouldClose DD 040a01H
+	DD	06340aH
 	DD	07006320aH
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CWindowUpdate DQ 00011340a00041919r	; 2.39241e-308
+$unwind$CWindowUpdate DD 041919H
+	DD	011340aH
 	DD	07006d20aH
 	DD	imagerel __GSHandlerCheck
 	DD	060H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CDestroyWindow DQ 00006340a00040a01r	; 8.62672e-309
+$unwind$CDestroyWindow DD 040a01H
+	DD	06340aH
 	DD	07006320aH
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT _cGetCWin
+_TEXT	SEGMENT
+win$ = 8
+_cGetCWin PROC						; COMDAT
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	lea	r9, OFFSET FLAT:_csmint+72
+	xor	eax, eax
+	mov	rdx, r9
+	npad	4
+$LL4@cGetCWin:
+
+; 13   : 		if (_csmint.windows[i] == NULL)
+
+	mov	r8, QWORD PTR [rdx]
+	test	r8, r8
+	je	SHORT $LN2@cGetCWin
+
+; 14   : 			continue;
+; 15   : 
+; 16   : 		if (_csmint.windows[i]->wnd == win) 
+
+	cmp	QWORD PTR [r8+8], rcx
+	je	SHORT $LN9@cGetCWin
+$LN2@cGetCWin:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	eax
+	add	rdx, 8
+	cmp	eax, 16
+	jl	SHORT $LL4@cGetCWin
+
+; 18   : 	}
+; 19   : 	return NULL;
+
+	xor	eax, eax
+
+; 20   : }
+
+	ret	0
+$LN9@cGetCWin:
+
+; 17   : 			return _csmint.windows + i;
+
+	cdqe
+	lea	rax, QWORD PTR [r9+rax*8]
+
+; 20   : }
+
+	ret	0
+_cGetCWin ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT _csmWndProc
+_TEXT	SEGMENT
+msg$GSCopy$1$ = 96
+cwin$2$ = 104
+wP$GSCopy$1$ = 112
+lP$GSCopy$1$ = 120
+rbBitmap$1 = 128
+blendFunc$2 = 160
+drawRect$3 = 168
+ps$4 = 192
+__$ArrayPad$ = 272
+win$ = 368
+msg$ = 376
+wP$ = 384
+lP$ = 392
+_csmWndProc PROC					; COMDAT
+
+; 22   : static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
+
+	push	rbx
+	push	rbp
+	push	rdi
+	push	r13
+	push	r14
+	push	r15
+	sub	rsp, 312				; 00000138H
+	mov	rax, QWORD PTR __security_cookie
+	xor	rax, rsp
+	mov	QWORD PTR __$ArrayPad$[rsp], rax
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 22   : static LRESULT CALLBACK _csmWndProc(HWND win, UINT msg, WPARAM wP, LPARAM lP) {
+
+	mov	r14, r9
+	mov	QWORD PTR lP$GSCopy$1$[rsp], r9
+	mov	rbp, r8
+	mov	QWORD PTR wP$GSCopy$1$[rsp], r8
+	mov	ebx, edx
+	mov	DWORD PTR msg$GSCopy$1$[rsp], edx
+	mov	r13, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN15@csmWndProc
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN15@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0M@FANAMHDC@_csmWndProc@
+	mov	QWORD PTR [rsp+304], rsi
+	lea	r15, OFFSET FLAT:_csmint
+	mov	QWORD PTR [r15+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 23   : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 23   : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 24   : 
+; 25   : 	PCWindow* cwinPtr;
+; 26   : 	PCWindow  cwin;
+; 27   : 	
+; 28   : 	switch (msg)
+
+	mov	eax, ebx
+	xor	edi, edi
+	sub	eax, 15
+	je	$LN4@csmWndProc
+	sub	eax, 1
+	je	$LN7@csmWndProc
+	sub	eax, 4
+	je	$LN6@csmWndProc
+	cmp	eax, 1036				; 0000040cH
+	jne	$LN10@csmWndProc
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	mov	ecx, edi
+	lea	rax, OFFSET FLAT:_csmint+72
+	npad	4
+$LL44@csmWndProc:
+
+; 13   : 		if (_csmint.windows[i] == NULL)
+
+	mov	rdx, QWORD PTR [rax]
+	test	rdx, rdx
+	je	SHORT $LN42@csmWndProc
+
+; 14   : 			continue;
+; 15   : 
+; 16   : 		if (_csmint.windows[i]->wnd == win) 
+
+	cmp	QWORD PTR [rdx+8], r13
+	je	SHORT $LN61@csmWndProc
+$LN42@csmWndProc:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	ecx
+	add	rax, 8
+	cmp	ecx, 16
+	jl	SHORT $LL44@csmWndProc
+
+; 18   : 	}
+; 19   : 	return NULL;
+
+	mov	rsi, rdi
+$LN41@csmWndProc:
+
+; 102  : 
+; 103  : 	case CSM_WINDOW_CLOSEMESSAGE:
+; 104  : 
+; 105  : 		// get cwin
+; 106  : 		cwinPtr = _cGetCWin(win);
+; 107  : 		cwin = *cwinPtr;
+
+	mov	rbx, QWORD PTR [rsi]
+
+; 108  : 
+; 109  : 		if (cwin->wnd != win) {
+
+	cmp	QWORD PTR [rbx+8], r13
+	je	SHORT $LN9@csmWndProc
+
+; 110  : 			CInternalErrorPopup("Fatal error occoured while updating CWindow.");
+
+	lea	rcx, OFFSET FLAT:??_C@_0CN@PLMEKJGJ@Fatal?5error?5occoured?5while?5upda@
+	call	CInternalErrorPopup
+
+; 111  : 			ExitProcess(ERROR_INVALID_DATA);
+
+	mov	ecx, 13
+	call	QWORD PTR __imp_ExitProcess
+	int	3
+$LN61@csmWndProc:
+
+; 17   : 			return _csmint.windows + i;
+
+	movsxd	rsi, ecx
+	add	rsi, 9
+	lea	rsi, QWORD PTR [r15+rsi*8]
+	jmp	SHORT $LN41@csmWndProc
+$LN9@csmWndProc:
+
+; 112  : 		}
+; 113  : 
+; 114  : 		// free all resources
+; 115  : 		UnregisterClassA(cwin->wndClassName, NULL);
+
+	mov	rcx, QWORD PTR [rbx]
+	xor	edx, edx
+	call	QWORD PTR __imp_UnregisterClassA
+
+; 116  : 		CInternalFree(cwin->wndClassName);
+
+	mov	rcx, QWORD PTR [rbx]
+	call	CInternalFree
+
+; 117  : 		CInternalFree(cwin);
+
+	mov	rcx, rbx
+	call	CInternalFree
+
+; 118  : 
+; 119  : 		*cwinPtr = NULL;
+
+	mov	QWORD PTR [rsi], rdi
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN51@csmWndProc
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN51@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r15+rax*8+200], rdi
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 122  : 		_CSyncLeave(DefWindowProcA(win, WM_CLOSE, wP, lP));
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 122  : 		_CSyncLeave(DefWindowProcA(win, WM_CLOSE, wP, lP));
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	edx, 16
+	jmp	$LN78@csmWndProc
+$LN6@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN27@csmWndProc
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN27@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r15+rax*8+200], rdi
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 92   : 		_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 92   : 		_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	$LN1@csmWndProc
+$LN7@csmWndProc:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	mov	ecx, edi
+	lea	rax, OFFSET FLAT:_csmint+72
+$LL32@csmWndProc:
+
+; 13   : 		if (_csmint.windows[i] == NULL)
+
+	mov	rdx, QWORD PTR [rax]
+	test	rdx, rdx
+	je	SHORT $LN30@csmWndProc
+
+; 14   : 			continue;
+; 15   : 
+; 16   : 		if (_csmint.windows[i]->wnd == win) 
+
+	cmp	QWORD PTR [rdx+8], r13
+	je	SHORT $LN62@csmWndProc
+$LN30@csmWndProc:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	ecx
+	add	rax, 8
+	cmp	ecx, 16
+	jl	SHORT $LL32@csmWndProc
+
+; 18   : 	}
+; 19   : 	return NULL;
+
+	mov	rax, rdi
+$LN29@csmWndProc:
+
+; 93   : 
+; 94   : 	case WM_CLOSE:
+; 95   : 
+; 96   : 		// get cwin
+; 97   : 		cwinPtr = _cGetCWin(win);
+; 98   : 		cwin = *cwinPtr;
+; 99   : 		cwin->shouldClose = TRUE;
+
+	mov	rax, QWORD PTR [rax]
+	mov	ecx, 1
+	mov	DWORD PTR [rax+16], ecx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN39@csmWndProc
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN39@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r15+rax*8+200], rdi
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 101  : 		_CSyncLeave(ZERO);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 101  : 		_CSyncLeave(ZERO);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@csmWndProc
+$LN62@csmWndProc:
+
+; 17   : 			return _csmint.windows + i;
+
+	movsxd	rax, ecx
+	add	rax, 9
+	lea	rax, QWORD PTR [r15+rax*8]
+	jmp	SHORT $LN29@csmWndProc
+$LN4@csmWndProc:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	mov	ecx, edi
+	lea	rax, OFFSET FLAT:_csmint+72
+	npad	2
+$LL20@csmWndProc:
+
+; 13   : 		if (_csmint.windows[i] == NULL)
+
+	mov	rdx, QWORD PTR [rax]
+	test	rdx, rdx
+	je	SHORT $LN18@csmWndProc
+
+; 14   : 			continue;
+; 15   : 
+; 16   : 		if (_csmint.windows[i]->wnd == win) 
+
+	cmp	QWORD PTR [rdx+8], r13
+	je	$LN63@csmWndProc
+$LN18@csmWndProc:
+
+; 12   : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	ecx
+	add	rax, 8
+	cmp	ecx, 16
+	jl	SHORT $LL20@csmWndProc
+
+; 18   : 	}
+; 19   : 	return NULL;
+
+	mov	rcx, rdi
+$LN17@csmWndProc:
+
+; 29   : 	{
+; 30   : 	case WM_PAINT:
+; 31   : 
+; 32   : 		// get cwin
+; 33   : 		cwinPtr = _cGetCWin(win);
+; 34   : 		cwin = *cwinPtr;
+
+	mov	rbx, QWORD PTR [rcx]
+	mov	QWORD PTR cwin$2$[rsp], rbx
+
+; 35   : 
+; 36   : 		// break if no renderbuffer exists
+; 37   : 		if (cwin->renderBuff == NULL)
+
+	cmp	QWORD PTR [rbx+24], rdi
+	je	$LN76@csmWndProc
+
+; 38   : 			break;
+; 39   : 
+; 40   : 		RECT drawRect;
+; 41   : 		GetClientRect(cwin->wnd, &drawRect);
+
+	mov	rcx, QWORD PTR [rbx+8]
+	lea	rdx, QWORD PTR drawRect$3[rsp]
+	mov	QWORD PTR [rsp+296], r12
+	call	QWORD PTR __imp_GetClientRect
+
+; 42   : 		DWORD windowWidth = drawRect.right - drawRect.left;
+
+	mov	r12d, DWORD PTR drawRect$3[rsp+8]
+
+; 43   : 		DWORD windowHeight = drawRect.bottom - drawRect.top;
+; 44   : 
+; 45   : 		PCRenderBuffer pBuffer = cwin->renderBuff;
+; 46   : 
+; 47   : 		// begin paint buffer to window
+; 48   : 		PAINTSTRUCT ps;
+; 49   : 		HDC paintDC = BeginPaint(cwin->wnd, &ps);
+
+	lea	rdx, QWORD PTR ps$4[rsp]
+	mov	r15d, DWORD PTR drawRect$3[rsp+12]
+	mov	rcx, QWORD PTR [rbx+8]
+	sub	r12d, DWORD PTR drawRect$3[rsp]
+	sub	r15d, DWORD PTR drawRect$3[rsp+4]
+	mov	r14, QWORD PTR [rbx+24]
+	call	QWORD PTR __imp_BeginPaint
+
+; 50   : 
+; 51   : 		// setup bitmap object to convert to DIB sections
+; 52   : 		BITMAP rbBitmap;
+; 53   : 		rbBitmap.bmType = ZERO;
+
+	mov	DWORD PTR rbBitmap$1[rsp], edi
+	mov	rbp, rax
+
+; 54   : 		rbBitmap.bmWidth = pBuffer->width;
+
+	mov	ecx, DWORD PTR [r14]
+	mov	DWORD PTR rbBitmap$1[rsp+4], ecx
+
+; 55   : 		rbBitmap.bmHeight = pBuffer->height;
+
+	mov	ecx, DWORD PTR [r14+4]
+	mov	DWORD PTR rbBitmap$1[rsp+8], ecx
+
+; 56   : 		rbBitmap.bmWidthBytes = pBuffer->width * sizeof(CColor);
+
+	mov	ecx, DWORD PTR [r14]
+	shl	ecx, 2
+	mov	DWORD PTR rbBitmap$1[rsp+12], ecx
+
+; 57   : 		rbBitmap.bmPlanes = 1;
+; 58   : 		rbBitmap.bmBitsPixel = 32;
+; 59   : 		rbBitmap.bmBits = pBuffer->color;
+; 60   : 
+; 61   : 		// make hBitMap
+; 62   : 		HBITMAP hBitMap = CreateBitmapIndirect(&rbBitmap);
+
+	lea	rcx, QWORD PTR rbBitmap$1[rsp]
+	mov	DWORD PTR rbBitmap$1[rsp+16], 2097153	; 00200001H
+	mov	rax, QWORD PTR [r14+8]
+	mov	QWORD PTR rbBitmap$1[rsp+24], rax
+	call	QWORD PTR __imp_CreateBitmapIndirect
+
+; 63   : 
+; 64   : 		// make DC for our bitmap and select
+; 65   : 		HDC bitmapDC = CreateCompatibleDC(paintDC);
+
+	mov	rcx, rbp
+	mov	rsi, rax
+	call	QWORD PTR __imp_CreateCompatibleDC
+
+; 66   : 		SelectObject(bitmapDC, hBitMap);
+
+	mov	rcx, rax
+	mov	rdx, rsi
+	mov	rbx, rax
+	call	QWORD PTR __imp_SelectObject
+
+; 67   : 
+; 68   : 		// setup alpha draw descriptor
+; 69   : 		BLENDFUNCTION blendFunc;
+; 70   : 		ZERO_BYTES(&blendFunc, sizeof(blendFunc));
+
+	xor	eax, eax
+	lea	rdi, QWORD PTR blendFunc$2[rsp]
+	mov	ecx, 4
+
+; 71   : 		blendFunc.BlendOp	 = AC_SRC_OVER;
+; 72   : 		blendFunc.BlendFlags = ZERO;
+; 73   : 		blendFunc.SourceConstantAlpha = 255;
+; 74   : 		blendFunc.BlendFlags = ZERO;
+; 75   : 
+; 76   : 		// draw ALPHA to window
+; 77   : 		BOOL drawResult = AlphaBlend(
+
+	mov	r9d, r12d
+	rep stosb
+	mov	WORD PTR blendFunc$2[rsp], ax
+	xor	edi, edi
+	mov	eax, DWORD PTR [r14]
+	xor	r8d, r8d
+	mov	BYTE PTR blendFunc$2[rsp+2], 255	; 000000ffH
+	xor	edx, edx
+	mov	ecx, DWORD PTR blendFunc$2[rsp]
+	mov	DWORD PTR [rsp+80], ecx
+	mov	ecx, DWORD PTR [r14+4]
+	mov	DWORD PTR [rsp+72], ecx
+	mov	rcx, rbp
+	mov	DWORD PTR [rsp+64], eax
+	mov	DWORD PTR [rsp+56], edi
+	mov	DWORD PTR [rsp+48], edi
+	mov	QWORD PTR [rsp+40], rbx
+	mov	DWORD PTR [rsp+32], r15d
+	call	QWORD PTR __imp_AlphaBlend
+
+; 78   : 			paintDC, 0, 0, windowWidth, windowHeight,
+; 79   : 			bitmapDC, 0, 0, pBuffer->width, pBuffer->height,
+; 80   : 			blendFunc
+; 81   : 		);
+; 82   : 
+; 83   : 		// free DC and bitmap
+; 84   : 		DeleteObject(hBitMap);
+
+	mov	rcx, rsi
+	call	QWORD PTR __imp_DeleteObject
+
+; 85   : 		DeleteObject(bitmapDC);
+
+	mov	rcx, rbx
+	call	QWORD PTR __imp_DeleteObject
+
+; 86   : 
+; 87   : 		EndPaint(cwin->wnd, &ps);
+
+	mov	rcx, QWORD PTR cwin$2$[rsp]
+	lea	rdx, QWORD PTR ps$4[rsp]
+	mov	rcx, QWORD PTR [rcx+8]
+	call	QWORD PTR __imp_EndPaint
+	mov	rbp, QWORD PTR wP$GSCopy$1$[rsp]
+	lea	r15, OFFSET FLAT:_csmint
+	mov	r14, QWORD PTR lP$GSCopy$1$[rsp]
+	mov	r12, QWORD PTR [rsp+296]
+$LN76@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	ebx, DWORD PTR msg$GSCopy$1$[rsp]
+$LN10@csmWndProc:
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN56@csmWndProc
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN56@csmWndProc:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r15+rax*8+200], rdi
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 128  : 	_CSyncLeave(DefWindowProcA(win, msg, wP, lP));
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 128  : 	_CSyncLeave(DefWindowProcA(win, msg, wP, lP));
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	edx, ebx
+$LN78@csmWndProc:
+
+; 129  : }
+
+	mov	r9, r14
+	mov	r8, rbp
+	mov	rcx, r13
+	call	QWORD PTR __imp_DefWindowProcA
+$LN1@csmWndProc:
+	mov	rsi, QWORD PTR [rsp+304]
+	mov	rcx, QWORD PTR __$ArrayPad$[rsp]
+	xor	rcx, rsp
+	call	__security_check_cookie
+	add	rsp, 312				; 00000138H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	rdi
+	pop	rbp
+	pop	rbx
+	ret	0
+$LN63@csmWndProc:
+
+; 17   : 			return _csmint.windows + i;
+
+	movsxd	rcx, ecx
+	add	rcx, 9
+	lea	rcx, QWORD PTR [r15+rcx*8]
+	jmp	$LN17@csmWndProc
+$LN77@csmWndProc:
+_csmWndProc ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT _cFindWinSpot
+_TEXT	SEGMENT
+_cFindWinSpot PROC					; COMDAT
+
+; 132  : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	xor	ecx, ecx
+	lea	rax, OFFSET FLAT:_csmint+72
+	lea	rdx, OFFSET FLAT:_csmint+200
+$LL4@cFindWinSp:
+
+; 133  : 		if (_csmint.windows[i] == NULL) return i;
+
+	cmp	QWORD PTR [rax], 0
+	je	SHORT $LN8@cFindWinSp
+
+; 132  : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	ecx
+	add	rax, 8
+	cmp	rax, rdx
+	jl	SHORT $LL4@cFindWinSp
+
+; 134  : 	}
+; 135  : 	return -1;
+
+	mov	eax, -1
+
+; 136  : }
+
+	ret	0
+$LN8@cFindWinSp:
+
+; 133  : 		if (_csmint.windows[i] == NULL) return i;
+
+	mov	eax, ecx
+
+; 136  : }
+
+	ret	0
+_cFindWinSpot ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CMakeWindow
+_TEXT	SEGMENT
+wClass$ = 96
+clientRect$ = 176
+__$ArrayPad$ = 192
+pHandle$ = 288
+title$ = 296
+width$ = 304
+height$ = 312
+CMakeWindow PROC					; COMDAT
+
+; 138  : CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
+
+$LN46:
+	push	rbx
+	push	r12
+	push	r13
+	push	r14
+	push	r15
+	sub	rsp, 240				; 000000f0H
+	mov	rax, QWORD PTR __security_cookie
+	xor	rax, rsp
+	mov	QWORD PTR __$ArrayPad$[rsp], rax
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 138  : CSMCALL BOOL CMakeWindow(PCHandle pHandle, PCHAR title, INT width, INT height) {
+
+	mov	r14d, r9d
+	mov	ebx, r8d
+	mov	r12, rdx
+	mov	r15, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN10@CMakeWindo
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN10@CMakeWindo:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0M@NOCJJFGP@CMakeWindow@
+	mov	QWORD PTR [rsp+232], rbp
+	lea	r13, OFFSET FLAT:_csmint
+	mov	QWORD PTR [r13+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 139  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 139  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 140  : 
+; 141  : 	// make process DPI aware
+; 142  : 	SetProcessDPIAware();
+
+	call	QWORD PTR __imp_SetProcessDPIAware
+
+; 143  : 
+; 144  : 	if (pHandle == NULL) {
+
+	test	r15, r15
+	jne	SHORT $LN2@CMakeWindo
+
+; 145  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0CP@FMCFODIA@CMakeWindow?5failed?5because?5pHan@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN15@CMakeWindo
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN15@CMakeWindo:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	xor	ebp, ebp
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 145  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r13+rax*8+200], rbp
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 145  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because pHandle was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CMakeWindo
+$LN2@CMakeWindo:
+
+; 146  : 	}
+; 147  : 	if (width <= 0 || height <= 0) {
+
+	test	ebx, ebx
+	jle	$LN4@CMakeWindo
+	test	r14d, r14d
+	jle	$LN4@CMakeWindo
+
+; 132  : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	xor	ebp, ebp
+	mov	QWORD PTR [rsp+216], rdi
+	mov	edi, ebp
+	lea	rax, OFFSET FLAT:_csmint+72
+	lea	rcx, OFFSET FLAT:_csmint+200
+	npad	2
+$LL25@CMakeWindo:
+
+; 133  : 		if (_csmint.windows[i] == NULL) return i;
+
+	cmp	QWORD PTR [rax], rbp
+	je	SHORT $LN22@CMakeWindo
+
+; 132  : 	for (int i = 0; i < CSM_MAX_WINDOWS; i++) {
+
+	inc	edi
+	add	rax, 8
+	cmp	rax, rcx
+	jl	SHORT $LL25@CMakeWindo
+
+; 133  : 		if (_csmint.windows[i] == NULL) return i;
+
+	jmp	SHORT $LN43@CMakeWindo
+$LN22@CMakeWindo:
+
+; 149  : 	}
+; 150  : 
+; 151  : 	INT wIndx = _cFindWinSpot();
+; 152  : 	if (wIndx == -1) {
+
+	cmp	edi, -1
+	jne	$LN5@CMakeWindo
+$LN43@CMakeWindo:
+
+; 153  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because MAX WINDOWS were already created");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DM@MCFDBEIE@CMakeWindow?5failed?5because?5MAX?5@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN31@CMakeWindo
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN31@CMakeWindo:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r13+rax*8+200], rbp
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 153  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because MAX WINDOWS were already created");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 153  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because MAX WINDOWS were already created");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN44@CMakeWindo:
+	mov	rdi, QWORD PTR [rsp+216]
+$LN1@CMakeWindo:
+	mov	rbp, QWORD PTR [rsp+232]
+
+; 188  : }
+
+	mov	rcx, QWORD PTR __$ArrayPad$[rsp]
+	xor	rcx, rsp
+	call	__security_check_cookie
+	add	rsp, 240				; 000000f0H
+	pop	r15
+	pop	r14
+	pop	r13
+	pop	r12
+	pop	rbx
+	ret	0
+$LN5@CMakeWindo:
+
+; 154  : 	}
+; 155  : 
+; 156  : 	// make window and assign
+; 157  : 	PCWindow cwin = CInternalAlloc(sizeof(CWindow));
+
+	mov	ecx, 32					; 00000020H
+	mov	QWORD PTR [rsp+224], rsi
+	call	CInternalAlloc
+
+; 158  : 	_csmint.windows[wIndx] = cwin;
+
+	movsxd	rcx, edi
+	mov	rsi, rax
+	mov	QWORD PTR [r13+rcx*8+72], rax
+
+; 159  : 
+; 160  : 	// make unique window class name
+; 161  : 	cwin->wndClassName = CInternalAlloc(sizeof(CHAR) * CSM_WINDOW_CLASSNAME_SIZE);
+
+	mov	ecx, 255				; 000000ffH
+	call	CInternalAlloc
+
+; 162  : 	sprintf_s(cwin->wndClassName, CSM_WINDOW_CLASSNAME_SIZE,
+
+	mov	r9, rsi
+	mov	QWORD PTR [rsi], rax
+	lea	r8, OFFSET FLAT:??_C@_0BC@MPOPBPFE@Caesium?5Window?5?$CFp@
+	mov	edx, 255				; 000000ffH
+	mov	rcx, rax
+	call	sprintf_s
+
+; 163  : 		"Caesium Window %p", cwin);
+; 164  : 
+; 165  : 	// create window class
+; 166  : 	WNDCLASSA wClass;
+; 167  : 	ZERO_BYTES(&wClass, sizeof(WNDCLASSA));
+
+	xor	eax, eax
+	lea	rdi, QWORD PTR wClass$[rsp]
+	mov	ecx, 72					; 00000048H
+	rep stosb
+
+; 168  : 	wClass.lpszClassName = cwin->wndClassName;
+
+	mov	rax, QWORD PTR [rsi]
+	mov	QWORD PTR wClass$[rsp+64], rax
+
+; 169  : 	wClass.lpfnWndProc = _csmWndProc;
+
+	lea	rax, OFFSET FLAT:_csmWndProc
+	mov	QWORD PTR wClass$[rsp+8], rax
+
+; 170  : 
+; 171  : 	DWORD wFlags = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX;
+; 172  : 	RECT clientRect = { 0, 0, width, height };
+
+	mov	QWORD PTR clientRect$[rsp], rbp
+	mov	DWORD PTR clientRect$[rsp+8], ebx
+	mov	DWORD PTR clientRect$[rsp+12], r14d
+
+; 173  : 	AdjustWindowRectExForDpi(&clientRect, wFlags, TRUE, wFlags,
+
+	call	QWORD PTR __imp_GetDpiForSystem
+	mov	edx, 13238272				; 00ca0000H
+	lea	rcx, QWORD PTR clientRect$[rsp]
+	mov	r9d, edx
+	mov	DWORD PTR [rsp+32], eax
+	mov	r8d, 1
+	call	QWORD PTR __imp_AdjustWindowRectExForDpi
+
+; 174  : 		GetDpiForSystem());
+; 175  : 	DWORD realWinWidth = clientRect.right - clientRect.left;
+
+	mov	ebx, DWORD PTR clientRect$[rsp+8]
+
+; 176  : 	DWORD realWinHeight = clientRect.bottom - clientRect.top;
+; 177  : 
+; 178  : 	RegisterClassA(&wClass);
+
+	lea	rcx, QWORD PTR wClass$[rsp]
+	mov	edi, DWORD PTR clientRect$[rsp+12]
+	sub	ebx, DWORD PTR clientRect$[rsp]
+	sub	edi, DWORD PTR clientRect$[rsp+4]
+	call	QWORD PTR __imp_RegisterClassA
+
+; 179  : 	cwin->wnd = CreateWindowExA(0L, cwin->wndClassName, title,
+
+	mov	rdx, QWORD PTR [rsi]
+	mov	r9d, 13238272				; 00ca0000H
+	mov	QWORD PTR [rsp+88], rbp
+	mov	r8, r12
+	mov	QWORD PTR [rsp+80], rbp
+	xor	ecx, ecx
+	mov	QWORD PTR [rsp+72], rbp
+	mov	QWORD PTR [rsp+64], rbp
+	mov	DWORD PTR [rsp+56], edi
+	mov	DWORD PTR [rsp+48], ebx
+	mov	DWORD PTR [rsp+40], -2147483648		; ffffffff80000000H
+	mov	DWORD PTR [rsp+32], -2147483648		; ffffffff80000000H
+	call	QWORD PTR __imp_CreateWindowExA
+
+; 180  : 		wFlags, CW_USEDEFAULT, CW_USEDEFAULT,
+; 181  : 		realWinWidth, realWinHeight, NULL, NULL, NULL, NULL);
+; 182  : 
+; 183  : 	ShowWindow(cwin->wnd, SW_SHOW);
+
+	mov	rcx, rax
+	mov	QWORD PTR [rsi+8], rax
+	mov	edx, 5
+	call	QWORD PTR __imp_ShowWindow
+
+; 184  : 
+; 185  : 	*pHandle = cwin;
+
+	mov	QWORD PTR [r15], rsi
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	mov	rsi, QWORD PTR [rsp+224]
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN36@CMakeWindo
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN36@CMakeWindo:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	ecx, eax
+	mov	QWORD PTR [r13+rcx*8+200], rbp
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 187  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 187  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	$LN44@CMakeWindo
+$LN4@CMakeWindo:
+
+; 148  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because dimensions were invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DD@HEACCCHD@CMakeWindow?5failed?5because?5dime@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN20@CMakeWindo
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN20@CMakeWindo:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	xor	ebp, ebp
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 148  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because dimensions were invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [r13+rax*8+200], rbp
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 148  : 		_CSyncLeaveErr(FALSE, "CMakeWindow failed because dimensions were invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CMakeWindo
+CMakeWindow ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CWindowSetTitle
+_TEXT	SEGMENT
+window$ = 48
+title$ = 56
+CWindowSetTitle PROC					; COMDAT
+
+; 190  : CSMCALL BOOL CWindowSetTitle(CHandle window, PCHAR title) {
+
+$LN20:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rsi
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 190  : CSMCALL BOOL CWindowSetTitle(CHandle window, PCHAR title) {
+
+	mov	rdi, rdx
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN7@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN7@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BA@FOMNPCIB@CWindowSetTitle@
+	lea	rsi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rsi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 191  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 191  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 192  : 
+; 193  : 	if (window == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CWindowSet
+
+; 194  : 		_CSyncLeaveErr(FALSE, "CWindowSetTitle failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DC@FEMDALJE@CWindowSetTitle?5failed?5because?5@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN12@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN12@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 194  : 		_CSyncLeaveErr(FALSE, "CWindowSetTitle failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 194  : 		_CSyncLeaveErr(FALSE, "CWindowSetTitle failed because window was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 201  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN2@CWindowSet:
+
+; 195  : 	}
+; 196  : 
+; 197  : 	PCWindow cwin = window;
+; 198  : 	SetWindowTextA(cwin->wnd, title);
+
+	mov	rcx, QWORD PTR [rbx+8]
+	mov	rdx, rdi
+	call	QWORD PTR __imp_SetWindowTextA
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN17@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN17@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 200  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 200  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+
+; 201  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	eax, 1
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CWindowSetTitle ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CWindowSetDimensions
+_TEXT	SEGMENT
+window$ = 80
+width$ = 88
+height$ = 96
+CWindowSetDimensions PROC				; COMDAT
+
+; 203  : CSMCALL BOOL CWindowSetDimensions(CHandle window, INT width, INT height) {
+
+$LN30:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rbp
+	mov	QWORD PTR [rsp+24], rsi
+	push	rdi
+	sub	rsp, 64					; 00000040H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 203  : CSMCALL BOOL CWindowSetDimensions(CHandle window, INT width, INT height) {
+
+	mov	ebx, r8d
+	mov	edi, edx
+	mov	rsi, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN9@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN9@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BF@JCPBAMOO@CWindowSetDimensions@
+	lea	rbp, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rbp+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 204  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 204  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 205  : 
+; 206  : 	if (window == NULL) {
+
+	test	rsi, rsi
+	jne	SHORT $LN2@CWindowSet
+
+; 207  : 		_CSyncLeaveErr(FALSE, "CWindowSetDimensions failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DH@KDKDLGBJ@CWindowSetDimensions?5failed?5bec@
+	jmp	$LN28@CWindowSet
+$LN2@CWindowSet:
+
+; 208  : 	}
+; 209  : 
+; 210  : 	if (width <= 0 || height <= 0) {
+
+	test	edi, edi
+	jle	SHORT $LN4@CWindowSet
+	test	ebx, ebx
+	jle	SHORT $LN4@CWindowSet
+
+; 212  : 	}
+; 213  : 
+; 214  : 	PCWindow cwin = window;
+; 215  : 	SetWindowPos(cwin->wnd, NULL, 0, 0, width, height, SWP_NOMOVE);
+
+	mov	rcx, QWORD PTR [rsi+8]
+	xor	r9d, r9d
+	mov	DWORD PTR [rsp+48], 2
+	xor	r8d, r8d
+	mov	DWORD PTR [rsp+40], ebx
+	xor	edx, edx
+	mov	DWORD PTR [rsp+32], edi
+	call	QWORD PTR __imp_SetWindowPos
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN24@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN24@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rbp+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 217  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 217  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+	jmp	SHORT $LN1@CWindowSet
+$LN4@CWindowSet:
+
+; 211  : 		_CSyncLeaveErr(FALSE, "CWindowSetDimensions failed because dimensions were invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DM@GPNJCLMK@CWindowSetDimensions?5failed?5bec@
+$LN28@CWindowSet:
+
+; 218  : }
+
+	call	CInternalSetLastError
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN19@CWindowSet
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN19@CWindowSet:
+	mov	QWORD PTR [rbp+rax*8+200], 0
+	lea	rcx, OFFSET FLAT:_csmint+32
+	dec	DWORD PTR _csmint+1224
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+$LN1@CWindowSet:
+	mov	rbx, QWORD PTR [rsp+80]
+	mov	rbp, QWORD PTR [rsp+88]
+	mov	rsi, QWORD PTR [rsp+96]
+	add	rsp, 64					; 00000040H
+	pop	rdi
+	ret	0
+CWindowSetDimensions ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CWindowSetRenderBuffer
+_TEXT	SEGMENT
+window$ = 48
+rHandle$ = 56
+CWindowSetRenderBuffer PROC				; COMDAT
+
+; 220  : CSMCALL BOOL CWindowSetRenderBuffer(CHandle window, CHandle rHandle) {
+
+$LN20:
+	mov	QWORD PTR [rsp+8], rbx
+	mov	QWORD PTR [rsp+16], rsi
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 220  : CSMCALL BOOL CWindowSetRenderBuffer(CHandle window, CHandle rHandle) {
+
+	mov	rdi, rdx
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN7@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN7@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BH@ILCJBFAK@CWindowSetRenderBuffer@
+	lea	rsi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rsi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 221  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 221  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 222  : 
+; 223  : 	if (window == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CWindowSet
+
+; 224  : 		_CSyncLeaveErr(FALSE, "CWindowSetRenderBuffer failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DJ@GPEGMLNC@CWindowSetRenderBuffer?5failed?5b@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN12@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN12@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 224  : 		_CSyncLeaveErr(FALSE, "CWindowSetRenderBuffer failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 224  : 		_CSyncLeaveErr(FALSE, "CWindowSetRenderBuffer failed because window was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 233  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN2@CWindowSet:
+
+; 225  : 	}
+; 226  : 
+; 227  : 	PCRenderBuffer crb = rHandle;
+; 228  : 	PCWindow cwin = window;
+; 229  : 
+; 230  : 	cwin->renderBuff = crb;
+
+	mov	QWORD PTR [rbx+24], rdi
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN17@CWindowSet
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN17@CWindowSet:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rsi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 232  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 232  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+
+; 233  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	eax, 1
+	mov	rsi, QWORD PTR [rsp+56]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CWindowSetRenderBuffer ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CWindowShouldClose
+_TEXT	SEGMENT
+window$ = 48
+CWindowShouldClose PROC					; COMDAT
+
+; 235  : CSMCALL BOOL CWindowShouldClose(CHandle window) {
+
+$LN20:
+	mov	QWORD PTR [rsp+8], rbx
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 235  : CSMCALL BOOL CWindowShouldClose(CHandle window) {
+
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN7@CWindowSho
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN7@CWindowSho:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0BD@FLFEAEKF@CWindowShouldClose@
+	lea	rdi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rdi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 236  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 236  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 237  : 	if (window == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CWindowSho
+
+; 238  : 		_CSyncLeaveErr(FALSE, "CWindowShouldClose failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DF@PDKCHPOC@CWindowShouldClose?5failed?5becau@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN12@CWindowSho
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN12@CWindowSho:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 238  : 		_CSyncLeaveErr(FALSE, "CWindowShouldClose failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 238  : 		_CSyncLeaveErr(FALSE, "CWindowShouldClose failed because window was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 243  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN2@CWindowSho:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN17@CWindowSho
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN17@CWindowSho:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 242  : 	_CSyncLeave(cwin->shouldClose);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 242  : 	_CSyncLeave(cwin->shouldClose);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, DWORD PTR [rbx+16]
+
+; 243  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CWindowShouldClose ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CWindowUpdate
+_TEXT	SEGMENT
+messageBuff$ = 48
+__$ArrayPad$ = 96
+window$ = 128
+CWindowUpdate PROC					; COMDAT
+
+; 245  : CSMCALL BOOL CWindowUpdate(CHandle window) {
+
+$LN20:
+	mov	QWORD PTR [rsp+16], rbx
+	push	rdi
+	sub	rsp, 112				; 00000070H
+	mov	rax, QWORD PTR __security_cookie
+	xor	rax, rsp
+	mov	QWORD PTR __$ArrayPad$[rsp], rax
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 245  : CSMCALL BOOL CWindowUpdate(CHandle window) {
+
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN7@CWindowUpd
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN7@CWindowUpd:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0O@PDOKCJDO@CWindowUpdate@
+	lea	rdi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rdi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 246  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 246  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 247  : 
+; 248  : 	if (window == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CWindowUpd
+
+; 249  : 		_CSyncLeaveErr(FALSE, "CWindowUpdate failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DA@FCPCEOAF@CWindowUpdate?5failed?5because?5wi@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN12@CWindowUpd
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN12@CWindowUpd:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 249  : 		_CSyncLeaveErr(FALSE, "CWindowUpdate failed because window was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 249  : 		_CSyncLeaveErr(FALSE, "CWindowUpdate failed because window was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+	jmp	$LN1@CWindowUpd
+$LN2@CWindowUpd:
+
+; 250  : 	}
+; 251  : 
+; 252  : 	PCWindow win = window;
+; 253  : 
+; 254  : 	// force window refresh
+; 255  : 	InvalidateRect(win->wnd, NULL, FALSE);
+
+	mov	rcx, QWORD PTR [rbx+8]
+	xor	r8d, r8d
+	xor	edx, edx
+	call	QWORD PTR __imp_InvalidateRect
+
+; 256  : 	UpdateWindow(win->wnd);
+
+	mov	rcx, QWORD PTR [rbx+8]
+	call	QWORD PTR __imp_UpdateWindow
+
+; 257  : 
+; 258  : 	// update messages
+; 259  : 	MSG messageBuff;
+; 260  : 	PeekMessageA(&messageBuff, win->wnd, ZERO, ZERO, PM_REMOVE);
+
+	mov	rdx, QWORD PTR [rbx+8]
+	lea	rcx, QWORD PTR messageBuff$[rsp]
+	xor	r9d, r9d
+	mov	DWORD PTR [rsp+32], 1
+	xor	r8d, r8d
+	call	QWORD PTR __imp_PeekMessageA
+
+; 261  : 	DispatchMessageA(&messageBuff);
+
+	lea	rcx, QWORD PTR messageBuff$[rsp]
+	call	QWORD PTR __imp_DispatchMessageA
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN17@CWindowUpd
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN17@CWindowUpd:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	ecx, eax
+	mov	QWORD PTR [rdi+rcx*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 263  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 263  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	mov	eax, 1
+$LN1@CWindowUpd:
+
+; 264  : }
+
+	mov	rcx, QWORD PTR __$ArrayPad$[rsp]
+	xor	rcx, rsp
+	call	__security_check_cookie
+	mov	rbx, QWORD PTR [rsp+136]
+	add	rsp, 112				; 00000070H
+	pop	rdi
+	ret	0
+CWindowUpdate ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csm_window.c
+;	COMDAT CDestroyWindow
+_TEXT	SEGMENT
+pHandle$ = 48
+CDestroyWindow PROC					; COMDAT
+
+; 266  : CSMCALL BOOL CDestroyWindow(PCHandle pHandle) {
+
+$LN26:
+	mov	QWORD PTR [rsp+8], rbx
+	push	rdi
+	sub	rsp, 32					; 00000020H
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 266  : CSMCALL BOOL CDestroyWindow(PCHandle pHandle) {
+
+	mov	rbx, rcx
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN8@CDestroyWi
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN8@CDestroyWi:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:??_C@_0P@BPAPFMFK@CDestroyWindow@
+	lea	rdi, OFFSET FLAT:_csmint
+	mov	QWORD PTR [rdi+rax*8+200], rcx
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 267  : 	_CSyncEnter();
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 267  : 	_CSyncEnter();
+
+	call	QWORD PTR __imp_EnterCriticalSection
+
+; 268  : 
+; 269  : 	if (pHandle == NULL) {
+
+	test	rbx, rbx
+	jne	SHORT $LN2@CDestroyWi
+
+; 270  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was NULL");
+
+	lea	rcx, OFFSET FLAT:??_C@_0CP@PEOJNFP@CDestroyWindow?5failed?5because?5p@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN13@CDestroyWi
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN13@CDestroyWi:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 270  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was NULL");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 270  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was NULL");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 281  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN2@CDestroyWi:
+
+; 271  : 	}
+; 272  : 
+; 273  : 	PCWindow win = *pHandle;
+
+	mov	rcx, QWORD PTR [rbx]
+
+; 274  : 	if (win == NULL) {
+
+	test	rcx, rcx
+	jne	SHORT $LN3@CDestroyWi
+
+; 275  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:??_C@_0DC@MAGLLCGM@CDestroyWindow?5failed?5because?5p@
+	call	CInternalSetLastError
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN18@CDestroyWi
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN18@CDestroyWi:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 275  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was invalid");
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 275  : 		_CSyncLeaveErr(FALSE, "CDestroyWindow failed because pHandle was invalid");
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+	xor	eax, eax
+
+; 281  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+$LN3@CDestroyWi:
+
+; 276  : 	}
+; 277  : 
+; 278  : 	SendMessageA(win->wnd, CSM_WINDOW_CLOSEMESSAGE, ZERO, ZERO);
+
+	mov	rcx, QWORD PTR [rcx+8]
+	xor	r9d, r9d
+	xor	r8d, r8d
+	mov	edx, 1056				; 00000420H
+	call	QWORD PTR __imp_SendMessageA
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN23@CDestroyWi
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN23@CDestroyWi:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	mov	QWORD PTR [rdi+rax*8+200], 0
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 280  : 	_CSyncLeave(TRUE);
+
+	lea	rcx, OFFSET FLAT:_csmint+32
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+; File C:\Bailey\Programming\Caesium\csm_window.c
+
+; 280  : 	_CSyncLeave(TRUE);
+
+	call	QWORD PTR __imp_LeaveCriticalSection
+
+; 281  : }
+
+	mov	rbx, QWORD PTR [rsp+48]
+	mov	eax, 1
+	add	rsp, 32					; 00000020H
+	pop	rdi
+	ret	0
+CDestroyWindow ENDP
+_TEXT	ENDS
 END

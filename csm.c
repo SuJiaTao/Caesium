@@ -15,6 +15,10 @@ CSMCALL BOOL CInitialize() {
 
 	InitializeCriticalSection(&_csmint.lock);
 
+	// setup perf freq
+	QueryPerformanceFrequency(&_csmint.perfCounterHzMs);
+	_csmint.perfCounterHzMs.QuadPart /= 1000; // adjust for miliseconds
+
 	_csmint.init = TRUE;
 	return TRUE;
 }

@@ -13,20 +13,121 @@ PUBLIC	CInternalPushFuncNameStack
 PUBLIC	CInternalPopFuncNameStack
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CInternalPushFuncNameStack DD imagerel $LN7@CInternalP
-	DD	imagerel $LN7@CInternalP+76
+$pdata$CInternalPushFuncNameStack DD imagerel $LN7
+	DD	imagerel $LN7+76
 	DD	imagerel $unwind$CInternalPushFuncNameStack
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$CInternalPopFuncNameStack DD imagerel $LN7@CInternalP
-	DD	imagerel $LN7@CInternalP+74
+$pdata$CInternalPopFuncNameStack DD imagerel $LN7
+	DD	imagerel $LN7+74
 	DD	imagerel $unwind$CInternalPopFuncNameStack
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CInternalPopFuncNameStack DQ 00000420400010401r ; 3.58617e-310
+$unwind$CInternalPopFuncNameStack DD 010401H
+	DD	04204H
 xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
-$unwind$CInternalPushFuncNameStack DQ 03002320600020601r ; 1.96423e-77
+$unwind$CInternalPushFuncNameStack DD 020601H
+	DD	030023206H
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+;	COMDAT CInternalPopFuncNameStack
+_TEXT	SEGMENT
+CInternalPopFuncNameStack PROC				; COMDAT
+
+; 16   : void CInternalPopFuncNameStack(void) {
+
+$LN7:
+	sub	rsp, 40					; 00000028H
+
+; 17   : 	// check stack over/underflow
+; 18   : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN4@CInternalP
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN4@CInternalP:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 21   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = NULL;
+
+	lea	rcx, OFFSET FLAT:_csmint+200
+	mov	QWORD PTR [rcx+rax*8], 0
+
+; 22   : 
+; 23   : 	_csmint.funcNameStackPtr--;
+
+	dec	DWORD PTR _csmint+1224
+
+; 24   : }
+
+	add	rsp, 40					; 00000028H
+	ret	0
+CInternalPopFuncNameStack ENDP
+_TEXT	ENDS
+; Function compile flags: /Ogtpy
+; File C:\Bailey\Programming\Caesium\csmint.c
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+; File C:\Bailey\Programming\Caesium\csmint.c
+;	COMDAT CInternalPushFuncNameStack
+_TEXT	SEGMENT
+funcname$ = 48
+CInternalPushFuncNameStack PROC				; COMDAT
+
+; 7    : void CInternalPushFuncNameStack(PCHAR funcname) {
+
+$LN7:
+	push	rbx
+	sub	rsp, 32					; 00000020H
+
+; 8    : 	// check stack over/underflow
+; 9    : 	if (_csmint.funcNameStackPtr >= CSMINT_FUNCNAMESTACK_SIZE)
+
+	mov	eax, DWORD PTR _csmint+1224
+	mov	rbx, rcx
+	cmp	eax, 128				; 00000080H
+	jb	SHORT $LN4@CInternalP
+; File C:\Bailey\Programming\Caesium\csmint_error.c
+
+; 9    : 	MessageBoxA(NULL, message, "Caesium Fatal Error", MB_OK);
+
+	xor	r9d, r9d
+	lea	r8, OFFSET FLAT:??_C@_0BE@EKMGEMPI@Caesium?5Fatal?5Error@
+	lea	rdx, OFFSET FLAT:??_C@_0BL@ELEHMINF@Faulty?5FuncNameStack?5State@
+	xor	ecx, ecx
+	call	QWORD PTR __imp_MessageBoxA
+	mov	eax, DWORD PTR _csmint+1224
+$LN4@CInternalP:
+; File C:\Bailey\Programming\Caesium\csmint.c
+
+; 12   : 	_csmint.funcNameStack[_csmint.funcNameStackPtr] = funcname;
+
+	lea	rcx, OFFSET FLAT:_csmint+200
+	mov	QWORD PTR [rcx+rax*8], rbx
+
+; 13   : 	_csmint.funcNameStackPtr++;
+
+	inc	DWORD PTR _csmint+1224
+
+; 14   : }
+
+	add	rsp, 32					; 00000020H
+	pop	rbx
+	ret	0
+CInternalPushFuncNameStack ENDP
+_TEXT	ENDS
 END
