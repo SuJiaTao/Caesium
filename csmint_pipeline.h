@@ -47,21 +47,8 @@ typedef struct CIPTriContext {
 	PCMaterial		material;
 } CIPTriContext, * PCIPTriContext;
 
-typedef struct CIPRasterThreadContext {
-	HANDLE		thread;
-
-	BOOL		m_signal_kill;
-	BOOL		m_signal_rasterTask;
-	BOOL		t_signal_awaitingRasterTask;
-
-	PCIPTriContext	triContext;
-	INT				drawY;
-	INT				rasterStartX;
-	INT				rasterEndX;
-} CIPRasterThreadContext, * PCIPRasterThreadContext;
-
 // implemented in <csmint_pl_rasterizetri.c>
-DWORD WINAPI CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self);
+DWORD WINAPI CInternalPipelineRasterThreadProc(PCDrawThreadContext self);
 
 void   CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri);
 UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);

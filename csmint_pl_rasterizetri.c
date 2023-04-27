@@ -309,23 +309,23 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	}
 }
 
-DWORD WINAPI CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self) {
+DWORD WINAPI CInternalPipelineRasterThreadProc(PCDrawThreadContext self) {
 	// set await rastertask and no task assigned
-	self->m_signal_kill					= FALSE;
-	self->m_signal_rasterTask			= FALSE;
-	self->t_signal_awaitingRasterTask	= TRUE;
+	self->signal_m_kill					= FALSE;
+	self->signal_t_awaitingRasterTask	= TRUE;
+	self->signal_m_requestRasterTask	= FALSE;
 
 	// loop forever
 	while (TRUE) {
 		// kill on signal
-		if (self->m_signal_kill == TRUE) {
+		if (self->signal_m_kill == TRUE) {
 			ExitThread(0);
 		}
 		
 		// on recieved signal
-		if (self->m_signal_rasterTask == TRUE) {
+		if (self->signal_m_requestRasterTask == TRUE) {
 			// set no longer waiting
-			self->t_signal_awaitingRasterTask = FALSE;
+			self->signal_t_awaitingRasterTask = FALSE;
 
 			// process fragment
 			for (INT drawX = self->rasterStartX; drawX <= self->rasterEndX; drawX++) {
@@ -333,7 +333,7 @@ DWORD WINAPI CInternalPipelineRasterThreadProc(PCIPRasterThreadContext self) {
 			}
 
 			// set awaiting task
-			self->t_signal_awaitingRasterTask = TRUE;
+			self->signal_t_awaitingRasterTask = TRUE;
 		}
 
 		// sleep to not hog processor

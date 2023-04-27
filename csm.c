@@ -20,18 +20,6 @@ CSMCALL BOOL CInitialize() {
 	QueryPerformanceFrequency(&_csmint.perfCounterHzMs);
 	_csmint.perfCounterHzMs.QuadPart /= 1000; // adjust for miliseconds
 
-	// initialize raster threads
-	for (UINT32 threadID = 0; threadID < CSMINT_RASTERTHREAD_COUNT; threadID++) {
-		_csmint.rasterThreads[threadID].thread =
-			CreateThread(
-				NULL,
-				ZERO,
-				CInternalPipelineRasterThreadProc,
-				_csmint.rasterThreads + threadID,
-				ZERO, NULL
-			);
-	}
-
 	_csmint.init = TRUE;
 	return TRUE;
 }
