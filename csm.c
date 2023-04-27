@@ -3,6 +3,7 @@
 // <csm.c>
 
 #include "csmint.h"
+#include <stdio.h>
 
 CSMCALL BOOL CInitialize() {
 	// check for already initailized
@@ -27,7 +28,12 @@ CSMCALL BOOL CTerminate() {
 	_CSyncEnter();
 
 	if (_csmint.allocateCount > 0) {
-		_CSyncLeave(FALSE);
+		CHAR errorBuff[0xFF];
+		sprintf_s(errorBuff, 0xFF,
+			"CTerminate failed because %d allocations were still unfreed",
+			_csmint.allocateCount
+		);
+		_CSyncLeaveErr(FALSE, errorBuff);
 	}
 	
 	HeapDestroy(&_csmint.heap);
