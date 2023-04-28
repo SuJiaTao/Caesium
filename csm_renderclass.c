@@ -12,17 +12,11 @@ static __forceinline _initializeAndCopyString(PCHAR source, PCHAR* destPtr) {
 	COPY_BYTES(source, *destPtr, srcLen);
 }
 
-CSMCALL CHandle CMakeMaterial(PCHAR name,
-	PCFVertexShaderProc vertexShader,
+CSMCALL CHandle CMakeMaterial(PCFVertexShaderProc vertexShader,
 	PCFFragmentShaderProc fragmentShader) {
 	_CSyncEnter();
 
-	if (name == NULL) {
-		_CSyncLeaveErr(NULL, "CMakeMaterial failed because name was NULL");
-	}
-
 	PCMaterial mat = CInternalAlloc(sizeof(CMaterial));
-	_initializeAndCopyString(name, &mat->name);
 
 	mat->vertexShader = vertexShader;
 	mat->fragmentShader = fragmentShader;
@@ -40,7 +34,6 @@ CSMCALL BOOL	CDestroyMaterial(PCHandle pMatHandle) {
 		_CSyncLeaveErr(FALSE, "CDestroyMaterial failed because pMatHandle was invalid");
 	}
 
-	CInternalFree(mat->name);
 	CInternalFree(mat);
 	*pMatHandle = NULL;
 
@@ -65,16 +58,11 @@ CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material) {
 	// NOTE: Mesh is FIXED once class has been made
 	rClass->mesh = mesh;
 
-	// set default material (0) to input material (NULL is acceptable)
-	rClass->materials[0] = material;
+	// set material
+	rClass->material = material;
 
 	// by default, class with use singleMaterial (only materials[0] is used for ALL tris)
 	rClass->singleMaterial = TRUE;
-
-	// triMaterial array is STILL initialized just to keep things simple
-	PCMesh realMesh = mesh;
-	rClass->triMaterials
-		= CInternalAlloc(sizeof(UINT32) * realMesh->triCount);
 	
 	_CSyncLeave(rClass);
 }
@@ -93,7 +81,6 @@ CSMCALL BOOL	CDestroyRenderClass(PCHandle pClass) {
 	}
 
 	CInternalFree(rClass->name);
-	CInternalFree(rClass->triMaterials);
 	CInternalFree(rClass);
 
 	// set handle to NULL
@@ -132,162 +119,29 @@ CSMCALL CHandle CRenderClassGetMesh(CHandle rClass) {
 	_CSyncLeave(cObj->mesh);
 }
 
-CSMCALL BOOL	CRenderClassSetMaterial(CHandle rClass, CHandle material, UINT32 ID) {
+CSMCALL BOOL	CRenderClassSetMaterial(CHandle rClass, CHandle material) {
 	_CSyncEnter();
 
 	if (rClass == NULL) {
 		_CSyncLeaveErr(FALSE, "CRenderClassSetMaterial failed because rClass was invalid");
 	}
-	if (ID >= CSM_CLASS_MAX_MATERIALS) {
-		_CSyncLeaveErr(FALSE, "CRenderClassSetMaterial failed because ID was invalid");
-	}
 
 	PCRenderClass cObj = rClass;
-	cObj->materials[ID] = material;
+	cObj->material = material;
 
 	_CSyncLeave(TRUE);
 }
 
-CSMCALL CHandle CRenderClassGetMaterial(CHandle rClass, UINT32 ID) {
+CSMCALL CHandle CRenderClassGetMaterial(CHandle rClass) {
 	_CSyncEnter();
 
 	if (rClass == NULL) {
 		_CSyncLeaveErr(NULL, "CRenderClassGetMaterial failed because rClass was invalid");
 	}
-	if (ID >= CSM_CLASS_MAX_MATERIALS) {
-		_CSyncLeaveErr(NULL, "CRenderClassGetMaterial failed because ID was invalid");
-	}
 
 	PCRenderClass cObj = rClass;
 
-	_CSyncLeave(cObj->materials[ID]);
-}
-
-CSMCALL UINT32	CRenderClassGetMaterialID(CHandle rClass, PCHAR name) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(CSM_BAD_ID, 
-			"CRenderClassGetMaterialID failed because rClass was invalid");
-	}
-	if (name == NULL) {
-		_CSyncLeaveErr(CSM_BAD_ID, 
-			"CRenderClassGetMaterialID failed because name was NULL");
-	}
-
-	PCRenderClass cObj = rClass;
-
-	// check each material within class
-	for (UINT32 matID = 0; matID < CSM_CLASS_MAX_MATERIALS; matID++) {
-		PCMaterial mat = cObj->materials[matID];
-
-		// if material is NULL, skip
-		if (mat == NULL) continue;
-
-		// if string are the same, return ID
-		if (strcmp(name, mat->name) == 0) {
-			_CSyncLeave(matID);
-		}
-	}
-
-	_CSyncLeaveErr(CSM_BAD_ID,
-		"CRenderClassGetMaterialID failed because name could not be found");
-}
-
-CSMCALL BOOL	CRenderClassSetTriMaterialSingle(CHandle rClass, BOOL state) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE, 
-			"CRenderClassSetTriMaterialSingle failed because rClass was invalid");
-	}
-
-	PCRenderClass cObj = rClass;
-	cObj->singleMaterial = state;
-
-	_CSyncLeave(TRUE);
-}
-
-CSMCALL BOOL	CRenderClassGetTriMaterialSingle(CHandle rClass, PBOOL outState) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterialSingle failed because rClass was invalid");
-	}
-
-	PCRenderClass cObj = rClass;
-	*outState = cObj->singleMaterial;
-
-	_CSyncLeave(TRUE);
-}
-
-CSMCALL BOOL	CRenderClassSetTriMaterials(CHandle rClass, PUINT32 triMaterialIndexes) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassSetTriMaterials failed because rClass was invalid");
-	}
-	if (triMaterialIndexes == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassSetTriMaterials failed because triMaterialIndexes was NULL");
-	}
-
-	PCRenderClass cObj = rClass;
-	PCMesh objMesh = cObj->mesh;
-	COPY_BYTES(triMaterialIndexes, cObj->triMaterials, sizeof(UINT32) * objMesh->triCount);
-
-	_CSyncLeave(TRUE);
-}
-
-CSMCALL CHandle	CRenderClassGetTriMaterial(CHandle rClass, UINT32 triMaterialIndex) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterial failed because rClass was invalid");
-	}
-
-	PCRenderClass cObj = rClass;
-	PCMesh objMesh = cObj->mesh;
-
-	if (triMaterialIndex >= objMesh->triCount) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterial failed because triMaterialIndex was invalid");
-	}
-
-	// get ID from triMaterialList and check if it's valid
-	UINT32 ID = cObj->triMaterials[triMaterialIndex];
-
-	if (ID >= CSM_CLASS_MAX_MATERIALS) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterial failed because class triMaterials had bad value");
-	}
-
-	// return handle to material that ID references
-	_CSyncLeave(cObj->materials[ID]);
-}
-
-CSMCALL UINT32  CRenderClassGetTriMaterialID(CHandle rClass, UINT32 triMaterialIndex) {
-	_CSyncEnter();
-
-	if (rClass == NULL) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterial failed because rClass was invalid");
-	}
-
-	PCRenderClass cObj = rClass;
-	PCMesh objMesh = cObj->mesh;
-
-	if (triMaterialIndex >= objMesh->triCount) {
-		_CSyncLeaveErr(FALSE,
-			"CRenderClassGetTriMaterial failed because triMaterialIndex was invalid");
-	}
-
-	// get ID from triMaterialList and return
-	UINT32 ID = cObj->triMaterials[triMaterialIndex];
-	_CSyncLeave(ID);
+	_CSyncLeave(cObj->material);
 }
 
 CSMCALL BOOL	CRenderClassSetVertexDataBuffer(CHandle rClass, CHandle vdBuffer, UINT32 ID) {

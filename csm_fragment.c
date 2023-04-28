@@ -271,7 +271,8 @@ CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffe
 
 	PCRenderBuffer rb = renderBuffer;
 
-	*inOutColor = CMakeColor4(0, 0, 0, 0); // set default to fully transparent
+	// set default to fully transparent
+	*(PDWORD)inOutColor = 0;
 
 	const INT texWidth  = rb->width;
 	const INT texHeight = rb->height;

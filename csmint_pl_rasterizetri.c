@@ -48,8 +48,9 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (fragColor.a == 0) return;
 
 	// apply alpha blend (if needed)
-	if (fragColor.a != 255)
+	if (fragColor.a < 255) {
 		fragColor = CFragmentBlendColor(belowColor, fragColor);
+	}
 
 	// apply fragment to renderBuffer
 	CRenderBufferUnsafeSetFragment(
