@@ -206,7 +206,10 @@ CSMCALL BOOL CVertexSetVertexOutputFromClassVertexData(CHandle vertContext,
 	CVertexGetClassVertexData(context, classVertID, outBuff);
 
 	// set output value
-	CVertexSetVertexOutput(context, outputID, outBuff, components);
+	PCIPVertOutput pOut =
+		context->screenTriAndData->vertOutputs[context->triVertexID].outputs + outputID;
+	pOut->componentCount = components;
+	COPY_BYTES(outBuff, pOut->valueBuffer, sizeof(FLOAT) * components);
 
 	return TRUE;
 }

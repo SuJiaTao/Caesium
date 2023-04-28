@@ -73,6 +73,9 @@ CSMCALL CMatrix CMatrixIdentity(void) {
 }
 
 CSMCALL CMatrix CMatrixTranslate(CMatrix orig, CVect3F trl) {
+	// check for no movement
+	if (trl.x == 0.0f && trl.y == 0.0f && trl.z == 0.0f) return orig;
+
 	// create translation matrix
 	CMatrix trlm = CMatrixIdentity();
 	_cmset(&trlm, 3, 0, trl.x);
@@ -84,6 +87,9 @@ CSMCALL CMatrix CMatrixTranslate(CMatrix orig, CVect3F trl) {
 }
 
 CSMCALL CMatrix CMatrixScale(CMatrix orig, CVect3F scl) {
+	// check for no scale
+	if (scl.x == 1.0f && scl.y == 1.0f && scl.z == 1.0f) return orig;
+
 	// create scale matrix
 	CMatrix trlm = { 0 };
 	_cmset(&trlm, 0, 0, scl.x);
@@ -96,6 +102,9 @@ CSMCALL CMatrix CMatrixScale(CMatrix orig, CVect3F scl) {
 }
 
 CSMCALL CMatrix CMatrixRotate(CMatrix orig, CVect3F rot) {
+	// check for no rotate
+	if (rot.x == 0.0f && rot.y == 0.0f && rot.z == 0.0f) return orig;
+
 	// create (horrible) rotation matrix
 	CMatrix sclm = CMatrixIdentity();
 
@@ -113,16 +122,18 @@ CSMCALL CMatrix CMatrixRotate(CMatrix orig, CVect3F rot) {
 	_cmset(&sclm, 2, 0, -sinY);
 
 	// row 2
-	_cmset(&sclm, 0, 1, sinX * sinY * cosZ -
+	const FLOAT sinXsinY = sinX * sinY;
+	_cmset(&sclm, 0, 1, sinXsinY * cosZ -
 		cosX * sinZ);
-	_cmset(&sclm, 1, 1, sinX * sinY * sinZ +
+	_cmset(&sclm, 1, 1, sinXsinY * sinZ +
 		cosX * cosZ);
 	_cmset(&sclm, 2, 1, sinX * cosY);
 
 	// row 3
-	_cmset(&sclm, 0, 2, cosX * sinY * cosZ +
+	const FLOAT cosXsinY = cosX * sinY;
+	_cmset(&sclm, 0, 2, cosXsinY * cosZ +
 		sinX * sinZ);
-	_cmset(&sclm, 1, 2, cosX * sinY * sinZ -
+	_cmset(&sclm, 1, 2, cosXsinY * sinZ -
 		sinX * cosZ);
 	_cmset(&sclm, 2, 2, cosX * cosY);
 
