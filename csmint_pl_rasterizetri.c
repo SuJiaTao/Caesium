@@ -14,11 +14,11 @@ static __forceinline FLOAT _fltInv(FLOAT flt) {
 	return rf;
 }
 
-static __forceinline void _drawFragment(PCIPTriContext triContext) {
+static __forceinline void _drawFragment(PCIPTriContext triContext, PCIPFragContext fragContext) {
 	PCRenderBuffer renderBuffer = triContext->renderBuffer;
 	// generate frag position
-	INT fragPosX = triContext->fragContext.fragPos.x;
-	INT fragPosY = triContext->fragContext.fragPos.y;
+	INT fragPosX = fragContext->fragPos.x;
+	INT fragPosY = fragContext->fragPos.y;
 
 	// get below color
 	CColor belowColor;
@@ -30,10 +30,10 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	if (triContext->material != NULL) {
 		// apply fragment shader
 		BOOL keepFrag = triContext->material->fragmentShader(
-			&triContext->fragContext,
+			fragContext,
 			triContext->triangleID,
 			triContext->instanceID,
-			triContext->fragContext.fragPos,
+			fragContext->fragPos,
 			&fragColor
 		);
 		if (keepFrag == FALSE) return; // cull if needed
@@ -57,7 +57,7 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 		fragPosX,
 		fragPosY,
 		fragColor,
-		triContext->fragContext.fragPos.depth
+		fragContext->fragPos.depth
 	);
 }
 
@@ -211,7 +211,53 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, PCI
 	_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
 
 	// draw fragment
-	_drawFragment(triContext);
+	_drawFragment(triContext, fContext);
+}
+
+static __forceinline void _scheduleDrawThreadTask(PCIPTriContext triContext,
+	INT startX, INT endX, INT drawY) {
+	PCDrawContext dc = triContext->drawContext;
+
+	// loop all threads until found free
+	while (TRUE) {
+		for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+			// get thread
+			PCDrawThreadContext dtc = dc->threads + threadID;
+
+			// find free thread
+			if (dtc->t_signal_awaitTask == TRUE && dtc->m_signal_assignedTask == FALSE) {
+				// setup thread draw task
+				dtc->startX = startX;
+				dtc->endX = endX;
+				dtc->drawY = drawY;
+				dtc->triContext = triContext;
+				dtc->m_signal_assignedTask = TRUE;
+
+				// end
+				return;
+			}
+		}
+	}
+}
+
+static __forceinline void _syncAllThreadCompletion(PCIPTriContext triContext) {
+	PCDrawContext dc = triContext->drawContext;
+
+	while (TRUE) {
+		UINT32 completeAccum = 0;
+		for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+			// get thread
+			PCDrawThreadContext dtc = dc->threads + threadID;
+
+			// on complete, increment
+			if (dtc->t_signal_awaitTask == TRUE) {
+				completeAccum++;
+			}
+		}
+
+		// on all complete, end
+		if (completeAccum == CSM_DRAWCONTEXT_MAX_THREADS) return;
+	}
 }
 
 static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData subTri) {
@@ -253,24 +299,10 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 		const INT DRAW_X_END =
 			min(renderBuff->width - 1, RBase.x + (invSlopeR * yDist));
 
-		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
-			// prepare and draw fragment
-			_prepareAndDrawFragment(triContext, drawX, drawY);
-		}
+		_scheduleDrawThreadTask(triContext, DRAW_X_START, DRAW_X_END, drawY);
 	}
-}
 
-static __forceinline void _scheduleDrawThreadTask(PCIPTriContext triContext,
-	INT startX, INT endX, INT drawY) {
-	PCDrawContext dc = triContext->drawContext;
-
-	// loop all threads until found free
-	while (TRUE) {
-		for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
-			PCDrawThreadContext dtc = 
-		}
-	}
+	_syncAllThreadCompletion(triContext);
 }
 
 static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
@@ -313,8 +345,10 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 		const INT DRAW_X_END =
 			min(renderBuff->width - 1, RBase.x - (invSlopeR * yDist));
 
-		
+		_scheduleDrawThreadTask(triContext, DRAW_X_START, DRAW_X_END, drawY);
 	}
+
+	_syncAllThreadCompletion(triContext);
 }
 
 DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {

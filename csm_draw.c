@@ -185,15 +185,12 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
 
 			// generate tri context for rasterization
-			// note: tContext->fragContext is untouched because it is determined per-fragment
-			// note: with the exception of tContext->fragContext.parent which points to tContext
 			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
 			tContext->drawContext			= drawContext;
 			tContext->instanceID			= instanceID;
 			tContext->triangleID			= triangleID;
 			tContext->rClass				= rClass;
 			tContext->renderBuffer			= renderBuffer;
-			tContext->fragContext.parent	= tContext;
 			tContext->screenTriAndData = triData; // temporary, will be replaced when clipped
 
 			// setup material
