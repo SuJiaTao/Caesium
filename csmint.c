@@ -22,3 +22,13 @@ void CInternalPopFuncNameStack(void) {
 
 	_csmint.funcNameStackPtr--;
 }
+
+void CInternalGlobalLock(void) {
+	if (_csmint.threadsafe)
+		EnterCriticalSection(&_csmint.lock);
+}
+
+void CInternalGlobalUnlock(void) {
+	if (_csmint.threadsafe)
+		LeaveCriticalSection(&_csmint.lock);
+}

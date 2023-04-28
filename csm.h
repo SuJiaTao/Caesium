@@ -53,6 +53,7 @@ CSMCALL void  CLogErrors(BOOL state);
 CSMCALL CColor CMakeColor3(INT r, INT g, INT b);
 CSMCALL CColor CMakeColor4(INT r, INT g, INT b, INT a);
 
+CSMCALL void CThreadSafe(BOOL state);
 CSMCALL void CLock();
 CSMCALL void CUnlock();
 

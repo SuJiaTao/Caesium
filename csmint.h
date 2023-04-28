@@ -17,6 +17,7 @@ typedef struct Caesium {
 	PCHAR lastError;
 	BOOL  logErrors;
 
+	BOOL threadsafe;
 	UINT32 allocateCount;
 	CRITICAL_SECTION lock; // thread sync object
 
@@ -32,11 +33,14 @@ Caesium _csmint;
 void CInternalPushFuncNameStack(PCHAR funcname);
 void CInternalPopFuncNameStack(void);
 
+void CInternalGlobalLock(void);
+void CInternalGlobalUnlock(void);
+
 #define _CSyncEnter( )	CInternalPushFuncNameStack(__func__); \
-						EnterCriticalSection(&_csmint.lock)
+						CInternalGlobalLock()
 
 #define _CSyncLeave(x)	CInternalPopFuncNameStack();		 \
-						LeaveCriticalSection(&_csmint.lock); \
+						CInternalGlobalUnlock(); \
 						return x
 
 #define ZERO_BYTES(ptr, count) __stosb(ptr, ZERO, count) 

@@ -20,6 +20,10 @@ CSMCALL BOOL CInitialize() {
 	QueryPerformanceFrequency(&_csmint.perfCounterHzMs);
 	_csmint.perfCounterHzMs.QuadPart /= 1000; // adjust for miliseconds
 
+	// default threadsafe
+	_csmint.threadsafe = TRUE;
+
+	// set init and return
 	_csmint.init = TRUE;
 	return TRUE;
 }
@@ -85,6 +89,10 @@ CSMCALL void  CLogErrors(BOOL state) {
 	_CSyncEnter();
 	_csmint.logErrors = state;
 	_CSyncLeave();
+}
+
+CSMCALL void CThreadSafe(BOOL state) {
+	_csmint.threadsafe = state;
 }
 
 CSMCALL void CLock() {
