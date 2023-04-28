@@ -17,6 +17,18 @@ CSMCALL CHandle CMakeDrawContext(CHandle renderBuffer) {
 	PCDrawContext dc = CInternalAlloc(sizeof(CDrawContext));
 	dc->renderBuffer = renderBuffer;
 
+	// init all drawThreads
+	for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+		dc->threads[threadID].thread = CreateThread(
+			NULL,
+			ZERO,
+			CInternalPipelineDrawThreadProc,
+			dc->threads + threadID,
+			NULL,
+			NULL
+		);
+	}
+
 	_CSyncLeave(dc);
 }
 
@@ -27,6 +39,13 @@ CSMCALL BOOL	CDestroyDrawContext(CHandle drawContext) {
 	}
 
 	PCDrawContext context = drawContext;
+
+	// kill all threads
+	// init all drawThreads
+	for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+		context->threads[threadID].m_signal_kill = TRUE;
+		WaitForSingleObject(context->threads[threadID].thread, INFINITE);
+	}
 
 	// free all input data
 	for (UINT32 inputID = 0; inputID < CSM_MAX_DRAW_INPUTS; inputID++) {

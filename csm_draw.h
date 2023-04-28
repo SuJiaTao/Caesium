@@ -21,12 +21,14 @@ typedef struct CDrawThreadContext {
 	BOOL	t_signal_awaitTask;
 	BOOL	m_signal_assignedTask;
 	PVOID	triContext;				// magic as far as user is concerned
+	INT		startX, endX, drawY;
 } CDrawThreadContext, *PCDrawThreadContext;
 
 typedef struct CDrawContext {
 	CHandle		renderBuffer;
 	CDrawInput	inputs[CSM_MAX_DRAW_INPUTS];
 	UINT64		lastDrawTimeMS;
+	CDrawThreadContext threads[CSM_DRAWCONTEXT_MAX_THREADS];
 } CDrawContext, *PCDrawContext;
 
 CSMCALL CHandle CMakeDrawContext(CHandle renderBuffer);

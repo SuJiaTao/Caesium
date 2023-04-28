@@ -190,7 +190,8 @@ static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVe
 	}
 }
 
-static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT drawX, INT drawY) {
+static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, PCIPFragContext fContext,
+	INT drawX, INT drawY) {
 	// create fragment with interpolated depth
 	CVect3F drawVect =
 		CMakeVect3F(drawX, drawY, 0.0f);
@@ -202,7 +203,6 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
 
 	// prepare fragment context
-	PCIPFragContext fContext = CInternalAlloc;
 	fContext->barycentricWeightings = bWeights;
 	fContext->fragPos.x = drawX;
 	fContext->fragPos.y = drawY;
@@ -261,6 +261,18 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	}
 }
 
+static __forceinline void _scheduleDrawThreadTask(PCIPTriContext triContext,
+	INT startX, INT endX, INT drawY) {
+	PCDrawContext dc = triContext->drawContext;
+
+	// loop all threads until found free
+	while (TRUE) {
+		for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+			PCDrawThreadContext dtc = 
+		}
+	}
+}
+
 static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
 
 	// generate each position
@@ -301,10 +313,45 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 		const INT DRAW_X_END =
 			min(renderBuff->width - 1, RBase.x - (invSlopeR * yDist));
 
-		// walk from left of triangle to right of triangle
-		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
-			// prepare and draw fragment
-			_prepareAndDrawFragment(triContext, drawX, drawY);
+		
+	}
+}
+
+DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {
+	// setup default signals
+	dtc->m_signal_kill = FALSE;
+	dtc->m_signal_assignedTask = FALSE;
+	dtc->t_signal_awaitTask = TRUE;
+	dtc->triContext = NULL;
+
+	// local frag context
+	PCIPFragContext fragContext = CInternalAlloc(sizeof(CIPFragContext));
+
+	// thread lifetime
+	while (TRUE) {
+		// check for kill signal
+		if (dtc->m_signal_kill == TRUE) {
+			CInternalFree(fragContext);
+			ExitThread(ERROR_SUCCESS);
+		}
+
+		// on assigned task
+		if (dtc->m_signal_assignedTask == TRUE) {
+
+			// set awaiting task to false
+			dtc->t_signal_awaitTask = FALSE;
+
+			// draw fragments from start to end
+			for (INT drawX = dtc->startX; drawX < dtc->endX; drawX++) {
+				_prepareAndDrawFragment(dtc->triContext, fragContext, drawX, dtc->drawY);
+			}
+
+			// clear triContext
+			dtc->triContext = NULL;
+
+			// set assigned task to false and waiting task to true
+			dtc->m_signal_assignedTask = FALSE;
+			dtc->t_signal_awaitTask = TRUE;
 		}
 	}
 }

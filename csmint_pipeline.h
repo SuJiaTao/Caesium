@@ -52,6 +52,7 @@ void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri)
 void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData subTri);
 
 // implemented in <csmint_pl_rasterizetri.c>
+DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc);
 CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F vert);
 FLOAT   CInternalPipelineFastDistance(CVect3F p1, CVect3F p2);
 
