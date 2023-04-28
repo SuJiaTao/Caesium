@@ -29,6 +29,8 @@ CSMCALL CHandle CMakeVertexDataBuffer(PCHAR name, UINT32 elementCount,
 CSMCALL BOOL	CDestroyVertexDataBuffer(PCHandle pVertexDataBuffer);
 CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 	PFLOAT outBuffer);
+CSMCALL BOOL	CVertexDataBufferUnsafeGetElement(CHandle vdBuffer, UINT32 index,
+	PFLOAT outBuffer);
 CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
 	PFLOAT inBuffer);
 CSMCALL UINT32	CVertexDataBufferGetElementCount(CHandle vdBuffer);

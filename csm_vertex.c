@@ -77,7 +77,7 @@ CSMCALL BOOL CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT ou
 		return FALSE;
 	}
 
-	CVertexDataBufferGetElement(vdb, triContext->vertexID, outBuffer);
+	CVertexDataBufferUnsafeGetElement(vdb, triContext->vertexID, outBuffer);
 
 	return TRUE;
 }

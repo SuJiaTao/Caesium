@@ -78,6 +78,13 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 		_CSyncLeaveErr(FALSE, "CVertexDataBufferGetElement failed bevause outBuffer was NULL");
 	}
 
+	CVertexDataBufferUnsafeGetElement(vdBuffer, index, outBuffer);
+
+	_CSyncLeave(TRUE);
+}
+
+CSMCALL BOOL	CVertexDataBufferUnsafeGetElement(CHandle vdBuffer, UINT32 index,
+	PFLOAT outBuffer) {
 	PCVertexDataBuffer vdBuff = vdBuffer;
 
 	// apply modulus to index so that it rolls over
@@ -90,8 +97,6 @@ CSMCALL BOOL	CVertexDataBufferGetElement(CHandle vdBuffer, UINT32 index,
 		dataBytes + (elemSizeBytes * index),
 		outBuffer,
 		elemSizeBytes);
-
-	_CSyncLeave(TRUE);
 }
 
 CSMCALL BOOL	CVertexDataBufferSetElement(CHandle vdBuffer, UINT32 index,
