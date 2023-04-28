@@ -19,6 +19,7 @@ CSMCALL CHandle CMakeDrawContext(CHandle renderBuffer) {
 
 	// init all drawThreads
 	for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
+		InitializeCriticalSection(&dc->threads[threadID].threadLock);
 		dc->threads[threadID].thread = CreateThread(
 			NULL,
 			ZERO,
@@ -45,6 +46,7 @@ CSMCALL BOOL	CDestroyDrawContext(CHandle drawContext) {
 	for (UINT32 threadID = 0; threadID < CSM_DRAWCONTEXT_MAX_THREADS; threadID++) {
 		context->threads[threadID].m_signal_kill = TRUE;
 		WaitForSingleObject(context->threads[threadID].thread, INFINITE);
+		DeleteCriticalSection(&context->threads[threadID].threadLock);
 	}
 
 	// free all input data

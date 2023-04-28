@@ -203,6 +203,7 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, PCI
 	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
 
 	// prepare fragment context
+	fContext->triContext = triContext;
 	fContext->barycentricWeightings = bWeights;
 	fContext->fragPos.x = drawX;
 	fContext->fragPos.y = drawY;
@@ -224,6 +225,8 @@ static __forceinline void _scheduleDrawThreadTask(PCIPTriContext triContext,
 			// get thread
 			PCDrawThreadContext dtc = dc->threads + threadID;
 
+			EnterCriticalSection(&dtc->threadLock);
+
 			// find free thread
 			if (dtc->t_signal_awaitTask == TRUE && dtc->m_signal_assignedTask == FALSE) {
 				// setup thread draw task
@@ -234,8 +237,11 @@ static __forceinline void _scheduleDrawThreadTask(PCIPTriContext triContext,
 				dtc->m_signal_assignedTask = TRUE;
 
 				// end
+				LeaveCriticalSection(&dtc->threadLock);
 				return;
 			}
+
+			LeaveCriticalSection(&dtc->threadLock);
 		}
 	}
 }
@@ -249,10 +255,14 @@ static __forceinline void _syncAllThreadCompletion(PCIPTriContext triContext) {
 			// get thread
 			PCDrawThreadContext dtc = dc->threads + threadID;
 
+			EnterCriticalSection(&dtc->threadLock);
+
 			// on complete, increment
 			if (dtc->t_signal_awaitTask == TRUE) {
 				completeAccum++;
 			}
+
+			LeaveCriticalSection(&dtc->threadLock);
 		}
 
 		// on all complete, end
@@ -299,10 +309,14 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 		const INT DRAW_X_END =
 			min(renderBuff->width - 1, RBase.x + (invSlopeR * yDist));
 
+		printf("tryschedule\n");
 		_scheduleDrawThreadTask(triContext, DRAW_X_START, DRAW_X_END, drawY);
+		printf("scheduled scanline\n");
 	}
 
+	printf("sync start\n");
 	_syncAllThreadCompletion(triContext);
+	printf("sync end\n");
 }
 
 static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
@@ -352,6 +366,9 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 }
 
 DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {
+
+	EnterCriticalSection(&dtc->threadLock);
+
 	// setup default signals
 	dtc->m_signal_kill = FALSE;
 	dtc->m_signal_assignedTask = FALSE;
@@ -361,6 +378,8 @@ DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {
 	// local frag context
 	PCIPFragContext fragContext = CInternalAlloc(sizeof(CIPFragContext));
 
+	LeaveCriticalSection(&dtc->threadLock);
+
 	// thread lifetime
 	while (TRUE) {
 		// check for kill signal
@@ -369,16 +388,24 @@ DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {
 			ExitThread(ERROR_SUCCESS);
 		}
 
-		// on assigned task
-		if (dtc->m_signal_assignedTask == TRUE) {
+		// check if assigned task
+		EnterCriticalSection(&dtc->threadLock);
+		BOOL assignedTask = dtc->m_signal_assignedTask;
+		LeaveCriticalSection(&dtc->threadLock);
+
+		if (assignedTask == TRUE) {
 
 			// set awaiting task to false
+			EnterCriticalSection(&dtc->threadLock);
 			dtc->t_signal_awaitTask = FALSE;
+			LeaveCriticalSection(&dtc->threadLock);
 
 			// draw fragments from start to end
 			for (INT drawX = dtc->startX; drawX < dtc->endX; drawX++) {
 				_prepareAndDrawFragment(dtc->triContext, fragContext, drawX, dtc->drawY);
 			}
+
+			EnterCriticalSection(&dtc->threadLock);
 
 			// clear triContext
 			dtc->triContext = NULL;
@@ -386,7 +413,12 @@ DWORD WINAPI CInternalPipelineDrawThreadProc(PCDrawThreadContext dtc) {
 			// set assigned task to false and waiting task to true
 			dtc->m_signal_assignedTask = FALSE;
 			dtc->t_signal_awaitTask = TRUE;
+
+			LeaveCriticalSection(&dtc->threadLock);
 		}
+
+		// sleep to avoid hogging processor
+		SleepEx(1, TRUE);
 	}
 }
 

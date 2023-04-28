@@ -16,6 +16,7 @@ typedef struct CDrawInput {
 } CDrawInput, *PCDrawInput;
 
 typedef struct CDrawThreadContext {
+	CRITICAL_SECTION threadLock;
 	HANDLE	thread;
 	BOOL	m_signal_kill;
 	BOOL	t_signal_awaitTask;
