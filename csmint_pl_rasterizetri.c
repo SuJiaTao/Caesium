@@ -202,7 +202,7 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
 
 	// prepare fragment context
-	PCIPFragContext fContext = &triContext->fragContext;
+	PCIPFragContext fContext = CInternalAlloc;
 	fContext->barycentricWeightings = bWeights;
 	fContext->fragPos.x = drawX;
 	fContext->fragPos.y = drawY;

@@ -7,12 +7,21 @@
 
 #include "csm_renderclass.h"
 
-#define CSM_MAX_DRAW_INPUTS		0x20
+#define CSM_MAX_DRAW_INPUTS				0x20
+#define CSM_DRAWCONTEXT_MAX_THREADS		0x02
 
 typedef struct CDrawInput {
 	SIZE_T	sizeBytes;
 	PVOID	pData;
 } CDrawInput, *PCDrawInput;
+
+typedef struct CDrawThreadContext {
+	HANDLE	thread;
+	BOOL	m_signal_kill;
+	BOOL	t_signal_awaitTask;
+	BOOL	m_signal_assignedTask;
+	PVOID	triContext;				// magic as far as user is concerned
+} CDrawThreadContext, *PCDrawThreadContext;
 
 typedef struct CDrawContext {
 	CHandle		renderBuffer;

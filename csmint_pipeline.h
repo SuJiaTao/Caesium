@@ -28,7 +28,7 @@ typedef struct CIPTriData {
 } CIPTriData, *PCIPTriData;
 
 typedef struct CIPFragContext {
-	struct CIPTriContext*	parent;
+	struct CIPTriContext*	triContext;
 	CIPVertOutputList		fragInputs;
 	CFragPos				fragPos;
 	CVect3F					barycentricWeightings;
@@ -42,7 +42,6 @@ typedef struct CIPTriContext {
 	UINT32			triangleID;
 	PCRenderClass	rClass;
 	PCIPTriData		screenTriAndData;
-	CIPFragContext  fragContext;
 	PCRenderBuffer	renderBuffer;
 	PCMaterial		material;
 } CIPTriContext, * PCIPTriContext;

@@ -127,7 +127,7 @@ CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOI
 
 	PCIPFragContext context = fragContext;
 
-	PCDrawInput drawInput = context->parent->drawContext->inputs + drawInputID;
+	PCDrawInput drawInput = context->triContext->drawContext->inputs + drawInputID;
 	COPY_BYTES(drawInput->pData, outBuffer, drawInput->sizeBytes);
 
 	return TRUE;
@@ -144,7 +144,7 @@ CSMCALL PVOID	CFragmentUnsafeGetDrawInputDirect(CHandle fragContext, UINT32 draw
 	}
 
 	PCIPFragContext context = fragContext;
-	return context->parent->drawContext->inputs[drawInputID].pData;
+	return context->triContext->drawContext->inputs[drawInputID].pData;
 }
 
 CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID) {
@@ -159,7 +159,7 @@ CSMCALL SIZE_T	CFragmentGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawIn
 
 	PCIPFragContext context = fragContext;
 
-	PCDrawInput drawInput = context->parent->drawContext->inputs + drawInputID;
+	PCDrawInput drawInput = context->triContext->drawContext->inputs + drawInputID;
 
 	return drawInput->sizeBytes;
 }
@@ -227,7 +227,7 @@ CSMCALL BOOL	CFragmentGetClassStaticData(CHandle fragContext, UINT32 ID, PVOID o
 
 	PCIPFragContext context = fragContext;
 
-	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->parent->rClass, ID);
+	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->triContext->rClass, ID);
 	if (sdb == NULL) {
 		CInternalSetLastError("CFragmentGetClassStaticData failed because ID was invalid");
 		return FALSE;
@@ -249,7 +249,7 @@ CSMCALL SIZE_T	CFragmentGetClassStaticDataSizeBytes(CHandle fragContext, UINT32 
 
 	PCIPFragContext context = fragContext;
 
-	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->parent->rClass, ID);
+	PCStaticDataBuffer sdb = CRenderClassGetStaticDataBuffer(context->triContext->rClass, ID);
 	if (sdb == NULL) {
 		CInternalSetLastError("CFragmentGetClassStaticDataSizeBytes failed because ID was invalid");
 		return FALSE;
