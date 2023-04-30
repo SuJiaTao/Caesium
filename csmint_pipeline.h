@@ -34,17 +34,19 @@ typedef struct CIPFragContext {
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 
-typedef struct CIPTriContext {
+typedef struct CIPVertContext {
 	PCDrawContext	drawContext;
-	UINT32			triVertexID;	// only applicable for vertex shader
-	UINT32			vertexID;		// only applicable for vertex shader
-	UINT32			instanceID;
-	UINT32			triangleID;
-	PCRenderClass	rClass;
-	PCIPTriData		screenTriAndData;
-	CIPFragContext  fragContext;
-	PCRenderBuffer	renderBuffer;
-	PCMaterial		material;
+} CIPVertContext, *PCIPVertContext;
+
+typedef struct CIPTriContext {
+	PCDrawContext			drawContext;
+	CIPFragContext			fragContext;
+	PCIPTriData				screenTriAndData;
+	PCRenderClass			rClass;
+
+	UINT32					instanceID;
+	UINT32					triangleID;
+	PCFFragmentShaderProc	fragmentShader;
 } CIPTriContext, * PCIPTriContext;
 
 void   CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri);

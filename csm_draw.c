@@ -150,6 +150,12 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 		// get mesh
 		PCMesh drawMesh = CRenderClassGetMesh(rClass);
 
+		// create processed mesh (copy of drawMesh)
+		CMesh processedMesh = *drawMesh;
+
+		// process each vertex
+		for (UINT32 vertexID = 0; vertexID < processedMesh.)
+
 		// loop each triangle of mesh and rasterize triangle
 		// this is done by walking indexes in groups of 3
 		UINT32 triangleID = 0;
