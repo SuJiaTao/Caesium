@@ -21,33 +21,45 @@ typedef struct CIPVertOutputList {
 	CIPVertOutput outputs[CSM_MAX_VERTEX_OUTPUTS];
 } CIPVertOutputList, *PCIPVertOutputList;
 
-typedef struct CIPTriData {
-	CIPVertOutputList	vertOutputs[3];
-	CVect3F				verts[3];
-	FLOAT				invDepths[3]; // cache W val to avoid per-fragment float division
-} CIPTriData, *PCIPTriData;
+typedef struct CIPInstanceContext {
+	UINT32			instanceID;
+	PCDrawContext	drawContext;
+	PCRenderClass	renderClass;
+	PCMesh			originalMesh;
+	PCMesh			processedMesh;
+} CIPInstanceContext, *PCIPInstanceContext;
 
 typedef struct CIPVertContext {
-	PCDrawContext	drawContext;
-	PCRenderClass	rClass;
-	UINT32			instanceID;
-	UINT32			vertexID;
+	UINT32				vertexID;
+	CIPInstanceContext	instanceContext;
+
+	PCIPVertOutputList	pOutputList;
 } CIPVertContext, *PCIPVertContext;
 
+typedef struct CIPTriContext {
+	UINT32				triangleID;
+	CIPInstanceContext	instanceContext;
+
+	PCIPVertOutputList	vertOutputs[3];
+	CVect3F				verts[3];
+	FLOAT				invDepths[3]; // cache W val to avoid per-fragment float division
+} CIPTriContext, *PCIPTriContext;
+
 typedef struct CIPFragContext {
-	PCIPTriData				triangle;
+	PCIPTriContext			triContext;
+
 	CIPVertOutputList		fragInputs;
 	CFragPos				fragPos;
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 
-PCMesh	CInternalPipelineProcessMesh(PCDrawContext drawContext, PCRenderClass rClass);
-UINT32	CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
-void	CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);
-void	CInternalPipelineRasterizeTri(PCIPTriData inTri);
+void	CInternalPipelineProcessMesh(PCIPInstanceContext instanceContext);
+UINT32	CInternalPipelineClipTri(PCIPTriContext inTri, PCIPTriContext outTriArray);
+void	CInternalPipelineProjectTri(PCIPTriContext projectTri);
+void	CInternalPipelineRasterizeTri(PCIPTriContext rasterTri);
 
 // implemented in <csmint_pl_rasterizetri.c>
-CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F vert);
+CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriContext tri, CVect3F vert);
 FLOAT   CInternalPipelineFastDistance(CVect3F p1, CVect3F p2);
 
 #endif
