@@ -92,7 +92,7 @@
     <ClCompile Include="csm_draw.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="csmint_pl_processtri.c">
+    <ClCompile Include="csmint_pl_processmesh.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
     <ClCompile Include="csmint_pl_projecttri.c">
@@ -113,10 +113,5 @@
     <ClCompile Include="csmint.c">
       <Filter>Source\Internal</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="structure.txt">
-      <Filter>Source\Internal</Filter>
-    </Text>
   </ItemGroup>
 </Project>

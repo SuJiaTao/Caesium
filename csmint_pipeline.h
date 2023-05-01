@@ -22,37 +22,29 @@ typedef struct CIPVertOutputList {
 } CIPVertOutputList, *PCIPVertOutputList;
 
 typedef struct CIPTriData {
-	CIPVertOutputList vertOutputs[3];
-	CVect3F verts[3];
-	FLOAT	invDepths[3]; // cache W val to avoid per-fragment float division
+	CIPVertOutputList	vertOutputs[3];
+	CVect3F				verts[3];
+	FLOAT				invDepths[3]; // cache W val to avoid per-fragment float division
 } CIPTriData, *PCIPTriData;
 
+typedef struct CIPVertContext {
+	PCDrawContext	drawContext;
+	PCRenderClass	rClass;
+	UINT32			instanceID;
+	UINT32			vertexID;
+} CIPVertContext, *PCIPVertContext;
+
 typedef struct CIPFragContext {
-	struct CIPTriContext*	parent;
+	PCIPTriData				triangle;
 	CIPVertOutputList		fragInputs;
 	CFragPos				fragPos;
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;
 
-typedef struct CIPVertContext {
-	PCDrawContext	drawContext;
-} CIPVertContext, *PCIPVertContext;
-
-typedef struct CIPTriContext {
-	PCDrawContext			drawContext;
-	CIPFragContext			fragContext;
-	PCIPTriData				screenTriAndData;
-	PCRenderClass			rClass;
-
-	UINT32					instanceID;
-	UINT32					triangleID;
-	PCFFragmentShaderProc	fragmentShader;
-} CIPTriContext, * PCIPTriContext;
-
-void   CInternalPipelineProcessTri(PCIPTriContext triContext, PCIPTriData inTri);
-UINT32 CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
-void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);
-void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData subTri);
+PCMesh	CInternalPipelineProcessMesh(PCDrawContext drawContext, PCRenderClass rClass);
+UINT32	CInternalPipelineClipTri(PCIPTriData inTri, PCIPTriData outTriArray);
+void	CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri);
+void	CInternalPipelineRasterizeTri(PCIPTriData inTri);
 
 // implemented in <csmint_pl_rasterizetri.c>
 CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F vert);

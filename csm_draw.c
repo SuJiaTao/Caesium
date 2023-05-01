@@ -202,7 +202,7 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 			}
 
 			// process triangle vertex inputs/outputs
-			CInternalPipelineProcessTri(tContext, triData);
+			CInternalPipelineProcessVert(tContext, triData);
 			
 
 			// clip triangle

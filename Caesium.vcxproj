@@ -41,7 +41,7 @@
     <ClCompile Include="csmint_error.c" />
     <ClCompile Include="csmint_memory.c" />
     <ClCompile Include="csmint_pl_cliptri.c" />
-    <ClCompile Include="csmint_pl_processtri.c" />
+    <ClCompile Include="csmint_pl_processmesh.c" />
     <ClCompile Include="csmint_pl_projecttri.c" />
     <ClCompile Include="csmint_pl_rasterizetri.c" />
     <ClCompile Include="csm_fragment.c" />
@@ -53,11 +53,6 @@
     <ClCompile Include="csm_renderbuffer.c" />
     <ClCompile Include="csm_vertex.c" />
     <ClCompile Include="csm_window.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="structure.txt">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Text>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
