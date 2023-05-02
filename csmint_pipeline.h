@@ -45,6 +45,7 @@ typedef struct CIPTriContext {
 	CIPVertOutputList	vertOutputs[3];	// copies of outputListArray elements
 	CVect3F				verts[3];		// values taken from instanceContext
 	FLOAT				invDepths[3];	// values taken from instanceContext
+	PCRenderBuffer		renderBuffer;	// cahced from instanceContext->drawContext
 } CIPTriContext, *PCIPTriContext;
 
 typedef struct CIPFragContext {

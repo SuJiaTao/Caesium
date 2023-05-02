@@ -5,7 +5,10 @@
 #include "csmint_pipeline.h"
 #include "csm_renderbuffer.h"
 
-void   CInternalPipelineProjectTri(PCRenderBuffer renderBuffer, PCIPTriData tri) {
+void   CInternalPipelineProjectTri(PCIPTriContext tri) {
+	// get renderbuffer
+	PCRenderBuffer renderBuffer = tri->renderBuffer;
+
 	// loop all vertexs of tri
 	for (UINT32 vertexID = 0; vertexID < 3; vertexID++) {
 		// get vertex

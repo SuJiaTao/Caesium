@@ -14,11 +14,12 @@ static __forceinline FLOAT _fltInv(FLOAT flt) {
 	return rf;
 }
 
-static __forceinline void _drawFragment(PCIPTriContext triContext) {
-	PCRenderBuffer renderBuffer = triContext->renderBuffer;
-	// generate frag position
-	INT fragPosX = triContext->fragContext.fragPos.x;
-	INT fragPosY = triContext->fragContext.fragPos.y;
+static __forceinline void _drawFragment(PCIPFragContext fragContext) {
+	PCRenderBuffer renderBuffer = fragContext->triContext->renderBuffer;
+
+	// cache fragment positional values
+	INT fragPosX = fragContext->fragPos.x;
+	INT fragPosY = fragContext->fragPos.y;
 
 	// get below color
 	CColor belowColor;
@@ -26,23 +27,10 @@ static __forceinline void _drawFragment(PCIPTriContext triContext) {
 	CRenderBufferUnsafeGetFragment(renderBuffer, fragPosX, fragPosY, &belowColor, &unusedDepth);
 
 	// prepare rasterization color
-	CColor fragColor = CMakeColor4(0, 0, 0, 0);
-	if (triContext->material != NULL) {
-		// apply fragment shader
-		BOOL keepFrag = triContext->material->fragmentShader(
-			&triContext->fragContext,
-			triContext->triangleID,
-			triContext->instanceID,
-			triContext->fragContext.fragPos,
-			&fragColor
-		);
-		if (keepFrag == FALSE) return; // cull if needed
-	}
-	else
-	{
-		// on no material, set to ERR purple
-		fragColor = CMakeColor3(255, 0, 255);
-	}
+	CColor fragColor = { 0 };
+
+	// call fragment shader
+	
 
 	// if color alpha is 0, cull
 	if (fragColor.a == 0) return;
@@ -80,25 +68,25 @@ static __forceinline void _swapInputLists(PCIPVertOutputList vil1, PCIPVertOutpu
 	*vil2 = temp;
 }
 
-static __forceinline void _sortTriByVerticality(PCIPTriData toEdit) {
+static __forceinline void _sortTriVertsByVerticality(PCIPTriContext triangle) {
 	// brute force sort
 	// set is only 3 large so performance impact is minimal
-	if (toEdit->verts[0].y < toEdit->verts[1].y) {
-		_swapVerts(toEdit->verts + 0, toEdit->verts + 1);
-		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 1);
-		_swapInputLists(toEdit->vertOutputs + 0, toEdit->vertOutputs + 1);
+	if (triangle->verts[0].y < triangle->verts[1].y) {
+		_swapVerts(triangle->verts + 0, triangle->verts + 1);
+		_swapDepths(triangle->invDepths + 0, triangle->invDepths + 1);
+		_swapInputLists(triangle->vertOutputs + 0, triangle->vertOutputs + 1);
 	}
 	
-	if (toEdit->verts[0].y < toEdit->verts[2].y) {
-		_swapVerts(toEdit->verts + 0, toEdit->verts + 2);
-		_swapDepths(toEdit->invDepths + 0, toEdit->invDepths + 2);
-		_swapInputLists(toEdit->vertOutputs + 0, toEdit->vertOutputs + 2);
+	if (triangle->verts[0].y < triangle->verts[2].y) {
+		_swapVerts(triangle->verts + 0, triangle->verts + 2);
+		_swapDepths(triangle->invDepths + 0, triangle->invDepths + 2);
+		_swapInputLists(triangle->vertOutputs + 0, triangle->vertOutputs + 2);
 	}
 
-	if (toEdit->verts[1].y < toEdit->verts[2].y) {
-		_swapVerts(toEdit->verts + 1, toEdit->verts + 2);
-		_swapDepths(toEdit->invDepths + 1, toEdit->invDepths + 2);
-		_swapInputLists(toEdit->vertOutputs + 1, toEdit->vertOutputs + 2);
+	if (triangle->verts[1].y < triangle->verts[2].y) {
+		_swapVerts(triangle->verts + 1, triangle->verts + 2);
+		_swapDepths(triangle->invDepths + 1, triangle->invDepths + 2);
+		_swapInputLists(triangle->vertOutputs + 1, triangle->vertOutputs + 2);
 	}
 }
 
@@ -118,7 +106,7 @@ FLOAT   CInternalPipelineFastDistance(CVect3F p1, CVect3F p2) {
 	return _fastDist(p1, p2);
 }
 
-static __forceinline CVect3F _generateBarycentricWeights(PCIPTriData triangle, CVect3F vert ) {
+static __forceinline CVect3F _generateBarycentricWeights(PCIPTriContext triangle, CVect3F vert ) {
 	CVect3F weights;
 	CVect3F p1 = triangle->verts[0];
 	CVect3F p2 = triangle->verts[1];
@@ -136,12 +124,12 @@ static __forceinline CVect3F _generateBarycentricWeights(PCIPTriData triangle, C
 	return weights;
 }
 
-CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriData tri, CVect3F vert) {
+CVect3F CInternalPipelineGenerateBarycentricWeights(PCIPTriContext tri, CVect3F vert) {
 	return _generateBarycentricWeights(tri, vert);
 }
 
 // note: pos.z is ignored
-static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triangle) {
+static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriContext triangle) {
 	weights.x *= (triangle->invDepths[0]);
 	weights.y *= (triangle->invDepths[1]);
 	weights.z *= (triangle->invDepths[2]);
@@ -150,7 +138,7 @@ static __forceinline FLOAT _interpolateDepth(CVect3F weights, PCIPTriData triang
 }
 
 static __forceinline void _prepareFragmentInputValues(PCIPVertOutputList inOutVertList, 
-	PCIPTriData triData, CVect3F bWeights) {
+	PCIPTriContext triData, CVect3F bWeights) {
 	PCIPVertOutputList fragInputList1 = &triData->vertOutputs[0];
 	PCIPVertOutputList fragInputList2 = &triData->vertOutputs[1];
 	PCIPVertOutputList fragInputList3 = &triData->vertOutputs[2];
@@ -196,40 +184,41 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 	CVect3F drawVect =
 		CMakeVect3F(drawX, drawY, 0.0f);
 	CVect3F bWeights =
-		_generateBarycentricWeights(triContext->screenTriAndData, drawVect);
-	drawVect.z = _interpolateDepth(bWeights, triContext->screenTriAndData);
+		_generateBarycentricWeights(triContext, drawVect);
+	drawVect.z = _interpolateDepth(bWeights, triContext);
 
 	// early depth test
 	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
 
-	// prepare fragment context
-	PCIPFragContext fContext = &triContext->fragContext;
+	// create fragment context
+	PCIPFragContext fContext		= { 0 };
+	fContext->triContext			= triContext;
 	fContext->barycentricWeightings = bWeights;
-	fContext->fragPos.x = drawX;
-	fContext->fragPos.y = drawY;
-	fContext->fragPos.depth = drawVect.z;
+	fContext->fragPos.x				= drawX;
+	fContext->fragPos.y				= drawY;
+	fContext->fragPos.depth			= drawVect.z;
 
-	_prepareFragmentInputValues(&fContext->fragInputs, triContext->screenTriAndData, bWeights);
+	_prepareFragmentInputValues(&fContext->fragInputs, triContext, bWeights);
 
 	// draw fragment
 	_drawFragment(triContext);
 }
 
-static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriData subTri) {
+static __forceinline void _drawFlatBottomTri(PCIPTriContext triangle) {
 
 	// generate each position
-	CVect3F top = subTri->verts[0];
-	CVect3F LBase = subTri->verts[1];
-	CVect3F RBase = subTri->verts[2];
+	CVect3F top		= triangle->verts[0];
+	CVect3F LBase	= triangle->verts[1];
+	CVect3F RBase	= triangle->verts[2];
 
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		_swapDepths(subTri->invDepths + 0, subTri->invDepths + 1);
+		_swapDepths(triangle->invDepths + 0, triangle->invDepths + 1);
 	}
 
 	// generate inverse slopes
-	FLOAT invDY = _fltInv(top.y - LBase.y);
+	FLOAT invDY		= _fltInv(top.y - LBase.y);
 	FLOAT invSlopeL = (top.x - LBase.x) * invDY;
 	FLOAT invSlopeR = (top.x - RBase.x) * invDY;
 
@@ -237,7 +226,7 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
 
 	// walk up from bottom to top
-	PCRenderBuffer renderBuff = triContext->renderBuffer;
+	PCRenderBuffer renderBuff = triangle->renderBuffer;
 
 	const INT DRAW_Y_START = max(0, LBase.y);
 	const INT DRAW_Y_END   = min(renderBuff->height - 1, top.y);
@@ -257,26 +246,26 @@ static __forceinline void _drawFlatBottomTri(PCIPTriContext triContext, PCIPTriD
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
 			// prepare and draw fragment
-			_prepareAndDrawFragment(triContext, drawX, drawY);
+			_prepareAndDrawFragment(triangle, drawX, drawY);
 		}
 	}
 }
 
-static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData subTri) {
+static __forceinline void _drawFlatTopTri(PCIPTriContext triangle) {
 
 	// generate each position
-	CVect3F LBase  = subTri->verts[0];
-	CVect3F RBase  = subTri->verts[1];
-	CVect3F bottom = subTri->verts[2];
+	CVect3F LBase  = triangle->verts[0];
+	CVect3F RBase  = triangle->verts[1];
+	CVect3F bottom = triangle->verts[2];
 
 	// swap to maintain left if necessary
 	if (LBase.x > RBase.x) {
 		_swapVerts(&LBase, &RBase);
-		_swapDepths(subTri->invDepths + 0, subTri->invDepths + 1);
+		_swapDepths(triangle->invDepths + 0, triangle->invDepths + 1);
 	}
 
 	// generate inverse slopes
-	FLOAT invDY = _fltInv(bottom.y - LBase.y);
+	FLOAT invDY		= _fltInv(bottom.y - LBase.y);
 	FLOAT invSlopeL = (bottom.x - LBase.x) * invDY;
 	FLOAT invSlopeR = (bottom.x - RBase.x) * invDY;
 
@@ -284,7 +273,7 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 	if (isinf(invSlopeL) || isinf(invSlopeR)) return;
 
 	// walk down from top to bottom
-	PCRenderBuffer renderBuff = triContext->renderBuffer;
+	PCRenderBuffer renderBuff = triangle->renderBuffer;
 
 	// calculate top and bottom
 	const INT DRAW_Y_START = min(renderBuff->height - 1, LBase.y);
@@ -305,18 +294,14 @@ static __forceinline void _drawFlatTopTri(PCIPTriContext triContext, PCIPTriData
 		// walk from left of triangle to right of triangle
 		for (INT drawX = DRAW_X_START; drawX <= DRAW_X_END; drawX++) {
 			// prepare and draw fragment
-			_prepareAndDrawFragment(triContext, drawX, drawY);
+			_prepareAndDrawFragment(triangle, drawX, drawY);
 		}
 	}
 }
 
-void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData triangle) {
-	
-	// set triContext's triangle to current screen triangle
-	triContext->screenTriAndData = triangle;
-
+void   CInternalPipelineRasterizeTri(PCIPTriContext triangle) {
 	// sort triangle vertically
-	_sortTriByVerticality(triangle);
+	_sortTriVertsByVerticality(triangle);
 
 	// now triangle is:
 	// p0 -> top
@@ -342,15 +327,12 @@ void   CInternalPipelineRasterizeTri(PCIPTriContext triContext, PCIPTriData tria
 	horzPoint.z = 
 		_interpolateDepth(baryWeightings, triangle, horzPoint);
 
-	// make both triangles and draw
-	CIPTriData flatBottomTri;
-	COPY_BYTES(triangle, &flatBottomTri, sizeof(CIPTriData));
-	flatBottomTri.verts[2] = horzPoint; // bottom is now flat
+	// make top and bottom tris from copies of original triangle
+	CIPTriContext flatBottomTri	= *triangle;
+	CIPTriContext flatTopTri	= *triangle;
+	flatBottomTri.verts[2]		= horzPoint; // bottom is now flat
+	flatTopTri.verts[0]			= horzPoint; // top is now flat
 
-	CIPTriData flatTopTri;
-	COPY_BYTES(triangle, &flatTopTri, sizeof(CIPTriData));
-	flatTopTri.verts[0] = horzPoint; // top is now flat
-
-	_drawFlatBottomTri(triContext, &flatBottomTri);
-	_drawFlatTopTri(triContext, &flatTopTri);
+	_drawFlatBottomTri(triangle, &flatBottomTri);
+	_drawFlatTopTri(triangle, &flatTopTri);
 }

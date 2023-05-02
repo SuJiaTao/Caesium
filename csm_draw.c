@@ -172,6 +172,7 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 			PCIPTriContext triContext	= CInternalAlloc(sizeof(CIPTriContext));
 			triContext->instanceContext = instanceContext;
 			triContext->triangleID		= triangleID;
+			triContext->renderBuffer	= instanceContext->drawContext->renderBuffer;
 
 			// get vertex indicies
 			const UINT32 VERTEX_ID_0 = drawMesh->indexArray[indexID + 0];
@@ -206,15 +207,7 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 			PCIPTriContext clippedTris = CInternalAlloc(sizeof(CIPTriContext) * 2);
 			UINT32 triCount = CInternalPipelineClipTri(triContext, clippedTris);
 
-			// setup materials
-			PCRenderClass tempRClass = rClass;
-			tContext->material = tempRClass->materials[tempRClass->triMaterials[triangleID]];
-
-			// if material is NULL, use default material (0)
-			if (tContext->material == NULL)
-				tContext->material = tempRClass->materials[0];
-
-			// change based on clip output
+			// change rasterization behavior based on clip output
 			switch (triCount)
 			{
 			case -1: // CULL
@@ -222,34 +215,34 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 
 			case 0: // default case. no extra tris used
 				// project triangle
-				CInternalPipelineProjectTri(renderBuffer, triData);
+				CInternalPipelineProjectTri(triContext);
 
 				// rasterize triangle
-				CInternalPipelineRasterizeTri(tContext, triData);
+				CInternalPipelineRasterizeTri(triContext);
 
 				break;
 
 			case 1: // clipped original tri into 1 tri
 				// project triangle
-				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+				CInternalPipelineProjectTri(clippedTris + 0);
 
 				// rasterize clipped triangle
-				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
+				CInternalPipelineRasterizeTri(clippedTris + 0);
 
 				break;
 
 			case 2: // clipped original tri into 2 tris
 				// project triangle 1
-				CInternalPipelineProjectTri(renderBuffer, clippedTris + 0);
+				CInternalPipelineProjectTri(clippedTris + 0);
 
 				// rasterize clipped triangle 1
-				CInternalPipelineRasterizeTri(tContext, clippedTris + 0);
+				CInternalPipelineRasterizeTri(clippedTris + 0);
 
 				// project triangle 2
-				CInternalPipelineProjectTri(renderBuffer, clippedTris + 1);
+				CInternalPipelineProjectTri(clippedTris + 1);
 
 				// rasterize triangle 2
-				CInternalPipelineRasterizeTri(tContext, clippedTris + 1);
+				CInternalPipelineRasterizeTri(clippedTris + 1);
 
 				break;
 
@@ -258,18 +251,27 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 				break;
 			}
 
-			// free extra triangles
+			// free extra clipped triangles
 			CInternalFree(clippedTris);
 
-			// free triangle data
-			CInternalFree(triData);
-
 			// free triangle context
-			CInternalFree(tContext);
+			CInternalFree(triContext);
 
 			// increment triangleID
 			triangleID++;
 		}
+
+		// free inverse depth cahce
+		CInternalFree(instanceContext->inverseDepthCache);
+
+		// free vertex output values
+		CInternalFree(instanceContext->outputListArray);
+
+		// free processed mesh
+		CInternalFree(instanceContext->processedMesh);
+
+		// free instance context
+		CInternalFree(instanceContext);
 	}
 
 	// get end tick
@@ -281,7 +283,7 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 
 	// convert to MS
 	LONGLONG elapsedMS = (counterTicksElapsed / _csmint.perfCounterHzMs.QuadPart);
-	context->lastDrawTimeMS = (UINT64)elapsedMS;
+	((PCDrawContext)drawContext)->lastDrawTimeMS = (UINT64)elapsedMS;
 
 	_CSyncLeave(TRUE);
 }
