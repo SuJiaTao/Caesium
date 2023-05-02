@@ -46,7 +46,7 @@ static __forceinline void _drawFragment(PCIPFragContext fragContext) {
 		fragPosX,
 		fragPosY,
 		fragColor,
-		triContext->fragContext.fragPos.depth
+		fragContext->fragPos.depth
 	);
 }
 
@@ -191,7 +191,7 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 	if (CRenderBufferUnsafeDepthTest(triContext->renderBuffer, drawX, drawY, drawVect.z) == FALSE) return;
 
 	// create fragment context
-	PCIPFragContext fContext		= { 0 };
+	PCIPFragContext fContext		= CInternalAlloc(sizeof(CIPFragContext));
 	fContext->triContext			= triContext;
 	fContext->barycentricWeightings = bWeights;
 	fContext->fragPos.x				= drawX;
@@ -202,6 +202,8 @@ static __forceinline void _prepareAndDrawFragment(PCIPTriContext triContext, INT
 
 	// draw fragment
 	_drawFragment(triContext);
+
+	CInternalFree(fContext);
 }
 
 static __forceinline void _drawFlatBottomTri(PCIPTriContext triangle) {

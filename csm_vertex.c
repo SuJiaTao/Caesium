@@ -19,9 +19,9 @@ CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID 
 		return FALSE;
 	}
 
-	PCIPTriContext triContext = vertContext;
+	PCIPVertContext vc = vertContext;
 
-	PCDrawInput drawInput = triContext->drawContext->inputs + drawInputID;
+	PCDrawInput drawInput = vc->instanceContext->drawContext->inputs + drawInputID;
 	COPY_BYTES(drawInput->pData, outBuffer, drawInput->sizeBytes);
 
 	return TRUE;
@@ -37,8 +37,8 @@ CSMCALL PVOID	CVertexUnsafeGetDrawInputDirect(CHandle vertContext, UINT32 drawIn
 		return FALSE;
 	}
 
-	PCIPTriContext triContext = vertContext;
-	return triContext->drawContext->inputs[drawInputID].pData;
+	PCIPVertContext vc = vertContext;
+	return vc->instanceContext->drawContext->inputs[drawInputID].pData;
 }
 
 CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInputID) {
@@ -51,9 +51,9 @@ CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInpu
 		return FALSE;
 	}
 
-	PCIPTriContext triContext = vertContext;
+	PCIPVertContext vc = vertContext;
 
-	PCDrawInput drawInput = triContext->drawContext->inputs + drawInputID;
+	PCDrawInput drawInput = vc->instanceContext->drawContext->inputs + drawInputID;
 
 	return drawInput->sizeBytes;
 }
@@ -68,16 +68,16 @@ CSMCALL BOOL CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT ou
 		return FALSE;
 	}
 
-	PCIPTriContext triContext = vertContext;
+	PCIPVertContext vc = vertContext;
 
 	PCVertexDataBuffer vdb = 
-		CRenderClassGetVertexDataBuffer(triContext->rClass, ID);
+		CRenderClassGetVertexDataBuffer(vc->instanceContext->renderClass, ID);
 	if (vdb == NULL) {
 		CInternalSetLastError("CVertexGetClassVertexData failed because ID was invalid");
 		return FALSE;
 	}
 
-	CVertexDataBufferUnsafeGetElement(vdb, triContext->vertexID, outBuffer);
+	CVertexDataBufferUnsafeGetElement(vdb, vc->vertexID, outBuffer);
 
 	return TRUE;
 }
