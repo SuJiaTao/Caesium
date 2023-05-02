@@ -155,61 +155,56 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 		instanceContext->outputListArray =
 			CInternalAlloc(sizeof(CIPVertOutputList) * instanceContext->processedMesh->vertCount);
 
+		// make inverse depth cache
+		instanceContext->inverseDepthCache =
+			CInternalAlloc(sizeof(FLOAT) * instanceContext->processedMesh->vertCount);
+
 		// process mesh
 		CInternalPipelineProcessMesh(instanceContext);
 
-		// loop each triangle of mesh and rasterize triangle
-		// this is done by walking indexes in groups of 3
-		UINT32 triangleID = 0;
-		for (UINT32 meshIndex = 0; meshIndex < drawMesh->indexCount; meshIndex += 3) {
-			// alloc triangle to heap
-			PCIPTriData triData = CInternalAlloc(sizeof(CIPTriData));
+		// loop each triangle by walking index array in threes
+		UINT32 triangleID					= 0;
+		PCMesh drawMesh						= instanceContext->processedMesh;
+		PCIPVertOutputList vertOutputLists	= instanceContext->outputListArray;
+		for (UINT32 indexID = 0; indexID < drawMesh->indexCount; indexID += 3) {
 
-			// get triangle from mesh
-			triData->verts[0] = 
-				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 0]];
-			triData->verts[1] =
-				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 1]];
-			triData->verts[2] =
-				drawMesh->vertArray[drawMesh->indexArray[meshIndex + 2]];
+			// prepare triangle context
+			PCIPTriContext triContext	= CInternalAlloc(sizeof(CIPTriContext));
+			triContext->instanceContext = instanceContext;
+			triContext->triangleID		= triangleID;
 
-			// generate tri context for rasterization
-			// note: tContext->fragContext is untouched because it is determined per-fragment
-			// note: with the exception of tContext->fragContext.parent which points to tContext
-			PCIPTriContext tContext = CInternalAlloc(sizeof(CIPTriContext));
-			tContext->drawContext			= drawContext;
-			tContext->instanceID			= instanceID;
-			tContext->triangleID			= triangleID;
-			tContext->rClass				= rClass;
-			tContext->renderBuffer			= renderBuffer;
-			tContext->fragContext.parent	= tContext;
-			tContext->screenTriAndData = triData; // temporary, will be replaced when clipped
+			// get vertex indicies
+			const UINT32 VERTEX_ID_0 = drawMesh->indexArray[indexID + 0];
+			const UINT32 VERTEX_ID_1 = drawMesh->indexArray[indexID + 1];
+			const UINT32 VERTEX_ID_2 = drawMesh->indexArray[indexID + 2];
 
-			// setup material
-			if (pClass->singleMaterial == TRUE) {
-				tContext->material = pClass->materials[0];
-			}
-			else {
-				tContext->material = pClass->materials[pClass->triMaterials[triangleID]];
-					
-				// set to default material
-				if (tContext->material == NULL) {
-					tContext->material = pClass->materials[0];
-				}
+			// construct triangle verticies from indicies
+			triContext->verts[0] = 
+				drawMesh->vertArray[VERTEX_ID_0];
+			triContext->verts[1] =
+				drawMesh->vertArray[VERTEX_ID_1];
+			triContext->verts[2] =
+				drawMesh->vertArray[VERTEX_ID_2];
 
-				// check for bad state
-				if (tContext->material == NULL) {
-					CInternalErrorPopup("Bad material state. No materials exist in class.");
-				}
-			}
+			// construct triangle vertex outputs from indicies
+			triContext->vertOutputs[0] =
+				vertOutputLists[VERTEX_ID_0];
+			triContext->vertOutputs[1] =
+				vertOutputLists[VERTEX_ID_1];
+			triContext->vertOutputs[2] =
+				vertOutputLists[VERTEX_ID_2];
 
-			// process triangle vertex inputs/outputs
-			CInternalPipelineProcessVert(tContext, triData);
-			
+			// construct depths from indicies
+			triContext->invDepths[0] =
+				instanceContext->inverseDepthCache[VERTEX_ID_0];
+			triContext->invDepths[1] =
+				instanceContext->inverseDepthCache[VERTEX_ID_1];
+			triContext->invDepths[2] =
+				instanceContext->inverseDepthCache[VERTEX_ID_2];
 
-			// clip triangle
-			PCIPTriData clippedTris = CInternalAlloc(sizeof(CIPTriData) * 2);
-			UINT32 triCount = CInternalPipelineClipTri(triData, clippedTris);
+			// prepare triangle clipping output
+			PCIPTriContext clippedTris = CInternalAlloc(sizeof(CIPTriContext) * 2);
+			UINT32 triCount = CInternalPipelineClipTri(triContext, clippedTris);
 
 			// setup materials
 			PCRenderClass tempRClass = rClass;

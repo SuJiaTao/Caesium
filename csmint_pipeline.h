@@ -28,6 +28,7 @@ typedef struct CIPInstanceContext {
 	PCMesh				originalMesh;
 	PCMesh				processedMesh;
 	PCIPVertOutputList	outputListArray;
+	PFLOAT				inverseDepthCache;
 } CIPInstanceContext, *PCIPInstanceContext;
 
 typedef struct CIPVertContext {
@@ -39,17 +40,17 @@ typedef struct CIPVertContext {
 
 typedef struct CIPTriContext {
 	UINT32				triangleID;
-	CIPInstanceContext	instanceContext;
+	PCIPInstanceContext	instanceContext;
 
-	PCIPVertOutputList	vertOutputs[3];
-	CVect3F				verts[3];
-	FLOAT				invDepths[3]; // cache W val to avoid per-fragment float division
+	CIPVertOutputList	vertOutputs[3];	// copies of outputListArray elements
+	CVect3F				verts[3];		// values taken from instanceContext
+	FLOAT				invDepths[3];	// values taken from instanceContext
 } CIPTriContext, *PCIPTriContext;
 
 typedef struct CIPFragContext {
 	PCIPTriContext			triContext;
 
-	CIPVertOutputList		fragInputs;
+	PCIPVertOutputList		fragInputs;
 	CFragPos				fragPos;
 	CVect3F					barycentricWeightings;
 } CIPFragContext, * PCIPFragContext;

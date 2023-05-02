@@ -4,6 +4,12 @@
 
 #include "csmint_pipeline.h"
 
+static __forceinline FLOAT _rcpFloat(FLOAT flt) {
+	FLOAT rf;
+	_mm_store_ss(&rf, _mm_rcp_ss(_mm_set_ss(flt)));
+	return rf;
+}
+
 void	CInternalPipelineProcessMesh(PCIPInstanceContext instanceContext) {
 
 	// loop each vertex
@@ -24,5 +30,8 @@ void	CInternalPipelineProcessMesh(PCIPInstanceContext instanceContext) {
 
 		// apply processed vertex to processed mesh
 		instanceContext->processedMesh->vertArray[vertexID] = outVert;
+
+		// cache inverse depth
+		instanceContext->inverseDepthCache[vertexID] = _rcpFloat(outVert.z);
 	}
 }
