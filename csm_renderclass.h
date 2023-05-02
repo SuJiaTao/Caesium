@@ -14,9 +14,8 @@
 
 typedef CVect3F (*PCFVertexShaderProc) (
 	CHandle vertContext,
-	UINT32  vertexID,
-	UINT32  triangleID,
 	UINT32  instanceID,
+	UINT32  vertexID,
 	CVect3F vertexPosition
 	);
 
@@ -45,7 +44,6 @@ typedef struct CRenderClass {
 	CHandle vertexBuffers[CSM_CLASS_MAX_VERTEX_DATA];
 	CHandle	staticBuffers[CSM_CLASS_MAX_STATIC_DATA];
 	CHandle material;
-	BOOL	singleMaterial;
 } CRenderClass, * PCRenderClass;
 
 CSMCALL CHandle CMakeMaterial(PCFVertexShaderProc vertexShader,

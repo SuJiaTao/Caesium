@@ -138,23 +138,25 @@ CSMCALL BOOL CDrawInstanced(CHandle drawContext, CHandle rClass, UINT32 instance
 		_CSyncLeaveErr(FALSE, "CDrawInstanced failed because instanceCount was 0");
 	}
 
-	// copy of class
-	PCRenderClass pClass = rClass;
-
-	// get context and render buffer
-	PCDrawContext context = drawContext;
-	PCRenderBuffer renderBuffer = context->renderBuffer;
-
 	// loop all instances
 	for (UINT32 instanceID = 0; instanceID < instanceCount; instanceID++) {
-		// get mesh
-		PCMesh drawMesh = CRenderClassGetMesh(rClass);
+		// prepare instance context
+		PCIPInstanceContext instanceContext = CInternalAlloc(sizeof(CIPInstanceContext));
+		instanceContext->drawContext = drawContext;
+		instanceContext->renderClass = rClass;
+		instanceContext->instanceID = instanceID;
+		instanceContext->originalMesh = ((PCRenderClass)rClass)->mesh;
+		instanceContext->processedMesh = CInternalAlloc(sizeof(CMesh));
 
-		// create processed mesh (copy of drawMesh)
-		CMesh processedMesh = *drawMesh;
+		// processed mesh should be copy of original mesh
+		COPY_BYTES(instanceContext->originalMesh, instanceContext->processedMesh, sizeof(CMesh));
 
-		// process each vertex
-		for (UINT32 vertexID = 0; vertexID < processedMesh.)
+		// make vertex output list
+		instanceContext->outputListArray =
+			CInternalAlloc(sizeof(CIPVertOutputList) * instanceContext->processedMesh->vertCount);
+
+		// process mesh
+		CInternalPipelineProcessMesh(instanceContext);
 
 		// loop each triangle of mesh and rasterize triangle
 		// this is done by walking indexes in groups of 3

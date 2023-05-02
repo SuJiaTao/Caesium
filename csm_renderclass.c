@@ -60,9 +60,6 @@ CSMCALL CHandle CMakeRenderClass(PCHAR name, CHandle mesh, CHandle material) {
 
 	// set material
 	rClass->material = material;
-
-	// by default, class with use singleMaterial (only materials[0] is used for ALL tris)
-	rClass->singleMaterial = TRUE;
 	
 	_CSyncLeave(rClass);
 }

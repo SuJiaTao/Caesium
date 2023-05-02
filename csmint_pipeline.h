@@ -22,16 +22,17 @@ typedef struct CIPVertOutputList {
 } CIPVertOutputList, *PCIPVertOutputList;
 
 typedef struct CIPInstanceContext {
-	UINT32			instanceID;
-	PCDrawContext	drawContext;
-	PCRenderClass	renderClass;
-	PCMesh			originalMesh;
-	PCMesh			processedMesh;
+	UINT32				instanceID;
+	PCDrawContext		drawContext;
+	PCRenderClass		renderClass;
+	PCMesh				originalMesh;
+	PCMesh				processedMesh;
+	PCIPVertOutputList	outputListArray;
 } CIPInstanceContext, *PCIPInstanceContext;
 
 typedef struct CIPVertContext {
 	UINT32				vertexID;
-	CIPInstanceContext	instanceContext;
+	PCIPInstanceContext	instanceContext;
 
 	PCIPVertOutputList	pOutputList;
 } CIPVertContext, *PCIPVertContext;
