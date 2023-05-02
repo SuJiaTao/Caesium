@@ -5,6 +5,10 @@
 #include "csmint.h"
 #include "csm_vertex.h"
 
+static __forceinline PCDrawInput _getDrawInputPtr(PCIPVertContext vertContext, UINT32 ID) {
+	return vertContext->instanceContext->drawContext->inputs + ID;
+}
+
 CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID outBuffer) {
 	if (vertContext == NULL) {
 		CInternalSetLastError("CVertexGetDrawInput failed because vertContext was invalid");
@@ -19,26 +23,10 @@ CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID 
 		return FALSE;
 	}
 
-	PCIPVertContext vc = vertContext;
-
-	PCDrawInput drawInput = vc->instanceContext->drawContext->inputs + drawInputID;
+	PCDrawInput drawInput = _getDrawInputPtr(vertContext, drawInputID);
 	COPY_BYTES(drawInput->pData, outBuffer, drawInput->sizeBytes);
 
 	return TRUE;
-}
-
-CSMCALL PVOID	CVertexUnsafeGetDrawInputDirect(CHandle vertContext, UINT32 drawInputID) {
-	if (vertContext == NULL) {
-		CInternalSetLastError("CVertexUnsafeGetDrawInputDirect failed because vertContext was invalid");
-		return FALSE;
-	}
-	if (drawInputID >= CSM_MAX_DRAW_INPUTS) {
-		CInternalSetLastError("CVertexUnsafeGetDrawInputDirect failed because drawInputID was invalid");
-		return FALSE;
-	}
-
-	PCIPVertContext vc = vertContext;
-	return vc->instanceContext->drawContext->inputs[drawInputID].pData;
 }
 
 CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInputID) {
@@ -51,11 +39,12 @@ CSMCALL SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInpu
 		return FALSE;
 	}
 
-	PCIPVertContext vc = vertContext;
+	return _getDrawInputPtr(vertContext, drawInputID)->sizeBytes;
+}
 
-	PCDrawInput drawInput = vc->instanceContext->drawContext->inputs + drawInputID;
-
-	return drawInput->sizeBytes;
+static __forceinline PCVertexDataBuffer _getVertexDataBuffer(PCIPVertContext vc, UINT32 vID) {
+	if (vID < 0 || vID >= CSM_CLASS_MAX_VERTEX_DATA) return NULL;
+	return vc->instanceContext->renderClass->vertexBuffers[vID];
 }
 
 CSMCALL BOOL CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT outBuffer) {
@@ -68,10 +57,9 @@ CSMCALL BOOL CVertexGetClassVertexData(CHandle vertContext, UINT32 ID, PFLOAT ou
 		return FALSE;
 	}
 
-	PCIPVertContext vc = vertContext;
+	PCIPVertContext vc		= vertContext;
+	PCVertexDataBuffer vdb	= _getVertexDataBuffer(vertContext, ID);
 
-	PCVertexDataBuffer vdb = 
-		CRenderClassGetVertexDataBuffer(vc->instanceContext->renderClass, ID);
 	if (vdb == NULL) {
 		CInternalSetLastError("CVertexGetClassVertexData failed because ID was invalid");
 		return FALSE;
@@ -90,8 +78,7 @@ CSMCALL UINT32	CVertexGetClassVertexDataComponentCount(CHandle vertContext, UINT
 
 	PCIPTriContext triContext = vertContext;
 
-	PCVertexDataBuffer vdb =
-		CRenderClassGetVertexDataBuffer(triContext->rClass, ID);
+	PCVertexDataBuffer vdb = _getVertexDataBuffer(vertContext, ID);
 	if (vdb == NULL) {
 		CInternalSetLastError("CVertexGetClassVertexDataComponentCount failed because ID was invalid");
 		return FALSE;
