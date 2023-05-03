@@ -3,7 +3,7 @@
 // 2023
 
 #include "csmint_pipeline.h"
-#include "csm_fragment.h"
+#include "csm_shader.h"
 #include <immintrin.h>
 #include <math.h>
 #include <stdio.h>
@@ -30,15 +30,20 @@ static __forceinline void _drawFragment(PCIPFragContext fragContext) {
 	CColor fragColor = { 0 };
 
 	// call fragment shader
-	
+	BOOL keepFrag
+		= ((PCMaterial)fragContext->triContext->instanceContext->renderClass->material)->fragmentShader(
+		fragContext,
+		fragContext->triContext->triangleID,
+		fragContext->triContext->instanceContext->instanceID,
+		fragContext->fragPos,
+		&fragColor
+	);
+
+	// cull if needed
+	if (keepFrag == FALSE) return;
 
 	// if color alpha is 0, cull
 	if (fragColor.a == 0) return;
-
-	// apply alpha blend (if needed)
-	if (fragColor.a < 255) {
-		fragColor = CFragmentBlendColor(belowColor, fragColor);
-	}
 
 	// apply fragment to renderBuffer
 	CRenderBufferUnsafeSetFragment(

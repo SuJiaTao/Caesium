@@ -8,7 +8,7 @@
 #include "csmint.h"
 #include "csm_mesh.h"
 #include "csm_draw.h"
-#include "csm_vertex.h"
+#include "csm_shader.h"
 
 #define CSMINT_CLIP_PLANE_POSITION	-1.0f
 
