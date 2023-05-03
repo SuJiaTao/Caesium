@@ -13,6 +13,11 @@ typedef enum CSampleType {
 	CSampleType_Repeat
 } CSampleType;
 
+typedef struct CVertexInputOutput {
+	FLOAT	components[CSM_VERTEX_DATA_BUFFER_MAX_COMPONENTS];
+	UINT32	componentCount;
+} CVertexOutput, *PCVertexOutput, CVertexInput, *PCVertexInput;
+
 CSMCALL CColor	CFragmentConvertFloat3ToColor(FLOAT r, FLOAT g, FLOAT b);
 CSMCALL CColor	CFragmentConvertFloat4ToColor(FLOAT r, FLOAT g, FLOAT b, FLOAT a);
 CSMCALL CColor	CFragmentConvertVect3FToColor(CVect3F vect3);
@@ -26,10 +31,16 @@ CSMCALL CColor	CFramgnetWeightColor(CColor c1, CColor c2, FLOAT factor);
 CSMCALL BOOL	CFragmentSampleRenderBuffer(PCColor inOutColor, CHandle renderBuffer,
 	CVect2F uv, CSampleType sampleType);
 
-CSMCALL BOOL	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
-CSMCALL BOOL	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL PCDrawInput	CFragmentGetDrawInput(CHandle fragContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL PCDrawInput	CVertexGetDrawInput(CHandle vertContext, UINT32 drawInputID, PVOID outBuffer);
+CSMCALL	BOOL		CShaderFreeDrawInput(PCDrawInput pDrawInput);
 
-CSMCALL	SIZE_T	CFragmnetGetDrawInputSizeBytes(CHandle fragContext, UINT32 drawInputID);
-CSMCALL	SIZE_T	CVertexGetDrawInputSizeBytes(CHandle vertContext, UINT32 drawInputID);
+CSMCALL	CVertexInput	CVertexGetClassVertexInput(CHandle vertContext, UINT32 bufferID);
+CSMCALL BOOL			CVertexSetVertexOutput(CHandle vertContext, UINT32 outputID,
+	PFLOAT inBuffer, UINT32 componentCount);
+
+CSMCALL CVertexOutput	CFragmentGetVertexOutput(CHandle fragContext, UINT32 bufferID);
+
+CSMCALL
 
 #endif
